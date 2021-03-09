@@ -1,0 +1,11 @@
+package pt.andronikus.dao;
+
+import pt.andronikus.database.ConnectionPool;
+
+import java.sql.SQLException;
+
+public class DaoFactory {
+    public CustomerDao createCustomerDao(boolean autoCommit) throws SQLException {
+        return new CustomerDAOImpl(ConnectionPool.INSTANCE.getConnection(autoCommit));
+    }
+}
