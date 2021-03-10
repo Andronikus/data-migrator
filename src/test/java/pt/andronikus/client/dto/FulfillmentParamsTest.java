@@ -23,7 +23,7 @@ class FulfillmentParamsTest {
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.OPERATOR_ID, "0");
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, "-1");
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, apns);
-        
+
         assertEquals(goldValue,JSONUtils.toJSON(fulfillmentParams));
     }
 }

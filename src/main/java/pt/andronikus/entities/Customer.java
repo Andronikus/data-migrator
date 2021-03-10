@@ -1,18 +1,18 @@
 package pt.andronikus.entities;
 
-public class Customer {
+public class Customer extends BaseEntity{
     private String id;
     private String name;
     private String address;
     private String email;
     private String locale;
-    private Integer operatorID;
     private String phone;
     private String status;
     private String taxNumber;
     private Integer migFlag;
 
     public Customer() {
+        super();
     }
 
     public String getId() {
@@ -55,14 +55,6 @@ public class Customer {
         this.locale = locale;
     }
 
-    public Integer getOperatorID() {
-        return operatorID;
-    }
-
-    public void setOperatorID(Integer operatorID) {
-        this.operatorID = operatorID;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -98,16 +90,18 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "id='" + id + '\'' +
+                "operatorID=" + operatorId +
+                ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", locale='" + locale + '\'' +
-                ", operatorID=" + operatorID +
                 ", phone='" + phone + '\'' +
                 ", status='" + status + '\'' +
                 ", taxNumber='" + taxNumber + '\'' +
                 ", migFlag=" + migFlag +
+                ", correlationID='" + correlationId + '\'' +
+                ", orderCorrelationID='" + orderCorrelationId + '\'' +
                 '}';
     }
 }
