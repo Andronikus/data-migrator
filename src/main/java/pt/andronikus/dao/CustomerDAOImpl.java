@@ -22,6 +22,7 @@ public class CustomerDAOImpl implements CustomerDao {
 
     @Override
     public List<Customer> getCustomers() {
+        final String METHOD_NAME = LOG_PREFIX + " getCustomers ";
 
         List<Customer> customers = new ArrayList<>();
 
@@ -34,10 +35,10 @@ public class CustomerDAOImpl implements CustomerDao {
 
         }catch (SQLException e){
             if (LOGGER.isWarnEnabled()){
-                LOGGER.warn(LOG_PREFIX + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
             }
         }catch (Exception e){
-            e.printStackTrace();
+            LOGGER.error(METHOD_NAME + e.getMessage());
         }
         return customers;
     }
@@ -77,9 +78,9 @@ public class CustomerDAOImpl implements CustomerDao {
         customer.setAddress(resultSet.getString(CustomerTable.ADDRESS));
         customer.setEmail(resultSet.getString(CustomerTable.EMAIL));
         customer.setLocale(resultSet.getString(CustomerTable.LOCALE));
-        customer.setOperatorID(resultSet.getInt(CustomerTable.OPERATOR_ID));
+        customer.setOperatorId(resultSet.getInt(CustomerTable.OPERATOR_ID));
         customer.setPhone(resultSet.getString(CustomerTable.PHONE));
-        customer.setStatus(resultSet.getString(CustomerTable.STATUS));
+        customer.setStatus(resultSet.getString(CustomerTable.CUSTOMER_STATUS));
         customer.setTaxNumber(resultSet.getString(CustomerTable.TAX_NUMBER));
 
         return customer;

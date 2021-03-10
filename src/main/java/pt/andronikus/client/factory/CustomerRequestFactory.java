@@ -9,7 +9,6 @@ import pt.andronikus.entities.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CustomerRequestFactory {
     public static CustomerCreateRequest getCustomerCreationRequest(Customer customer){
@@ -31,7 +30,7 @@ public class CustomerRequestFactory {
         entries.add(new EntryObject(Attributes.PHONE, customer.getPhone()));
         entries.add(new EntryObject(Attributes.EMAIL, customer.getEmail()));
         entries.add(new EntryObject(Attributes.LOCALE, customer.getLocale()));
-        entries.add(new EntryObject(Attributes.OPERATOR_ID, customer.getOperatorID().toString()));
+        entries.add(new EntryObject(Attributes.OPERATOR_ID, customer.getOperatorId().toString()));
         entries.add(new EntryObject(Attributes.TAX_NUMBER, customer.getTaxNumber()));
         entries.add(new EntryObject(Attributes.STATUS, customer.getStatus()));
         entries.add(new EntryObject(Attributes.MIG_FLAG, customer.getMigFlag().toString()));

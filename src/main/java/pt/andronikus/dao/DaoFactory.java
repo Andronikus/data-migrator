@@ -5,7 +5,11 @@ import pt.andronikus.database.ConnectionPool;
 import java.sql.SQLException;
 
 public class DaoFactory {
-    public CustomerDao createCustomerDao(boolean autoCommit) throws SQLException {
+    public static CustomerDao createCustomerDao(boolean autoCommit) throws SQLException {
         return new CustomerDAOImpl(ConnectionPool.INSTANCE.getConnection(autoCommit));
+    }
+
+    public static AsmOrderDao createAsmOrderDao(boolean autoCommit) throws SQLException{
+        return new AsmOrderDaoImpl(ConnectionPool.INSTANCE.getConnection(autoCommit));
     }
 }

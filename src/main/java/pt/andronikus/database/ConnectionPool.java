@@ -19,8 +19,8 @@ public enum ConnectionPool {
         final HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:oracle:thin:@10.112.83.206:1521/smdecare");
         // config.setJdbcUrl("jdbc:oracle:thin:@10.112.97.223:1521/sldesdp");
-        config.setUsername("SMARTTOM_MIG_DATA");
-        config.setPassword("SMARTTOM_MIG_DATA");
+        config.setUsername("SMARTTOM_MIG_FE");
+        config.setPassword("SMARTTOM_MIG_FE");
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

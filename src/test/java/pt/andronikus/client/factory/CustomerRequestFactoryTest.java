@@ -88,7 +88,7 @@ class CustomerRequestFactoryTest {
         assertEquals(customer.getEmail(), customerInfo.get(Attributes.EMAIL));
         assertEquals(customer.getAddress(), customerInfo.get(Attributes.ADDRESS));
         assertEquals(customer.getLocale(), customerInfo.get(Attributes.LOCALE));
-        assertEquals(customer.getOperatorID().toString(), customerInfo.get(Attributes.OPERATOR_ID));
+        assertEquals(customer.getOperatorId().toString(), customerInfo.get(Attributes.OPERATOR_ID));
         assertEquals(customer.getTaxNumber(), customerInfo.get(Attributes.TAX_NUMBER));
         assertEquals(customer.getStatus(), customerInfo.get(Attributes.STATUS));
         assertEquals(customer.getMigFlag().toString(), customerInfo.get(Attributes.MIG_FLAG));
@@ -97,7 +97,7 @@ class CustomerRequestFactoryTest {
     private Customer createCustomer(){
         Customer customer = new Customer();
 
-        customer.setOperatorID(0);
+        customer.setOperatorId(0);
         customer.setId("Rock-001");
         customer.setName("The Rock");
         customer.setPhone("234456789");

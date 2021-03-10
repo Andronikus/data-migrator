@@ -47,7 +47,7 @@ class CustomerClientTest {
     private Customer createCustomer(){
         Customer customer = new Customer();
 
-        customer.setOperatorID(0);
+        customer.setOperatorId(0);
         customer.setId("Rock-001");
         customer.setName("The Rock");
         customer.setPhone("234456789");
