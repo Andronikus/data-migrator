@@ -4,13 +4,15 @@ import pt.andronikus.client.dto.*;
 import pt.andronikus.client.enums.Attributes;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
+import pt.andronikus.client.request.BillingAccountRequest;
 import pt.andronikus.client.request.CustomerCreateRequest;
+import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.entities.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerRequestFactory {
+public class RequestFactory {
     public static CustomerCreateRequest getCustomerCreationRequest(Customer customer){
 
         CustomerCreateRequest orderExecution = new CustomerCreateRequest();
@@ -18,9 +20,9 @@ public class CustomerRequestFactory {
         ExecutionMode executionMode = new AsyncExecutionMode("http://localhost:9090/migration/callback");
         orderExecution.setExecutionMode(executionMode);
 
-        OrderItem orderItem = new OrderItem();
-        orderItem.setOperation(OperationType.CREATE);
+        CustomerOrderItem orderItem = new CustomerOrderItem(OperationType.CREATE);
         orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+
         orderItem.setCustomerId(customer.getId());
         orderItem.setCustomerName(customer.getName());
 
@@ -40,6 +42,19 @@ public class CustomerRequestFactory {
         Reason reason = new Reason("OTHER", "Migration CREATE Customer");
         orderItem.setReason(reason);
         orderExecution.setOrderItem(OrderItemType.CUSTOMER_ORDER_ITEM,orderItem);
+
+        return orderExecution;
+    }
+
+    public static BillingAccountRequest getBillingAccountRequest(BillingAccount billingAccount){
+        BillingAccountRequest orderExecution = new BillingAccountRequest();
+
+        ExecutionMode executionMode = new AsyncExecutionMode("http://localhost:9090/migration/callback");
+        orderExecution.setExecutionMode(executionMode);
+
+
+
+
 
         return orderExecution;
     }

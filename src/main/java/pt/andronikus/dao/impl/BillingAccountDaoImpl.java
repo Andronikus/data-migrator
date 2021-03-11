@@ -42,7 +42,6 @@ public class BillingAccountDaoImpl implements BillingAccountDao {
         return null;
     }
 
-
     private BillingAccount createBillingAccount(ResultSet resultSet) throws SQLException {
         BillingAccount billingAccount = new BillingAccount();
 

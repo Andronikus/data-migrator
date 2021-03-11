@@ -7,18 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class OrderItem {
-    private final String correlationId;
-    private String externalItemId;
-    private String customerId;
-    private String customerName;
-    private Map<String,List<EntryObject>> otherInfo;
-    private Reason reason;
-    private OperationType operation;
+public abstract class OrderItem {
+    protected final String correlationId;
+    protected String externalItemId;
+    protected Map<String,List<EntryObject>> otherInfo;
+    protected Reason reason;
+    protected OperationType operation;
 
     public OrderItem() {
         this.correlationId = UUID.randomUUID().toString();
         this.otherInfo = new HashMap<>();
+    }
+
+    public OrderItem(OperationType operation) {
+        this();
+        this.operation = operation;
     }
 
     public String getCorrelationId() {
@@ -33,22 +36,6 @@ public class OrderItem {
         this.externalItemId = externalItemId;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
     public Map<String, List<EntryObject>> getOtherInfo() {
         return otherInfo;
     }
@@ -56,11 +43,6 @@ public class OrderItem {
     public void setOtherInfo(Map<String, List<EntryObject>> otherInfo) {
         this.otherInfo = otherInfo;
     }
-
-    public void addOtherInfoEntry(String entryName, List<EntryObject> entry){
-        this.otherInfo.putIfAbsent(entryName,entry);
-    }
-
 
     public Reason getReason() {
         return reason;
@@ -78,14 +60,18 @@ public class OrderItem {
         this.operation = operation;
     }
 
+    public void addOtherInfoEntry(String key, List<EntryObject> value){
+        this.otherInfo.putIfAbsent(key,value);
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +
-                "externalItemId='" + externalItemId + '\'' +
-                ", customerId='" + customerId + '\'' +
-                ", customerName='" + customerName + '\'' +
-                ", otherInfo=" + otherInfo.toString() +
-                ", reason=" + reason.toString() +
+                "correlationId='" + correlationId + '\'' +
+                ", externalItemId='" + externalItemId + '\'' +
+                ", otherInfo=" + otherInfo +
+                ", reason=" + reason +
+                ", operation=" + operation +
                 '}';
     }
 }

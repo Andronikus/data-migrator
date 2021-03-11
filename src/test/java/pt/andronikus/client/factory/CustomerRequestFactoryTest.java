@@ -2,6 +2,7 @@ package pt.andronikus.client.factory;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pt.andronikus.client.dto.CustomerOrderItem;
 import pt.andronikus.client.dto.EntryObject;
 import pt.andronikus.client.dto.OrderItem;
 import pt.andronikus.client.enums.Attributes;
@@ -31,7 +32,7 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestWithAsyncModeAndWithMigAttributes() {
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerCreateRequest customerCreateRequest = RequestFactory.getCustomerCreationRequest(this.customer);
 
         // order external id should be generated
         assertTrue(customerCreateRequest.getOrderExternalId().length() > 0);
@@ -46,9 +47,9 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestHaveAValidCustomerOrderItem(){
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerCreateRequest customerCreateRequest = RequestFactory.getCustomerCreationRequest(this.customer);
 
-        OrderItem orderItem = customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
+        CustomerOrderItem orderItem = (CustomerOrderItem) customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
         assertNotNull(orderItem, "Customer create request should have a order item customerOrderItem and its null!");
 
         // validate order item main info
@@ -65,7 +66,7 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestHaveValidCustomerInfo(){
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerCreateRequest customerCreateRequest = RequestFactory.getCustomerCreationRequest(this.customer);
 
         OrderItem orderItem = customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
 
