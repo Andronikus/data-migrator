@@ -52,6 +52,22 @@ public class RequestFactory {
         ExecutionMode executionMode = new AsyncExecutionMode("http://localhost:9090/migration/callback");
         orderExecution.setExecutionMode(executionMode);
 
+        BillingAccountOrderItem orderItem = new BillingAccountOrderItem(OperationType.CREATE);
+        orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+
+        List<EntryObject> entries = new ArrayList<>();
+        entries.add(new EntryObject(Attributes.MIG_FLAG, "1"));
+        orderItem.addOtherInfoEntry(Attributes.ENTRY,entries);
+
+        orderItem.setCustomerId(billingAccount.getCustomerId());
+        orderItem.setAccountId(billingAccount.getAccountId());
+        orderItem.setAccountName(billingAccount.getAccountName());
+        orderItem.setBillingCycleDay(billingAccount.getBillingCycleDay());
+        orderExecution.setOrderItem(OrderItemType.ACCOUNT_ORDER_ITEM,orderItem);
+
+        Reason reason = new Reason("OTHER", "Migration CREATE Billing Account");
+        orderItem.setReason(reason);
+
 
 
 
