@@ -1,5 +1,7 @@
 package pt.andronikus.dao;
 
+import pt.andronikus.dao.impl.AsmOrderDaoImpl;
+import pt.andronikus.dao.impl.CustomerDAOImpl;
 import pt.andronikus.database.ConnectionPool;
 
 import java.sql.SQLException;

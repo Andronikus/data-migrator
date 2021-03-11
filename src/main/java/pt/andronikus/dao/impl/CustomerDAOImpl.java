@@ -1,7 +1,8 @@
-package pt.andronikus.dao;
+package pt.andronikus.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.dao.CustomerDao;
 import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.entities.Customer;
 

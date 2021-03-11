@@ -5,6 +5,7 @@ public abstract class BaseEntity {
     protected String correlationId;
     protected String orderCorrelationId;
     protected String migStatus;
+    protected Integer pf;
 
     public BaseEntity() {
 
@@ -42,6 +43,14 @@ public abstract class BaseEntity {
         this.migStatus = migStatus;
     }
 
+    public Integer getPf() {
+        return pf;
+    }
+
+    public void setPf(Integer pf) {
+        this.pf = pf;
+    }
+
     @Override
     public String toString() {
         return "BaseEntity{" +
@@ -49,6 +58,7 @@ public abstract class BaseEntity {
                 ", correlationId='" + correlationId + '\'' +
                 ", orderCorrelationId='" + orderCorrelationId + '\'' +
                 ", migStatus='" + migStatus + '\'' +
+                ", pf=" + pf +
                 '}';
     }
 }

@@ -2,7 +2,7 @@ package pt.andronikus.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import pt.andronikus.api.StatusResponse;
-import pt.andronikus.dao.CustomerDAOImpl;
+import pt.andronikus.dao.impl.CustomerDAOImpl;
 import pt.andronikus.database.ConnectionPool;
 import pt.andronikus.singletons.Migration;
 import pt.andronikus.thread.MigrationThread;

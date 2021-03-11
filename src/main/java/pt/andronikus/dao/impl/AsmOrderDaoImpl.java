@@ -1,8 +1,8 @@
-package pt.andronikus.dao;
+package pt.andronikus.dao.impl;
 
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.dao.AsmOrderDao;
 import pt.andronikus.database.tables.AsmOrdersTable;
 import pt.andronikus.entities.AsmOrder;
 
@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class AsmOrderDaoImpl implements AsmOrderDao {
     private final Logger LOGGER = LoggerFactory.getLogger(AsmOrderDaoImpl.class);
