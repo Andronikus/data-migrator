@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class CustomerDAOImpl implements CustomerDao {
-    private final Logger LOGGER = LoggerFactory.getLogger(CustomerDAOImpl.class);
-    private final String LOG_PREFIX = CustomerDAOImpl.class.getSimpleName() + " :: ";
+public class CustomerDaoImpl implements CustomerDao {
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomerDaoImpl.class);
+    private final String LOG_PREFIX = CustomerDaoImpl.class.getSimpleName() + " :: ";
     private final Connection connection;
 
-    public CustomerDAOImpl(Connection connection) {
+    public CustomerDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
@@ -34,9 +34,9 @@ public class CustomerDAOImpl implements CustomerDao {
                 customers.add(createCustomer(resultSet));
             }
 
-        }catch (SQLException e){
+        }catch (SQLException sqlException){
             if (LOGGER.isWarnEnabled()){
-                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
             }
         }catch (Exception e){
             LOGGER.error(METHOD_NAME + e.getMessage());

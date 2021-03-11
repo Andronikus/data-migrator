@@ -2,7 +2,7 @@ package pt.andronikus.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import pt.andronikus.api.StatusResponse;
-import pt.andronikus.dao.impl.CustomerDAOImpl;
+import pt.andronikus.dao.impl.CustomerDaoImpl;
 import pt.andronikus.database.ConnectionPool;
 import pt.andronikus.singletons.Migration;
 import pt.andronikus.thread.MigrationThread;
@@ -57,7 +57,7 @@ public class InvokatorResource {
     @Timed
     public Response getCustomer() throws SQLException {
 
-        CustomerDAOImpl customerDAO = new CustomerDAOImpl(ConnectionPool.INSTANCE.getConnection(false));
+        CustomerDaoImpl customerDAO = new CustomerDaoImpl(ConnectionPool.INSTANCE.getConnection(false));
 
         customerDAO.getCustomers();
 

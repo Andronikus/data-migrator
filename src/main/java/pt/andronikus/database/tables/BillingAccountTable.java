@@ -15,4 +15,5 @@ public class BillingAccountTable {
     public final static String MIG_STATUS = "MIG_STATUS";
 
     // queries
+    public final static String GET_BILLING_ACCOUNT = String.format("SELECT * FROM %s where %s=?", CDM_BILLING_ACCOUNT, PF);
 }
