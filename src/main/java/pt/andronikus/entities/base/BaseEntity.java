@@ -1,10 +1,11 @@
-package pt.andronikus.entities;
+package pt.andronikus.entities.base;
 
 public abstract class BaseEntity {
     protected Integer operatorId;
     protected String correlationId;
     protected String orderCorrelationId;
     protected String migStatus;
+    protected Integer migFlag;
     protected Integer pf;
 
     public BaseEntity() {
@@ -51,6 +52,14 @@ public abstract class BaseEntity {
         this.pf = pf;
     }
 
+    public Integer getMigFlag() {
+        return migFlag;
+    }
+
+    public void setMigFlag(Integer migFlag) {
+        this.migFlag = migFlag;
+    }
+
     @Override
     public String toString() {
         return "BaseEntity{" +
@@ -58,6 +67,7 @@ public abstract class BaseEntity {
                 ", correlationId='" + correlationId + '\'' +
                 ", orderCorrelationId='" + orderCorrelationId + '\'' +
                 ", migStatus='" + migStatus + '\'' +
+                ", migFlag=" + migFlag +
                 ", pf=" + pf +
                 '}';
     }

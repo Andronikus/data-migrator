@@ -6,8 +6,10 @@ import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.BillingAccountRequest;
 import pt.andronikus.client.request.CustomerCreateRequest;
+import pt.andronikus.client.request.ServiceInstanceRequest;
 import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.entities.Customer;
+import pt.andronikus.entities.ServiceInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,11 +69,10 @@ public class RequestFactory {
 
         Reason reason = new Reason("OTHER", "Migration CREATE Billing Account");
         orderItem.setReason(reason);
-
-
-
-
-
         return orderExecution;
+    }
+
+    public static ServiceInstanceRequest getServiceInstanceRequest(ServiceInstance serviceInstance){
+        return null;
     }
 }

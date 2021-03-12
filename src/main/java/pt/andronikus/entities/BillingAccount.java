@@ -1,5 +1,7 @@
 package pt.andronikus.entities;
 
+import pt.andronikus.entities.base.BaseEntity;
+
 public class BillingAccount extends BaseEntity {
     private String accountId;
     private String accountName;

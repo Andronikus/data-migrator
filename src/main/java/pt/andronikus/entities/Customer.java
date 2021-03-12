@@ -1,6 +1,8 @@
 package pt.andronikus.entities;
 
-public class Customer extends BaseEntity{
+import pt.andronikus.entities.base.BaseEntity;
+
+public class Customer extends BaseEntity {
     private String id;
     private String name;
     private String address;
