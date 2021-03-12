@@ -5,6 +5,7 @@ import java.util.List;
 
 public class QosInfo {
     private boolean qosEnabled;
+    private String qosDefault;
     private List<String> qosLevels;
 
     public QosInfo(boolean qosEnabled) {
@@ -20,6 +21,14 @@ public class QosInfo {
         this.qosEnabled = qosEnabled;
     }
 
+    public String getQosDefault() {
+        return qosDefault;
+    }
+
+    public void setQosDefault(String qosDefault) {
+        this.qosDefault = qosDefault;
+    }
+
     public List<String> getQosLevels() {
         return qosLevels;
     }
@@ -32,6 +41,7 @@ public class QosInfo {
     public String toString() {
         return "QosInfo{" +
                 "qosEnabled=" + qosEnabled +
+                ", qosDefault='" + qosDefault + '\'' +
                 ", qosLevels=" + qosLevels +
                 '}';
     }

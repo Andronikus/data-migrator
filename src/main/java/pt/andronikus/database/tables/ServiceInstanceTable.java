@@ -47,8 +47,8 @@ public class ServiceInstanceTable {
     public final static String DATA_CS_SERVICE_DEFAULT_TARIFF = "DATA_CS_SERVICE_DEFAULT_TARIFF";
     public final static String VOICE_SERVICE_DEFAULT_TARIFF = "VOICE_SERVICE_DEFAULT_TARIFF";
     public final static String SMS_SERVICE_DEFAULT_TARIFF = "SMS_SERVICE_DEFAULT_TARIFF";
-    public final static String DATAPS_SERVICE_TARIFFS = "DATAPS_SERVICE_TARIFFS";
-    public final static String DATACS_SERVICE_TARIFFS = "DATACS_SERVICE_TARIFFS";
+    public final static String DATA_PS_SERVICE_TARIFFS = "DATAPS_SERVICE_TARIFFS";
+    public final static String DATA_CS_SERVICE_TARIFFS = "DATACS_SERVICE_TARIFFS";
     public final static String VOICE_SERVICE_TARIFFS = "VOICE_SERVICE_TARIFFS";
     public final static String SMS_SERVICE_TARIFFS = "SMS_SERVICE_TARIFFS";
     public final static String DATA_PS_COST_PER_STATE = "DATA_PS_COST_PER_STATE";
@@ -102,4 +102,5 @@ public class ServiceInstanceTable {
     public final static String MIG_STATUS = "MIG_STATUS";
 
     // queries
+    public final static String GET_SERVICE_INSTANCE = String.format("SELECT * FROM %s where %s=?", CDM_SERVICE_INSTANCE, PF);
 }

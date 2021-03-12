@@ -72,6 +72,32 @@ public class TariffCostPerState {
         this.costStateTest = costStateTest;
     }
 
+    public void setStateCost(String state, String cost){
+        float costOfState = Float.parseFloat(cost);
+
+        if (state != null && state.length() > 0){
+            switch (state.toUpperCase()){
+                case "PREACTIVE":
+                    setCostStatePreActive(costOfState);
+                    break;
+                case "LIVE":
+                    setCostStateLive(costOfState);
+                    break;
+                case "STOPPED":
+                    setCostStateStopped(costOfState);
+                    break;
+                case "SUSPENDED":
+                    setCostStateSuspended(costOfState);
+                    break;
+                case "STANDBY":
+                    setCostStateStandBy(costOfState);
+                case "TEST":
+                    setCostStateTest(costOfState);
+                default:
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "TariffCostPerState{" +

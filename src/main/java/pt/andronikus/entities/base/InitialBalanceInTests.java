@@ -4,12 +4,12 @@ public class InitialBalanceInTests {
     private Double dataPsInitialBalance;
     private Double dataCsInitialBalance;
     private Double voiceInitialBalance;
-    private Double smsInitialBalance;
+    private Integer smsInitialBalance;
 
     public InitialBalanceInTests() {
     }
 
-    public InitialBalanceInTests(Double dataPsInitialBalance, Double dataCsInitialBalance, Double voiceInitialBalance, Double smsInitialBalance) {
+    public InitialBalanceInTests(Double dataPsInitialBalance, Double dataCsInitialBalance, Double voiceInitialBalance, Integer smsInitialBalance) {
         this.dataPsInitialBalance = dataPsInitialBalance;
         this.dataCsInitialBalance = dataCsInitialBalance;
         this.voiceInitialBalance = voiceInitialBalance;
@@ -40,11 +40,11 @@ public class InitialBalanceInTests {
         this.voiceInitialBalance = voiceInitialBalance;
     }
 
-    public Double getSmsInitialBalance() {
+    public Integer getSmsInitialBalance() {
         return smsInitialBalance;
     }
 
-    public void setSmsInitialBalance(Double smsInitialBalance) {
+    public void setSmsInitialBalance(Integer smsInitialBalance) {
         this.smsInitialBalance = smsInitialBalance;
     }
 

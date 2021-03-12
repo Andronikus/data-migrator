@@ -45,6 +45,38 @@ public class CommunicationServices {
         this.smsService = smsService;
     }
 
+    public boolean isDataPsServiceDefault() {
+        return dataPsServiceDefault;
+    }
+
+    public void setDataPsServiceDefault(boolean dataPsServiceDefault) {
+        this.dataPsServiceDefault = dataPsServiceDefault;
+    }
+
+    public boolean isDataCsServiceDefault() {
+        return dataCsServiceDefault;
+    }
+
+    public void setDataCsServiceDefault(boolean dataCsServiceDefault) {
+        this.dataCsServiceDefault = dataCsServiceDefault;
+    }
+
+    public boolean isVoiceServiceDefault() {
+        return voiceServiceDefault;
+    }
+
+    public void setVoiceServiceDefault(boolean voiceServiceDefault) {
+        this.voiceServiceDefault = voiceServiceDefault;
+    }
+
+    public boolean isSmsServiceDefault() {
+        return smsServiceDefault;
+    }
+
+    public void setSmsServiceDefault(boolean smsServiceDefault) {
+        this.smsServiceDefault = smsServiceDefault;
+    }
+
     @Override
     public String toString() {
         return "CommunicationServices{" +
@@ -52,6 +84,10 @@ public class CommunicationServices {
                 ", dataCsService=" + dataCsService +
                 ", voiceService=" + voiceService +
                 ", smsService=" + smsService +
+                ", dataPsServiceDefault=" + dataPsServiceDefault +
+                ", dataCsServiceDefault=" + dataCsServiceDefault +
+                ", voiceServiceDefault=" + voiceServiceDefault +
+                ", smsServiceDefault=" + smsServiceDefault +
                 '}';
     }
 }

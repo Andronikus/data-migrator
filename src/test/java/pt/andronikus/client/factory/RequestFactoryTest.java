@@ -16,7 +16,9 @@ import pt.andronikus.client.utils.JSONUtils;
 import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.entities.Customer;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,6 +125,13 @@ class RequestFactoryTest {
 
         System.out.println(JSONUtils.toJSON(request));
     }
+
+    @Test
+    void shouldHaveAListFromAString(){
+        List<String> tariffs = Arrays.asList("81016#81017".split("#"));
+        System.out.println(JSONUtils.toJSON(tariffs));
+    }
+
 
 
     private Customer createCustomer(){
