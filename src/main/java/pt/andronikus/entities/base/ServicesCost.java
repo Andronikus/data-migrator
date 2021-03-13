@@ -1,52 +1,52 @@
 package pt.andronikus.entities.base;
 
 public class ServicesCost {
-    private Float customerTrainingCost;
-    private Float dedicatedApnCost;
-    private Float apiAccessCost;
-    private Float locationServiceCost;
-    private Float smsConsoleCost;
+    private Double customerTrainingCost;
+    private Double dedicatedApnCost;
+    private Double apiAccessCost;
+    private Double locationServiceCost;
+    private Double smsConsoleCost;
 
     public ServicesCost(){
     }
 
-    public Float getCustomerTrainingCost() {
+    public Double getCustomerTrainingCost() {
         return customerTrainingCost;
     }
 
-    public void setCustomerTrainingCost(Float customerTrainingCost) {
+    public void setCustomerTrainingCost(Double customerTrainingCost) {
         this.customerTrainingCost = customerTrainingCost;
     }
 
-    public Float getDedicatedApnCost() {
+    public Double getDedicatedApnCost() {
         return dedicatedApnCost;
     }
 
-    public void setDedicatedApnCost(Float dedicatedApnCost) {
+    public void setDedicatedApnCost(Double dedicatedApnCost) {
         this.dedicatedApnCost = dedicatedApnCost;
     }
 
-    public Float getApiAccessCost() {
+    public Double getApiAccessCost() {
         return apiAccessCost;
     }
 
-    public void setApiAccessCost(Float apiAccessCost) {
+    public void setApiAccessCost(Double apiAccessCost) {
         this.apiAccessCost = apiAccessCost;
     }
 
-    public Float getLocationServiceCost() {
+    public Double getLocationServiceCost() {
         return locationServiceCost;
     }
 
-    public void setLocationServiceCost(Float locationServiceCost) {
+    public void setLocationServiceCost(Double locationServiceCost) {
         this.locationServiceCost = locationServiceCost;
     }
 
-    public Float getSmsConsoleCost() {
+    public Double getSmsConsoleCost() {
         return smsConsoleCost;
     }
 
-    public void setSmsConsoleCost(Float smsConsoleCost) {
+    public void setSmsConsoleCost(Double smsConsoleCost) {
         this.smsConsoleCost = smsConsoleCost;
     }
 

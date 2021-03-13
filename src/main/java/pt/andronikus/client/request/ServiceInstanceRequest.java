@@ -1,4 +1,6 @@
 package pt.andronikus.client.request;
 
-public class ServiceInstanceRequest {
+import pt.andronikus.client.dto.OrderExecution;
+
+public class ServiceInstanceRequest extends OrderExecution {
 }

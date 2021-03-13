@@ -78,7 +78,7 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
         service.setResourceOrderMinQty(resultSet.getInt(ServiceInstanceTable.RESOURCE_ORDER_MAX_QTY));
         service.setInitialResourceStatus(resultSet.getString(ServiceInstanceTable.INITIAL_RESOURCE_STATUS));
         service.setLoyaltyPeriod(resultSet.getInt(ServiceInstanceTable.LOYALTY_PERIOD));
-        service.setCostByDay(resultSet.getFloat(ServiceInstanceTable.COST_BY_DAY));
+        service.setCostByDay(resultSet.getDouble(ServiceInstanceTable.COST_BY_DAY));
 
         // Support Level
         service.setSupportLevel(getSupportLevelFromResultSet(resultSet));
@@ -150,11 +150,11 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
 
     private ServicesCost getServicesCostFromResultSet(ResultSet resultSet) throws SQLException {
         ServicesCost servicesCost = new ServicesCost();
-        servicesCost.setCustomerTrainingCost(resultSet.getFloat(ServiceInstanceTable.CUSTOMER_TRAINING_COST));
-        servicesCost.setDedicatedApnCost(resultSet.getFloat(ServiceInstanceTable.DEDICATED_APN_COST));
-        servicesCost.setApiAccessCost(resultSet.getFloat(ServiceInstanceTable.API_ACCESS_COST));
-        servicesCost.setLocationServiceCost(resultSet.getFloat(ServiceInstanceTable.LOCATION_SERVICE_COST));
-        servicesCost.setSmsConsoleCost(resultSet.getFloat(ServiceInstanceTable.SMS_CONSOLE_COST));
+        servicesCost.setCustomerTrainingCost(resultSet.getDouble(ServiceInstanceTable.CUSTOMER_TRAINING_COST));
+        servicesCost.setDedicatedApnCost(resultSet.getDouble(ServiceInstanceTable.DEDICATED_APN_COST));
+        servicesCost.setApiAccessCost(resultSet.getDouble(ServiceInstanceTable.API_ACCESS_COST));
+        servicesCost.setLocationServiceCost(resultSet.getDouble(ServiceInstanceTable.LOCATION_SERVICE_COST));
+        servicesCost.setSmsConsoleCost(resultSet.getDouble(ServiceInstanceTable.SMS_CONSOLE_COST));
 
         return servicesCost;
     }
@@ -185,34 +185,34 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
 
     private LifeCycleTransitionsCost getLifeCycleTransitionsCostFromResultSet(ResultSet resultSet) throws SQLException {
         LifeCycleTransitionsCost lifeCycleTransitionsCost = new LifeCycleTransitionsCost();
-        lifeCycleTransitionsCost.setLiveToSuspend(resultSet.getFloat(ServiceInstanceTable.LIVE_TO_SUSPEND));
-        lifeCycleTransitionsCost.setLiveToStopped(resultSet.getFloat(ServiceInstanceTable.LIVE_TO_STOPPED));
-        lifeCycleTransitionsCost.setStoppedToLive(resultSet.getFloat(ServiceInstanceTable.STOPPED_TO_LIVE));
-        lifeCycleTransitionsCost.setStoppedToSuspend(resultSet.getFloat(ServiceInstanceTable.STOPPED_TO_SUSPEND));
-        lifeCycleTransitionsCost.setStoppedToStandby(resultSet.getFloat(ServiceInstanceTable.STOPPED_TO_STANDBY));
-        lifeCycleTransitionsCost.setPreActiveToStopped(resultSet.getFloat(ServiceInstanceTable.PREACTIVE_TO_STOPPED));
-        lifeCycleTransitionsCost.setStandbyToSuspend(resultSet.getFloat(ServiceInstanceTable.STANDBY_TO_SUSPEND));
-        lifeCycleTransitionsCost.setSuspendToStandby(resultSet.getFloat(ServiceInstanceTable.SUSPEND_TO_STANDBY));
-        lifeCycleTransitionsCost.setStandbyToStopped(resultSet.getFloat(ServiceInstanceTable.STANDBY_TO_STOPPED));
-        lifeCycleTransitionsCost.setSuspendToStopped(resultSet.getFloat(ServiceInstanceTable.SUSPEND_TO_STOPPED));
-        lifeCycleTransitionsCost.setSuspendToLive(resultSet.getFloat(ServiceInstanceTable.SUSPEND_TO_LIVE));
-        lifeCycleTransitionsCost.setStandbyToLive(resultSet.getFloat(ServiceInstanceTable.STANDBY_TO_LIVE));
-        lifeCycleTransitionsCost.setLiveToStandby(resultSet.getFloat(ServiceInstanceTable.LIVE_TO_STANDBY));
-        lifeCycleTransitionsCost.setTestToStopped(resultSet.getFloat(ServiceInstanceTable.TEST_TO_STOPPED));
-        lifeCycleTransitionsCost.setPreActiveToTest(resultSet.getFloat(ServiceInstanceTable.PREACTIVE_TO_TEST));
-        lifeCycleTransitionsCost.setTestToLive(resultSet.getFloat(ServiceInstanceTable.TEST_TO_LIVE));
-        lifeCycleTransitionsCost.setPreActiveToLive(resultSet.getFloat(ServiceInstanceTable.PREACTIVE_TO_LIVE));
-        lifeCycleTransitionsCost.setAdmActiveToCanceled(resultSet.getFloat(ServiceInstanceTable.ADM_ACTIVE_TO_CANCELED));
-        lifeCycleTransitionsCost.setAdmActiveToSuspended(resultSet.getFloat(ServiceInstanceTable.ADM_ACTIVE_TO_SUSPENDED));
-        lifeCycleTransitionsCost.setAdmSuspendedToActive(resultSet.getFloat(ServiceInstanceTable.ADM_SUSPENDED_TO_ACTIVE));
-        lifeCycleTransitionsCost.setAdmSuspendedToCanceled(resultSet.getFloat(ServiceInstanceTable.ADM_SUSPENDED_TO_CANCELED));
+        lifeCycleTransitionsCost.setLiveToSuspend(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_SUSPEND));
+        lifeCycleTransitionsCost.setLiveToStopped(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STOPPED));
+        lifeCycleTransitionsCost.setStoppedToLive(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_LIVE));
+        lifeCycleTransitionsCost.setStoppedToSuspend(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_SUSPEND));
+        lifeCycleTransitionsCost.setStoppedToStandby(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_STANDBY));
+        lifeCycleTransitionsCost.setPreActiveToStopped(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_STOPPED));
+        lifeCycleTransitionsCost.setStandbyToSuspend(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_SUSPEND));
+        lifeCycleTransitionsCost.setSuspendToStandby(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STANDBY));
+        lifeCycleTransitionsCost.setStandbyToStopped(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_STOPPED));
+        lifeCycleTransitionsCost.setSuspendToStopped(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STOPPED));
+        lifeCycleTransitionsCost.setSuspendToLive(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_LIVE));
+        lifeCycleTransitionsCost.setStandbyToLive(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_LIVE));
+        lifeCycleTransitionsCost.setLiveToStandby(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STANDBY));
+        lifeCycleTransitionsCost.setTestToStopped(resultSet.getDouble(ServiceInstanceTable.TEST_TO_STOPPED));
+        lifeCycleTransitionsCost.setPreActiveToTest(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_TEST));
+        lifeCycleTransitionsCost.setTestToLive(resultSet.getDouble(ServiceInstanceTable.TEST_TO_LIVE));
+        lifeCycleTransitionsCost.setPreActiveToLive(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_LIVE));
+        lifeCycleTransitionsCost.setAdmActiveToCanceled(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_CANCELED));
+        lifeCycleTransitionsCost.setAdmActiveToSuspended(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_SUSPENDED));
+        lifeCycleTransitionsCost.setAdmSuspendedToActive(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_ACTIVE));
+        lifeCycleTransitionsCost.setAdmSuspendedToCanceled(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_CANCELED));
 
         return lifeCycleTransitionsCost;
     }
 
     private QosInfo getQosInfoFromResultSet(ResultSet resultSet) throws SQLException {
         QosInfo qosInfo = new QosInfo(Boolean.parseBoolean(resultSet.getString(ServiceInstanceTable.QOS_ENABLED)));
-        qosInfo.setQosDefault(resultSet.getString(ServiceInstanceTable.QOS_DEFAULT));
+        qosInfo.setQosResourceDefault(resultSet.getString(ServiceInstanceTable.QOS_DEFAULT));
         qosInfo.setQosLevels(ParserUtils.parseQosLevels(resultSet.getString(ServiceInstanceTable.QOS_LEVELS)));
         return qosInfo;
     }

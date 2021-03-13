@@ -2,12 +2,12 @@ package pt.andronikus.entities.base;
 
 public class SupportLevel {
     private String supportLevel;
-    private float supportLevelCost;
+    private double supportLevelCost;
 
     public SupportLevel() {
     }
 
-    public SupportLevel(String supportLevel, Float supportLevelCost) {
+    public SupportLevel(String supportLevel, double supportLevelCost) {
         this.supportLevel = supportLevel;
         this.supportLevelCost = supportLevelCost;
     }
@@ -20,11 +20,11 @@ public class SupportLevel {
         this.supportLevel = supportLevel;
     }
 
-    public float getSupportLevelCost() {
+    public double getSupportLevelCost() {
         return supportLevelCost;
     }
 
-    public void setSupportLevelCost(float supportLevelCost) {
+    public void setSupportLevelCost(double supportLevelCost) {
         this.supportLevelCost = supportLevelCost;
     }
 

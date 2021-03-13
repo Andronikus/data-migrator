@@ -2,18 +2,24 @@ package pt.andronikus.entities.base;
 
 public class TariffCostPerState {
     private String tariffId;
-    private Float costStatePreActive;
-    private Float costStateLive;
-    private Float costStateStopped;
-    private Float costStateSuspended;
-    private Float costStateStandBy;
-    private Float costStateTest;
+    private Double costStatePreActive;
+    private Double costStateLive;
+    private Double costStateStopped;
+    private Double costStateSuspended;
+    private Double costStateStandBy;
+    private Double costStateTest;
 
     public TariffCostPerState() {
     }
 
-    public TariffCostPerState(String tariffId) {
+    public TariffCostPerState(String tariffId, Double costStatePreActive, Double costStateLive, Double costStateStopped, Double costStateSuspended, Double costStateStandBy, Double costStateTest) {
         this.tariffId = tariffId;
+        this.costStatePreActive = costStatePreActive;
+        this.costStateLive = costStateLive;
+        this.costStateStopped = costStateStopped;
+        this.costStateSuspended = costStateSuspended;
+        this.costStateStandBy = costStateStandBy;
+        this.costStateTest = costStateTest;
     }
 
     public String getTariffId() {
@@ -24,56 +30,56 @@ public class TariffCostPerState {
         this.tariffId = tariffId;
     }
 
-    public Float getCostStatePreActive() {
+    public Double getCostStatePreActive() {
         return costStatePreActive;
     }
 
-    public void setCostStatePreActive(Float costStatePreActive) {
+    public void setCostStatePreActive(Double costStatePreActive) {
         this.costStatePreActive = costStatePreActive;
     }
 
-    public Float getCostStateLive() {
+    public Double getCostStateLive() {
         return costStateLive;
     }
 
-    public void setCostStateLive(Float costStateLive) {
+    public void setCostStateLive(Double costStateLive) {
         this.costStateLive = costStateLive;
     }
 
-    public Float getCostStateStopped() {
+    public Double getCostStateStopped() {
         return costStateStopped;
     }
 
-    public void setCostStateStopped(Float costStateStopped) {
+    public void setCostStateStopped(Double costStateStopped) {
         this.costStateStopped = costStateStopped;
     }
 
-    public Float getCostStateSuspended() {
+    public Double getCostStateSuspended() {
         return costStateSuspended;
     }
 
-    public void setCostStateSuspended(Float costStateSuspended) {
+    public void setCostStateSuspended(Double costStateSuspended) {
         this.costStateSuspended = costStateSuspended;
     }
 
-    public Float getCostStateStandBy() {
+    public Double getCostStateStandBy() {
         return costStateStandBy;
     }
 
-    public void setCostStateStandBy(Float costStateStandBy) {
+    public void setCostStateStandBy(Double costStateStandBy) {
         this.costStateStandBy = costStateStandBy;
     }
 
-    public Float getCostStateTest() {
+    public Double getCostStateTest() {
         return costStateTest;
     }
 
-    public void setCostStateTest(Float costStateTest) {
+    public void setCostStateTest(Double costStateTest) {
         this.costStateTest = costStateTest;
     }
 
     public void setStateCost(String state, String cost){
-        float costOfState = Float.parseFloat(cost);
+        double costOfState = Double.parseDouble(cost);
 
         if (state != null && state.length() > 0){
             switch (state.toUpperCase()){

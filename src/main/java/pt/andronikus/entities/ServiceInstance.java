@@ -30,7 +30,7 @@ public class ServiceInstance extends BaseEntity {
 
     private String initialResourceStatus;
     private Integer loyaltyPeriod;
-    private Float costByDay;
+    private Double costByDay;
 
     private SupportLevel supportLevel;
     private ServicesCost servicesCost;
@@ -204,11 +204,11 @@ public class ServiceInstance extends BaseEntity {
         this.loyaltyPeriod = loyaltyPeriod;
     }
 
-    public Float getCostByDay() {
+    public Double getCostByDay() {
         return costByDay;
     }
 
-    public void setCostByDay(Float costByDay) {
+    public void setCostByDay(Double costByDay) {
         this.costByDay = costByDay;
     }
 

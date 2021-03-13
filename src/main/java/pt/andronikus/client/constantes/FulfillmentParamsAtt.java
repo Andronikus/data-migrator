@@ -73,7 +73,7 @@ public class FulfillmentParamsAtt {
     public static final String QOS_ENABLED = "qosEnabled";
     public static final String QOS_RESOURCE_DEFAULT = "qosResourceDefault";
     public static final String QOS_LEVELS = "qosLevels";
-    public static final String DATA_PS_INITIAL_BALANCE_TESTS = "dataPsInitialBalanceInTests";
+    public static final String DATA_PS_INITIAL_BALANCE_IN_TESTS = "dataPsInitialBalanceInTests";
     public static final String DATA_PS_SERVICE_IN_TESTS = "dataPsServiceInTests";
     public static final String DATA_CS_INITIAL_BALANCE_IN_TESTS = "dataCsInitialBalanceInTests";
     public static final String DATA_CS_SERVICE_IN_TESTS = "dataCsServiceInTests";
