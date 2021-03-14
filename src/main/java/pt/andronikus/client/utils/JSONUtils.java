@@ -1,8 +1,6 @@
 package pt.andronikus.client.utils;
 
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
-import com.fasterxml.jackson.databind.ser.SerializerFactory;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.json.JSONObject;
 import pt.andronikus.client.enums.AppConstants;
@@ -16,7 +14,6 @@ import java.util.TimeZone;
 
 public class JSONUtils {
     private static final ObjectMapper mapper = new ObjectMapper().registerModule(new JodaModule())
-                                                                 .setSerializerProvider(new CustomNullSerializer())
                                                                  .setTimeZone(TimeZone.getDefault())
                                                                  .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                                                                  .setDateFormat(new SimpleDateFormat(AppConstants.DATETIME_WITH_MS_AND_TZ_FORMAT));

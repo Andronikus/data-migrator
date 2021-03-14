@@ -5,6 +5,7 @@ import pt.andronikus.client.enums.OperationType;
 public class AgreementOrderItem extends OrderItem{
     private String accountId;
     private String agreementId;
+    private String parentAgreementId;
     private String catalogSpec;
     private String offerSpec;
     private String offerParams;
@@ -53,6 +54,14 @@ public class AgreementOrderItem extends OrderItem{
         return offerParams;
     }
 
+    public String getParentAgreementId() {
+        return parentAgreementId;
+    }
+
+    public void setParentAgreementId(String parentAgreementId) {
+        this.parentAgreementId = parentAgreementId;
+    }
+
     public void setOfferParams(FulfillmentParams fulfillmentParams) {
         this.offerParams = "{\"parameters\":" + fulfillmentParams.toJson() + "}";
     }
@@ -62,6 +71,7 @@ public class AgreementOrderItem extends OrderItem{
         return "AgreementOrderItem{" +
                 "accountId='" + accountId + '\'' +
                 ", agreementId='" + agreementId + '\'' +
+                ", parentAgreementId='" + parentAgreementId + '\'' +
                 ", catalogSpec='" + catalogSpec + '\'' +
                 ", offerSpec='" + offerSpec + '\'' +
                 ", offerParams='" + offerParams + '\'' +

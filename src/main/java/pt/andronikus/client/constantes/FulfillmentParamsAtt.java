@@ -87,4 +87,20 @@ public class FulfillmentParamsAtt {
     public static final String VOICE_COST_PER_STATE = "voiceCostPerState";
     public static final String SMS_COST_PER_STATE = "smsCostPerState";
     public static final String MIG_FLAG = "migFlag";
+
+    // Resource
+    public static final String ICCID = "iccid";
+    public static final String MIG_MSISDN = "migMsisdn";
+    public static final String MIG_SECONDARY_MSISDN = "migSecondaryMSISDN";
+    public static final String SERVICE_RESOURCE_STATUS = "serviceResourceStatus";
+    public static final String COMM_STATUS = "commStatus";
+    public static final String REACTIVATE_COMM_STATUS = "reActivateCommStatus";
+    public static final String SMS_TARIFF_PLAN = "smsTariffPlan";
+    public static final String VOICE_TARIFF_PLAN = "voiceTariffPlan";
+    public static final String DATA_CS_TARIFF_PLAN = "dataCsTariffPlan";
+    public static final String DATA_PS_TARIFF_PLAN = "dataPsTariffPlan";
+    public static final String MIG_FIRST_ACTIVATION_DATE = "migFirstActivationDate";
+    public static final String ROAMING_STATUS = "roamingStatus";
+    public static final String MIG_FULFILLED_LOYALTY = "migFulfilledLoyalty";
+    public static final String MIG_LOY_LAST_UPDATE_DATE = "migLoyLastUpdateDate";
 }

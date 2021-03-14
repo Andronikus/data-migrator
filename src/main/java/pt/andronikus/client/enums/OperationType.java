@@ -3,7 +3,9 @@ package pt.andronikus.client.enums;
 public enum OperationType {
     CREATE("CREATE"),
     UPDATE("UPDATE"),
-    DELETE("DELETE");
+    DELETE("DELETE"),
+    SUSPEND("SUSPEND"),
+    UPDATE_SUSPEND("UPDATE_SUSPEND");
 
     private String operation;
 
