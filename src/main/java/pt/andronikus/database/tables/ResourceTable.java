@@ -1,7 +1,7 @@
 package pt.andronikus.database.tables;
 
 public class ResourceTable {
-    public final static String CDM_SERVICE_INSTANCE = "CDM_RESOURCES";
+    public final static String CDM_RESOURCE = "CDM_RESOURCE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";
@@ -20,8 +20,8 @@ public class ResourceTable {
     public final static String REACTIVATE_COMM_STATUS = "REACTIVATE_COMM_STATUS";
     public final static String SMS_SERVICE = "SMS_SERVICE";
     public final static String VOICE_SERVICE = "VOICE_SERVICE";
-    public final static String DATA_CS_SERVICE = "DATA_CS_SERVICE";
-    public final static String DATA_PS_SERVICE = "DATA_PS_SERVICE";
+    public final static String DATA_CS_SERVICE = "DATACS_SERVICE";
+    public final static String DATA_PS_SERVICE = "DATAPS_SERVICE";
     public final static String SMS_TARIFF_PLAN = "SMS_TARIFF_PLAN";
     public final static String VOICE_TARIFF_PLAN = "VOICE_TARIFF_PLAN";
     public final static String DATA_CS_TARIFF_PLAN = "DATA_CS_TARIFF_PLAN";
@@ -43,5 +43,6 @@ public class ResourceTable {
     public final static String ORDER_CORRELATION_ID = "ORDER_CORRELATION_ID";
     public final static String MIG_STATUS = "MIG_STATUS";
 
-
+    // queries
+    public final static String GET_RESOURCE = String.format("SELECT * FROM %s where %s=?", CDM_RESOURCE, PF);
 }

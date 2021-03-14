@@ -1,12 +1,21 @@
 package pt.andronikus.entities.base;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TariffCostPerState {
+    @JsonProperty("tariff_id")
     private String tariffId;
+    @JsonProperty("state_preactive")
     private Double costStatePreActive;
+    @JsonProperty("state_live")
     private Double costStateLive;
+    @JsonProperty("state_stopped")
     private Double costStateStopped;
+    @JsonProperty("state_suspended")
     private Double costStateSuspended;
+    @JsonProperty("state_standby")
     private Double costStateStandBy;
+    @JsonProperty("state_test")
     private Double costStateTest;
 
     public TariffCostPerState() {

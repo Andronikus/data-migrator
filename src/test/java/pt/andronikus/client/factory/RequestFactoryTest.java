@@ -2,14 +2,8 @@ package pt.andronikus.client.factory;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pt.andronikus.client.dto.BillingAccountOrderItem;
-import pt.andronikus.client.dto.CustomerOrderItem;
-import pt.andronikus.client.dto.EntryObject;
-import pt.andronikus.client.dto.OrderItem;
-import pt.andronikus.client.enums.Attributes;
-import pt.andronikus.client.enums.ExecutionsModes;
-import pt.andronikus.client.enums.OperationType;
-import pt.andronikus.client.enums.OrderItemType;
+import pt.andronikus.client.dto.*;
+import pt.andronikus.client.enums.*;
 import pt.andronikus.client.request.BillingAccountRequest;
 import pt.andronikus.client.request.CustomerCreateRequest;
 import pt.andronikus.client.request.ServiceInstanceRequest;
@@ -142,7 +136,6 @@ class RequestFactoryTest {
         List<String> tariffs = Arrays.asList("81016#81017".split("#"));
         System.out.println(JSONUtils.toJSON(tariffs));
     }
-
 
 
     private Customer createCustomer(){

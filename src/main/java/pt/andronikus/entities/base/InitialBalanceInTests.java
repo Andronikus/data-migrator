@@ -1,5 +1,8 @@
 package pt.andronikus.entities.base;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public class InitialBalanceInTests {
     private Double dataPsInitialBalance;
     private Double dataCsInitialBalance;
