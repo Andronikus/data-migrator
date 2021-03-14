@@ -29,7 +29,7 @@ public class InvokatorApplication extends Application<InvokatorConfiguration> {
     public void run(InvokatorConfiguration configuration, Environment environment) throws Exception {
         final InvokatorResource invokatorResource = new InvokatorResource();
 
-        // environment.lifecycle().manage(new ManageConnectionPool());
+        environment.lifecycle().manage(new ManageConnectionPool(configuration));
         environment.lifecycle().manage(new ManageClient(configuration));
 
         environment.jersey().register(invokatorResource);

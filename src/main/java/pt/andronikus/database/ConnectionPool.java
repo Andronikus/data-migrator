@@ -2,8 +2,10 @@ package pt.andronikus.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.dropwizard.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.configuration.InvokatorConfiguration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,12 +17,16 @@ public enum ConnectionPool {
 
     private HikariDataSource dataSource;
 
-    public synchronized void create(){
+    public synchronized void create(InvokatorConfiguration cfg){
         final HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:oracle:thin:@10.112.83.206:1521/smdecare");
-        // config.setJdbcUrl("jdbc:oracle:thin:@10.112.97.223:1521/sldesdp");
-        config.setUsername("SMARTTOM_MIG_FE");
-        config.setPassword("SMARTTOM_MIG_FE");
+
+        String jdbcUrl = "jdbc:oracle:thin:@" + cfg.getOracleDB().getIpAddress()
+                                              + ":" + cfg.getOracleDB().getPort()
+                                              + "/" + cfg.getOracleDB().getSid();
+
+        config.setJdbcUrl(jdbcUrl);
+        config.setUsername(cfg.getOracleDB().getUsername());
+        config.setPassword(cfg.getOracleDB().getPassword());
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

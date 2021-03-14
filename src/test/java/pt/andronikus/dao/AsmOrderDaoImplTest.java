@@ -3,6 +3,7 @@ package pt.andronikus.dao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pt.andronikus.client.enums.OperationType;
+import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.database.ConnectionPool;
 import pt.andronikus.entities.AsmOrder;
 import pt.andronikus.enums.EntityType;
@@ -17,9 +18,13 @@ class AsmOrderDaoImplTest {
     @BeforeAll
     public static void initializeConnectionPool(){
         System.out.println("initializeConnectionPool");
-        ConnectionPool.INSTANCE.create();
+
+        InvokatorConfiguration cfg = new InvokatorConfiguration();
+
+        ConnectionPool.INSTANCE.create(cfg);
     }
 
+    /*
     @Test
     public void shouldInsertAsmOrderWithSuccess(){
         try {
@@ -38,4 +43,6 @@ class AsmOrderDaoImplTest {
             sqlException.printStackTrace();
         }
     }
+    */
+
 }

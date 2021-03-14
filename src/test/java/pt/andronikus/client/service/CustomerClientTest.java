@@ -3,7 +3,7 @@ package pt.andronikus.client.service;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pt.andronikus.client.ClientPool;
-import pt.andronikus.client.factory.RequestFactory;
+import pt.andronikus.client.factory.CustomerRequestFactory;
 import pt.andronikus.client.request.CustomerCreateRequest;
 import pt.andronikus.client.response.CustomerResponse;
 import pt.andronikus.configuration.ASMServerConfiguration;
@@ -35,7 +35,7 @@ class CustomerClientTest {
     public void shouldCreateCustomerWithSuccess(){
         ASMClient client = new ASMClient();
 
-        CustomerCreateRequest request = RequestFactory.getCustomerCreationRequest(createCustomer());
+        CustomerCreateRequest request = CustomerRequestFactory.getCustomerCreationRequest(createCustomer());
         CustomerResponse response;
 
         response = client.customerCreatePost(request);
