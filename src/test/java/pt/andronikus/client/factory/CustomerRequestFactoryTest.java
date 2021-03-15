@@ -9,12 +9,12 @@ import pt.andronikus.client.enums.Attributes;
 import pt.andronikus.client.enums.ExecutionsModes;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
-import pt.andronikus.client.request.CustomerCreateRequest;
-import pt.andronikus.client.utils.JSONUtils;
+import pt.andronikus.client.request.CustomerRequest;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
 import pt.andronikus.constants.Global;
+import pt.andronikus.constants.MigrationFlag;
 import pt.andronikus.entities.Customer;
 import pt.andronikus.singletons.AppConfiguration;
 
@@ -51,7 +51,7 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestWithAsyncModeAndWithMigAttributes() {
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
 
         // order external id should be generated
         assertTrue(customerCreateRequest.getOrderExternalId().length() > 0);
@@ -66,7 +66,7 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestHaveAValidCustomerOrderItem(){
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
 
         CustomerOrderItem orderItem = (CustomerOrderItem) customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
         assertNotNull(orderItem, "Customer create request should have a order item customerOrderItem and its null!");
@@ -85,7 +85,7 @@ class CustomerRequestFactoryTest {
 
     @Test
     void shouldCustomerCreateRequestHaveValidCustomerInfo(){
-        CustomerCreateRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
+        CustomerRequest customerCreateRequest = CustomerRequestFactory.getCustomerCreationRequest(this.customer);
 
         OrderItem orderItem = customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
 
@@ -111,7 +111,38 @@ class CustomerRequestFactoryTest {
         assertEquals(customer.getOperatorId().toString(), customerInfo.get(Attributes.OPERATOR_ID));
         assertEquals(customer.getTaxNumber(), customerInfo.get(Attributes.TAX_NUMBER));
         assertEquals(customer.getStatus(), customerInfo.get(Attributes.STATUS));
-        assertEquals(customer.getMigFlag().toString(), customerInfo.get(Attributes.MIG_FLAG));
+        assertEquals(MigrationFlag.IN_MIGRATION, customerInfo.get(Attributes.MIG_FLAG));
+    }
+
+    @Test
+    void shouldCustomerUpdateRequestHaveValidCustomerInfo(){
+        CustomerRequest customerCreateRequest = CustomerRequestFactory.getCustomerUpdateRequest(this.customer);
+
+        OrderItem orderItem = customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
+
+        // validate other info values
+        Map<String, String> customerInfo = new HashMap<>();
+        for(EntryObject entryObject: orderItem.getOtherInfo().get(Attributes.ENTRY)){
+            customerInfo.put(entryObject.getKey(), entryObject.getValue());
+        }
+
+        assertTrue(customerInfo.containsKey(Attributes.PHONE));
+        assertTrue(customerInfo.containsKey(Attributes.EMAIL));
+        assertTrue(customerInfo.containsKey(Attributes.ADDRESS));
+        assertTrue(customerInfo.containsKey(Attributes.LOCALE));
+        assertTrue(customerInfo.containsKey(Attributes.OPERATOR_ID));
+        assertTrue(customerInfo.containsKey(Attributes.TAX_NUMBER));
+        assertTrue(customerInfo.containsKey(Attributes.STATUS));
+        assertTrue(customerInfo.containsKey(Attributes.MIG_FLAG));
+
+        assertEquals(customer.getPhone(), customerInfo.get(Attributes.PHONE));
+        assertEquals(customer.getEmail(), customerInfo.get(Attributes.EMAIL));
+        assertEquals(customer.getAddress(), customerInfo.get(Attributes.ADDRESS));
+        assertEquals(customer.getLocale(), customerInfo.get(Attributes.LOCALE));
+        assertEquals(customer.getOperatorId().toString(), customerInfo.get(Attributes.OPERATOR_ID));
+        assertEquals(customer.getTaxNumber(), customerInfo.get(Attributes.TAX_NUMBER));
+        assertEquals(customer.getStatus(), customerInfo.get(Attributes.STATUS));
+        assertEquals(MigrationFlag.END_MIGRATION, customerInfo.get(Attributes.MIG_FLAG));
     }
 
     private Customer createCustomer(){

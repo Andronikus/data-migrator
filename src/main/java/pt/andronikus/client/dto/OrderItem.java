@@ -5,7 +5,6 @@ import pt.andronikus.client.enums.OperationType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public abstract class OrderItem {
     protected String correlationId;

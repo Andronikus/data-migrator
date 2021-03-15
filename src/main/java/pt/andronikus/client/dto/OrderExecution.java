@@ -20,7 +20,7 @@ public class OrderExecution {
         this.orderSource = AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE).toString();
         // TODO clean
         // this.orderCorrelationId = UUID.randomUUID().toString();
-        this.extChannel = AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL).toString();;
+        this.extChannel = AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL).toString();
     }
 
     public void addOtherInfoEntry(String attribute, Object value){
