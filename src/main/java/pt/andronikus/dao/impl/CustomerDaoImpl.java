@@ -27,7 +27,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
         List<Customer> customers = new ArrayList<>();
 
-        try (PreparedStatement stm = connection.prepareStatement(CustomerTable.GET_CUSTOMERS);
+        try (PreparedStatement stm = connection.prepareStatement(CustomerTable.GET_NEW_CUSTOMER);
              ResultSet resultSet = stm.executeQuery()){
 
             while (resultSet.next()){
@@ -52,7 +52,7 @@ public class CustomerDaoImpl implements CustomerDao {
         ResultSet resultSet;
 
         try{
-            stm = connection.prepareStatement(CustomerTable.GET_CUSTOMER);
+            stm = connection.prepareStatement(CustomerTable.GET_NEW_CUSTOMER);
             stm.setString(1, id);
             resultSet = stm.executeQuery();
 

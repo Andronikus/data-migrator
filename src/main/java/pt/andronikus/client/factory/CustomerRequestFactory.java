@@ -1,25 +1,32 @@
 package pt.andronikus.client.factory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.andronikus.client.dto.*;
 import pt.andronikus.client.enums.Attributes;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.CustomerCreateRequest;
+import pt.andronikus.constants.Global;
 import pt.andronikus.entities.Customer;
+import pt.andronikus.singletons.AppConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerRequestFactory {
+    final static Logger LOGGER = LoggerFactory.getLogger(CustomerRequestFactory.class);
+    final static String LOG_PREFIX = CustomerRequestFactory.class.getSimpleName() + " :: ";
+
     public static CustomerCreateRequest getCustomerCreationRequest(Customer customer){
-
         CustomerCreateRequest orderExecution = new CustomerCreateRequest();
-
-        ExecutionMode executionMode = new AsyncExecutionMode("http://localhost:9090/migration/callback");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer");
         orderExecution.setExecutionMode(executionMode);
+        orderExecution.setOrderCorrelationId(customer.getOrderCorrelationId());
 
         CustomerOrderItem orderItem = new CustomerOrderItem(OperationType.CREATE);
         orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+        orderItem.setCorrelationId(customer.getCorrelationId());
 
         orderItem.setCustomerId(customer.getId());
         orderItem.setCustomerName(customer.getName());

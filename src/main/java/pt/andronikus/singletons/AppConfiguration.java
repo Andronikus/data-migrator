@@ -19,6 +19,14 @@ public enum AppConfiguration {
     public void setAppCfg(InvokatorConfiguration cfg) {
         int partition = Objects.isNull(cfg.getOracleDB().getPartition()) ? 1 : cfg.getOracleDB().getPartition();
         this.appCfg.putIfAbsent(Global.TABLE_PARTITION, partition);
+
+        String callback = "http://" + cfg.getCallbackServerConfiguration().getIpAddress() + ":"
+                                    + cfg.getCallbackServerConfiguration().getPort() + "/"
+                                    + cfg.getCallbackServerConfiguration().getEndpoint();
+
+        this.appCfg.putIfAbsent(Global.CALLBACK_URL, callback);
+        this.appCfg.putIfAbsent(Global.ORDER_SOURCE,cfg.getMigrationProcessInfo().getOrderSource());
+        this.appCfg.putIfAbsent(Global.CHANNEL,cfg.getMigrationProcessInfo().getChannel());
     }
 
     public Object getConfiguration(String confName){

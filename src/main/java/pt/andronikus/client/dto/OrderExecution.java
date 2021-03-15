@@ -1,27 +1,34 @@
 package pt.andronikus.client.dto;
 
 import pt.andronikus.client.enums.OrderItemType;
+import pt.andronikus.constants.Global;
+import pt.andronikus.singletons.AppConfiguration;
 
 import java.util.*;
 
 public class OrderExecution {
     private final String orderExternalId;
     private final String orderSource;
-    private final String orderCorrelationId;
     private final String extChannel;
+    private String orderCorrelationId;
     private ExecutionMode executionMode;
     private Map<OrderItemType,OrderItem> orderItems = new HashMap<>();
     private Map<String,Object> otherInfo = new HashMap<>();
 
     public OrderExecution() {
         this.orderExternalId = UUID.randomUUID().toString();
-        this.orderSource = "MIG-R8-R9";
-        this.orderCorrelationId = UUID.randomUUID().toString();
-        this.extChannel = "M2M-MIG";
+        this.orderSource = AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE).toString();
+        // TODO clean
+        // this.orderCorrelationId = UUID.randomUUID().toString();
+        this.extChannel = AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL).toString();;
     }
 
     public void addOtherInfoEntry(String attribute, Object value){
         this.otherInfo.putIfAbsent(attribute,value);
+    }
+
+    public void setOrderCorrelationId(String orderCorrelationId) {
+        this.orderCorrelationId = orderCorrelationId;
     }
 
     public String getOrderExternalId() {

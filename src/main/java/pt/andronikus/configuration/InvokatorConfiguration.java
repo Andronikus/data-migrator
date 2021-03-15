@@ -19,10 +19,20 @@ public class InvokatorConfiguration extends Configuration {
     @JsonProperty("asmServers")
     private List<ASMServerConfiguration> asmServerConfigurations = new ArrayList<>();
 
+    @NotNull
+    @Valid
+    @JsonProperty("callbackServer")
+    private CallbackServerConfiguration callbackServerConfiguration;
+
+    @NotNull
+    @Valid
+    @JsonProperty("migrationProcessInfo")
+    private MigrationProcessInfo migrationProcessInfo;
 
     public OracleDB getOracleDB() {
         return oracleDB;
     }
+
     public void setOracleDB(OracleDB oracleDB) {
         this.oracleDB = oracleDB;
     }
@@ -33,5 +43,21 @@ public class InvokatorConfiguration extends Configuration {
 
     public void setAsmServers(List<ASMServerConfiguration> asmServerConfigurations) {
         this.asmServerConfigurations = asmServerConfigurations;
+    }
+
+    public CallbackServerConfiguration getCallbackServerConfiguration() {
+        return callbackServerConfiguration;
+    }
+
+    public void setCallbackServerConfiguration(CallbackServerConfiguration callbackServerConfiguration) {
+        this.callbackServerConfiguration = callbackServerConfiguration;
+    }
+
+    public MigrationProcessInfo getMigrationProcessInfo() {
+        return migrationProcessInfo;
+    }
+
+    public void setMigrationProcessInfo(MigrationProcessInfo migrationProcessInfo) {
+        this.migrationProcessInfo = migrationProcessInfo;
     }
 }

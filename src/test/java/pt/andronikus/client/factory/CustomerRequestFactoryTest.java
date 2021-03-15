@@ -10,7 +10,13 @@ import pt.andronikus.client.enums.ExecutionsModes;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.CustomerCreateRequest;
+import pt.andronikus.client.utils.JSONUtils;
+import pt.andronikus.configuration.CallbackServerConfiguration;
+import pt.andronikus.configuration.InvokatorConfiguration;
+import pt.andronikus.configuration.MigrationProcessInfo;
+import pt.andronikus.constants.Global;
 import pt.andronikus.entities.Customer;
+import pt.andronikus.singletons.AppConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +31,21 @@ class CustomerRequestFactoryTest {
     void setUp() {
         if(!alreadySetUp){
             this.customer = createCustomer();
+
+            CallbackServerConfiguration callbackCfg = new CallbackServerConfiguration();
+            callbackCfg.setIpAddress("10.112.45.21");
+            callbackCfg.setPort(7777);
+            callbackCfg.setEndpoint("fulfillment");
+
+            MigrationProcessInfo mig = new MigrationProcessInfo();
+            mig.setOrderSource("MIG-R8-R9");
+            mig.setChannel("M2M-MIG");
+
+            InvokatorConfiguration cfg = new InvokatorConfiguration();
+            cfg.setCallbackServerConfiguration(callbackCfg);
+            cfg.setMigrationProcessInfo(mig);
+
+            AppConfiguration.INSTANCE.setAppCfg(cfg);
         }
     }
 
@@ -34,9 +55,9 @@ class CustomerRequestFactoryTest {
 
         // order external id should be generated
         assertTrue(customerCreateRequest.getOrderExternalId().length() > 0);
-        assertEquals("MIG-R8-R9", customerCreateRequest.getOrderSource());
-        assertTrue(customerCreateRequest.getOrderCorrelationId().length() > 0);
-        assertEquals("M2M-MIG", customerCreateRequest.getExtChannel());
+        assertEquals(AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE), customerCreateRequest.getOrderSource());
+        assertEquals(customer.getOrderCorrelationId(),customerCreateRequest.getOrderCorrelationId());
+        assertEquals(AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL), customerCreateRequest.getExtChannel());
 
         // execution mode (with async mode a callback should be set)
         assertEquals(ExecutionsModes.ASYNC, customerCreateRequest.getExecutionMode().getExecutionMode());
@@ -51,10 +72,10 @@ class CustomerRequestFactoryTest {
         assertNotNull(orderItem, "Customer create request should have a order item customerOrderItem and its null!");
 
         // validate order item main info
-        assertTrue(orderItem.getCorrelationId().length() > 0);
+        assertEquals(customer.getCorrelationId(),orderItem.getCorrelationId());
         assertTrue(orderItem.getExternalItemId().length() > 0);
-        assertEquals(this.customer.getId(), orderItem.getCustomerId());
-        assertEquals(this.customer.getName(), orderItem.getCustomerName());
+        assertEquals(customer.getId(), orderItem.getCustomerId());
+        assertEquals(customer.getName(), orderItem.getCustomerName());
         assertEquals(OperationType.CREATE, orderItem.getOperation());
 
         // validate reason
@@ -102,10 +123,12 @@ class CustomerRequestFactoryTest {
         customer.setPhone("234456789");
         customer.setEmail("theRock@pedreira.com");
         customer.setAddress("Travessa dos Granitos");
-        customer.setLocale("PT");
+        customer.setLocale("en_US");
         customer.setTaxNumber("3456789");
         customer.setStatus("ACTIVE");
         customer.setMigFlag(1);
+        customer.setCorrelationId("MIG_f97369847c3726");
+        customer.setOrderCorrelationId("MIG_CUST_BD55B444-D8ED-3733-E053-CE53700A9F6A");
 
         return customer;
     }
