@@ -22,6 +22,7 @@ public class CustomerRequestFactory {
 
     public static CustomerRequest getCustomerCreationRequest(Customer customer){
         final String METHOD_NAME = LOG_PREFIX + " getCustomerCreationRequest - ";
+
         CustomerRequest orderExecution = new CustomerRequest();
         ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer");
         orderExecution.setExecutionMode(executionMode);

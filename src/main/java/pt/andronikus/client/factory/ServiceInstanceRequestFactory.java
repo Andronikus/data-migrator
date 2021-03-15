@@ -1,25 +1,36 @@
 package pt.andronikus.client.factory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.andronikus.client.constantes.FulfillmentParamsAtt;
 import pt.andronikus.client.dto.*;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.ServiceInstanceRequest;
+import pt.andronikus.client.utils.JSONUtils;
+import pt.andronikus.constants.Global;
+import pt.andronikus.constants.MigrationFlag;
 import pt.andronikus.entities.ServiceInstance;
+import pt.andronikus.singletons.AppConfiguration;
 
 public class ServiceInstanceRequestFactory {
+    final static Logger LOGGER = LoggerFactory.getLogger(ServiceInstanceRequestFactory.class);
+    final static String LOG_PREFIX = ServiceInstanceRequestFactory.class.getSimpleName() + " :: ";
 
-    public static ServiceInstanceRequest getServiceInstanceRequest(ServiceInstance serviceInstance){
+    public static ServiceInstanceRequest getServiceInstanceCreateRequest(ServiceInstance serviceInstance){
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceCreateRequest - ";
 
         ServiceInstanceRequest orderExecution = new ServiceInstanceRequest();
 
-        ExecutionMode executionMode = new AsyncExecutionMode("http://localhost:9090/migration/callback");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/serviceInstance");
         orderExecution.setExecutionMode(executionMode);
+        orderExecution.setOrderCorrelationId(serviceInstance.getOrderCorrelationId());
 
         // order item
         AgreementOrderItem orderItem = new AgreementOrderItem(OperationType.CREATE);
         orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
         orderItem.setReason(new Reason("OTHER", "Migration CREATE Service Account"));
+        orderItem.setCorrelationId(serviceInstance.getCorrelationId());
 
         orderItem.setAccountId(serviceInstance.getAccountId());
         orderItem.setAgreementId(serviceInstance.getAgreementId());
@@ -140,9 +151,109 @@ public class ServiceInstanceRequestFactory {
         // APNs List
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, serviceInstance.getApnList());
 
+        // mig flag
+        fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, MigrationFlag.IN_MIGRATION);
+
         orderItem.setOfferParams(fulfillmentParams);
 
         orderExecution.setOrderItem(OrderItemType.AGREEMENT_ORDER_ITEM, orderItem);
+
+        if(LOGGER.isDebugEnabled()){
+            LOGGER.debug(METHOD_NAME);
+            LOGGER.debug(JSONUtils.toJSON(orderExecution));
+        }
+
+        return orderExecution;
+    }
+
+    public static ServiceInstanceRequest getServiceInstanceSuspendRequest(ServiceInstance serviceInstance){
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceSuspendRequest - ";
+
+        ServiceInstanceRequest orderExecution = new ServiceInstanceRequest();
+
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/serviceInstance");
+        orderExecution.setExecutionMode(executionMode);
+        orderExecution.setOrderCorrelationId(serviceInstance.getOrderCorrelationId());
+
+        // order item
+        AgreementOrderItem orderItem = new AgreementOrderItem(OperationType.SUSPEND);
+        orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+        orderItem.setReason(new Reason("OTHER", "Migration SUSPEND Service Instance"));
+        orderItem.setCorrelationId(serviceInstance.getCorrelationId());
+
+        orderItem.setAgreementId(serviceInstance.getAgreementId());
+
+        orderExecution.setOrderItem(OrderItemType.AGREEMENT_ORDER_ITEM, orderItem);
+
+        if(LOGGER.isDebugEnabled()){
+            LOGGER.debug(METHOD_NAME);
+            LOGGER.debug(JSONUtils.toJSON(orderExecution));
+        }
+
+        return orderExecution;
+    }
+
+    public static ServiceInstanceRequest getServiceInstanceUpdateRequest(ServiceInstance serviceInstance){
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceUpdateRequest - ";
+
+        ServiceInstanceRequest orderExecution = new ServiceInstanceRequest();
+
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/serviceInstance");
+        orderExecution.setExecutionMode(executionMode);
+        orderExecution.setOrderCorrelationId(serviceInstance.getOrderCorrelationId());
+
+        // order item
+        AgreementOrderItem orderItem = new AgreementOrderItem(OperationType.UPDATE);
+        orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+        orderItem.setReason(new Reason("OTHER", "Migration UPDATE Service Instance"));
+        orderItem.setCorrelationId(serviceInstance.getCorrelationId());
+
+        orderItem.setAgreementId(serviceInstance.getAgreementId());
+
+        // mig flag
+        FulfillmentParams fulfillmentParams = new FulfillmentParams();
+        fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, MigrationFlag.END_MIGRATION);
+        orderItem.setOfferParams(fulfillmentParams);
+
+        orderExecution.setOrderItem(OrderItemType.AGREEMENT_ORDER_ITEM, orderItem);
+
+        if(LOGGER.isDebugEnabled()){
+            LOGGER.debug(METHOD_NAME);
+            LOGGER.debug(JSONUtils.toJSON(orderExecution));
+        }
+
+        return orderExecution;
+    }
+
+    public static ServiceInstanceRequest getServiceInstanceUpdateSuspendRequest(ServiceInstance serviceInstance){
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceUpdateSuspendRequest - ";
+
+        ServiceInstanceRequest orderExecution = new ServiceInstanceRequest();
+
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/serviceInstance");
+        orderExecution.setExecutionMode(executionMode);
+        orderExecution.setOrderCorrelationId(serviceInstance.getOrderCorrelationId());
+
+        // order item
+        AgreementOrderItem orderItem = new AgreementOrderItem(OperationType.UPDATE_SUSPEND);
+        orderItem.setExternalItemId(orderExecution.getOrderExternalId() + "_01");
+        orderItem.setReason(new Reason("OTHER", "Migration UPDATE/SUSPEND Service Instance"));
+        orderItem.setCorrelationId(serviceInstance.getCorrelationId());
+
+        orderItem.setAgreementId(serviceInstance.getAgreementId());
+
+        // mig flag
+        FulfillmentParams fulfillmentParams = new FulfillmentParams();
+        fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, MigrationFlag.END_MIGRATION);
+        orderItem.setOfferParams(fulfillmentParams);
+
+        orderExecution.setOrderItem(OrderItemType.AGREEMENT_ORDER_ITEM, orderItem);
+
+        if(LOGGER.isDebugEnabled()){
+            LOGGER.debug(METHOD_NAME);
+            LOGGER.debug(JSONUtils.toJSON(orderExecution));
+        }
+
         return orderExecution;
     }
 }

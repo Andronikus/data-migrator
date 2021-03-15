@@ -27,7 +27,7 @@ class ServiceInstanceRequestFactoryTest {
 
     @Test
     void shouldCreateRequestHaveAValidServiceInstanceOrderItem() {
-        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceRequest(this.serviceInstance);
+        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceCreateRequest(this.serviceInstance);
 
         System.out.println(JSONUtils.toJSON(request));
     }
