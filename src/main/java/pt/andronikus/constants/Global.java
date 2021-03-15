@@ -6,4 +6,5 @@ public class Global {
     public static String PIPE_SYMBOL = "\\|";
     public static String COMMA_SYMBOL = ",";
     public static String SEMICOLON_SYMBOL = ";";
+    public static String TABLE_PARTITION = "table.partition";
 }

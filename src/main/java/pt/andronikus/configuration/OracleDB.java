@@ -6,6 +6,7 @@ public class OracleDB {
     private String sid;
     private String username;
     private String password;
+    private Integer partition;
 
     public OracleDB(){}
     public OracleDB(String ipAddress, String port, String sid) {
@@ -14,12 +15,13 @@ public class OracleDB {
         this.sid = sid;
     }
 
-    public OracleDB(String ipAddress, String port, String sid, String username, String password) {
+    public OracleDB(String ipAddress, String port, String sid, String username, String password, Integer partition) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.sid = sid;
         this.username = username;
         this.password = password;
+        this.partition = partition;
     }
 
     public String getIpAddress() {
@@ -62,6 +64,14 @@ public class OracleDB {
         this.password = password;
     }
 
+    public Integer getPartition() {
+        return partition;
+    }
+
+    public void setPartition(Integer partition) {
+        this.partition = partition;
+    }
+
     @Override
     public String toString() {
         return "OracleDB{" +
@@ -70,6 +80,7 @@ public class OracleDB {
                 ", sid='" + sid + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", partition=" + partition +
                 '}';
     }
 }

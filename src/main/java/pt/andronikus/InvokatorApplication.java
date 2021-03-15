@@ -8,6 +8,7 @@ import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.database.ManageConnectionPool;
 import pt.andronikus.health.ConnectionPoolHealthCheck;
 import pt.andronikus.resources.InvokatorResource;
+import pt.andronikus.singletons.AppConfiguration;
 
 public class InvokatorApplication extends Application<InvokatorConfiguration> {
 
@@ -22,6 +23,8 @@ public class InvokatorApplication extends Application<InvokatorConfiguration> {
 
     @Override
     public void run(InvokatorConfiguration configuration, Environment environment) throws Exception {
+        AppConfiguration.INSTANCE.setAppCfg(configuration);
+
         final InvokatorResource invokatorResource = new InvokatorResource();
 
         environment.lifecycle().manage(new ManageConnectionPool(configuration));

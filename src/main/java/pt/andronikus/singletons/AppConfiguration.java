@@ -1,26 +1,28 @@
 package pt.andronikus.singletons;
 
-import io.dropwizard.Configuration;
+import pt.andronikus.configuration.InvokatorConfiguration;
+import pt.andronikus.constants.Global;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 public enum AppConfiguration {
     INSTANCE;
 
-    private Map<String,Object> appCfg;
+    private final Map<String,Object> appCfg;
 
     AppConfiguration() {
         this.appCfg = new HashMap<>();
     }
 
-    public Map<String, Object> getAppCfg() {
-        return appCfg;
+    public void setAppCfg(InvokatorConfiguration cfg) {
+        int partition = Objects.isNull(cfg.getOracleDB().getPartition()) ? 1 : cfg.getOracleDB().getPartition();
+        this.appCfg.putIfAbsent(Global.TABLE_PARTITION, partition);
     }
 
-    public void setAppCfg(Map<String, Object> appCfg) {
-        this.appCfg = appCfg;
+    public Object getConfiguration(String confName){
+        return this.appCfg.getOrDefault(confName,"");
     }
 
     @Override
