@@ -9,8 +9,6 @@ import pt.andronikus.database.ManageConnectionPool;
 import pt.andronikus.health.ConnectionPoolHealthCheck;
 import pt.andronikus.resources.InvokatorResource;
 
-import java.util.Properties;
-
 public class InvokatorApplication extends Application<InvokatorConfiguration> {
 
     public static void main(String[] args) throws Exception{
@@ -19,10 +17,7 @@ public class InvokatorApplication extends Application<InvokatorConfiguration> {
 
     @Override
     public void initialize(Bootstrap<InvokatorConfiguration> bootstrap) {
-        /*
-        super.initialize(bootstrap);
-        bootstrap.setConfigurationSourceProvider(new ResourceConfigurationSourceProvider());
-         */
+
     }
 
     @Override

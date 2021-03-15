@@ -2,3 +2,5 @@
 /logs
 /target
 *.iml
+*.yml
+dependency-reduced-pom.xml
