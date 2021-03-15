@@ -83,6 +83,8 @@ public class CustomerDaoImpl implements CustomerDao {
         customer.setPhone(resultSet.getString(CustomerTable.PHONE));
         customer.setStatus(resultSet.getString(CustomerTable.CUSTOMER_STATUS));
         customer.setTaxNumber(resultSet.getString(CustomerTable.TAX_NUMBER));
+        customer.setCorrelationId(resultSet.getString(CustomerTable.CORRELATION_ID));
+        customer.setOrderCorrelationId(resultSet.getString(CustomerTable.ORDER_CORRELATION_ID));
 
         return customer;
     }

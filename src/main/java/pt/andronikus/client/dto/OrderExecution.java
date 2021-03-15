@@ -18,8 +18,6 @@ public class OrderExecution {
     public OrderExecution() {
         this.orderExternalId = UUID.randomUUID().toString();
         this.orderSource = AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE).toString();
-        // TODO clean
-        // this.orderCorrelationId = UUID.randomUUID().toString();
         this.extChannel = AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL).toString();
     }
 
