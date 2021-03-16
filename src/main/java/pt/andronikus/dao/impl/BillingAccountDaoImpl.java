@@ -53,7 +53,6 @@ public class BillingAccountDaoImpl implements BillingAccountDao {
         billingAccount.setBillingCycleDay(resultSet.getInt(BillingAccountTable.BILLING_CYCLE_DAY));
         billingAccount.setCorrelationId(resultSet.getString(BillingAccountTable.CORRELATION_ID));
         billingAccount.setMigStatus(resultSet.getString(BillingAccountTable.MIG_STATUS));
-        billingAccount.setCorrelationId(resultSet.getString(BillingAccountTable.CORRELATION_ID));
         billingAccount.setOrderCorrelationId(resultSet.getString(BillingAccountTable.ORDER_CORRELATION_ID));
 
         return billingAccount;

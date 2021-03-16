@@ -2,9 +2,13 @@ package pt.andronikus.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.constants.Global;
 import pt.andronikus.dao.CustomerDao;
+import pt.andronikus.database.tables.AsmOrdersTable;
 import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.entities.Customer;
+import pt.andronikus.enums.MigrationStatus;
+import pt.andronikus.singletons.AppConfiguration;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,59 +21,74 @@ public class CustomerDaoImpl implements CustomerDao {
     private final String LOG_PREFIX = CustomerDaoImpl.class.getSimpleName() + " :: ";
     private final Connection connection;
 
+
+    public final static String GET_CUSTOMER_TO_CREATE = String.format("SELECT * FROM (SELECT * FROM %s WHERE %s = %s AND %s = '%s' ORDER BY %s ASC) WHERE ROWNUM < 2",
+            CustomerTable.CUSTOMER,
+            CustomerTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            CustomerTable.MIG_STATUS,
+            MigrationStatus.NEW.name(),
+            CustomerTable.CREATED_AT);
+
+    public final static String UPDATE_CUSTOMER_STATE = String.format("UPDATE %s set %s = ?, UPDATED_AT = SYSDATE where %s = %s and %s = ? and %s = ?",
+            CustomerTable.CUSTOMER,
+            CustomerTable.MIG_STATUS,
+            CustomerTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            CustomerTable.CUSTOMER_ID,
+            CustomerTable.ORDER_CORRELATION_ID);
+
     public CustomerDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public List<Customer> getCustomers() {
-        final String METHOD_NAME = LOG_PREFIX + " getCustomers ";
+    public Optional<Customer> getCustomerToCreate(){
+        final String METHOD_NAME = LOG_PREFIX + " getCustomerToCreate ";
 
-        List<Customer> customers = new ArrayList<>();
+        Customer customer = null;
 
-        try (PreparedStatement stm = connection.prepareStatement(CustomerTable.GET_NEW_CUSTOMER);
-             ResultSet resultSet = stm.executeQuery()){
+        try (PreparedStatement stm = connection.prepareStatement(GET_CUSTOMER_TO_CREATE);
+             ResultSet resultSet = stm.executeQuery()) {
 
-            while (resultSet.next()){
-                customers.add(createCustomer(resultSet));
-            }
-
-        }catch (SQLException sqlException){
-            if (LOGGER.isWarnEnabled()){
-                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+                if(resultSet.next()){
+                    customer = createCustomer(resultSet);
+                }
+        }catch (SQLException e){
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
             }
         }catch (Exception e){
             LOGGER.error(METHOD_NAME + e.getMessage());
         }
-        return customers;
-    }
-
-    @Override
-    public Optional<Customer> getCustomer(String id){
-
-        Customer customer = null;
-        PreparedStatement stm;
-        ResultSet resultSet;
-
-        try{
-            stm = connection.prepareStatement(CustomerTable.GET_NEW_CUSTOMER);
-            stm.setString(1, id);
-            resultSet = stm.executeQuery();
-
-            if (resultSet.next()) {
-                customer = createCustomer(resultSet);
-            }
-
-        } catch (SQLException e) {
-            if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn(LOG_PREFIX + "SQLException - " + e.getMessage() + " " + e.getSQLState());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         return Objects.isNull(customer) ? Optional.empty() : Optional.of(customer);
     }
+
+    @Override
+    public boolean updateCustomerMigrationState(String customerId, String orderCorrelationId, String migrationStatus) {
+        final String METHOD_NAME = LOG_PREFIX + " updateCustomerMigrationState ";
+
+        try (PreparedStatement stm = connection.prepareStatement(UPDATE_CUSTOMER_STATE)) {
+
+            stm.setString(1, migrationStatus);
+            stm.setString(2, customerId);
+            stm.setString(3, orderCorrelationId);
+
+            if (stm.executeUpdate() > 0){
+                return true;
+            }
+        }catch (SQLException e){
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+            }
+        }catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+        }
+
+        return false;
+    }
+
 
     private Customer createCustomer(ResultSet resultSet) throws SQLException {
         Customer customer = new Customer();

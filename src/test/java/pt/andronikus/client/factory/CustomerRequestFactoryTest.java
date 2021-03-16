@@ -10,6 +10,7 @@ import pt.andronikus.client.enums.ExecutionsModes;
 import pt.andronikus.client.enums.OperationType;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.CustomerRequest;
+import pt.andronikus.client.utils.JSONUtils;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
@@ -112,6 +113,8 @@ class CustomerRequestFactoryTest {
         assertEquals(customer.getTaxNumber(), customerInfo.get(Attributes.TAX_NUMBER));
         assertEquals(customer.getStatus(), customerInfo.get(Attributes.STATUS));
         assertEquals(MigrationFlag.IN_MIGRATION, customerInfo.get(Attributes.MIG_FLAG));
+
+        System.out.println(JSONUtils.toJSON(customerCreateRequest));
     }
 
     @Test
@@ -148,18 +151,18 @@ class CustomerRequestFactoryTest {
     private Customer createCustomer(){
         Customer customer = new Customer();
 
-        customer.setOperatorId(0);
-        customer.setId("Rock-001");
-        customer.setName("The Rock");
-        customer.setPhone("234456789");
-        customer.setEmail("theRock@pedreira.com");
+        customer.setOperatorId(1);
+        customer.setId("f97369847cTR01");
+        customer.setName("TheRock SFR");
+        customer.setPhone("92111111111");
+        customer.setEmail("roquexpto@mail.pt");
         customer.setAddress("Travessa dos Granitos");
         customer.setLocale("en_US");
         customer.setTaxNumber("3456789");
         customer.setStatus("ACTIVE");
         customer.setMigFlag(1);
-        customer.setCorrelationId("MIG_f97369847c3726");
-        customer.setOrderCorrelationId("MIG_CUST_BD55B444-D8ED-3733-E053-CE53700A9F6A");
+        customer.setCorrelationId("MIG_f97369847c3727");
+        customer.setOrderCorrelationId("MIG_CUST_BD992E4CFD434CA6E053CE53700A52B0");
 
         return customer;
     }

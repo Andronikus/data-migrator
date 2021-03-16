@@ -4,6 +4,7 @@ import pt.andronikus.client.ClientPool;
 import pt.andronikus.client.exceptions.ServiceClientException;
 import pt.andronikus.client.request.CustomerRequest;
 import pt.andronikus.client.response.CustomerResponse;
+import pt.andronikus.client.utils.JSONUtils;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -22,7 +23,7 @@ public class ASMClient{
     public CustomerResponse customerCreatePost(CustomerRequest customerRequest){
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
                                   .accept(MediaType.APPLICATION_JSON_TYPE)
-                                  .post(Entity.entity(customerRequest, MediaType.APPLICATION_JSON_TYPE));
+                                  .post(Entity.entity(JSONUtils.toJSON(customerRequest), MediaType.APPLICATION_JSON_TYPE));
 
         return processResponse(response);
 

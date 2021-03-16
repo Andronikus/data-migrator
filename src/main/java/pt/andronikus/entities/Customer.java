@@ -30,7 +30,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = setStringOrDefaultValue(name,"");
     }
 
     public String getAddress() {
@@ -38,7 +38,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = setStringOrDefaultValue(address,"");;
     }
 
     public String getEmail() {
@@ -46,7 +46,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = setStringOrDefaultValue(email,"");
     }
 
     public String getLocale() {
@@ -54,7 +54,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setLocale(String locale) {
-        this.locale = locale;
+        this.locale = setStringOrDefaultValue(locale,"");
     }
 
     public String getPhone() {
@@ -62,7 +62,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = setStringOrDefaultValue(phone,"");
     }
 
     public String getStatus() {
@@ -88,6 +88,11 @@ public class Customer extends BaseEntity {
     public void setMigFlag(Integer migFlag) {
         this.migFlag = migFlag;
     }
+
+    private String setStringOrDefaultValue(String str, String def){
+        return str == null ? def : str;
+    }
+
 
     @Override
     public String toString() {

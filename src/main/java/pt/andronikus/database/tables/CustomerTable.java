@@ -26,7 +26,6 @@ public class CustomerTable {
     public final static String UPDATED_AT = "UPDATED_AT";
 
     // queries
-    public final static String GET_NEW_CUSTOMER = String.format("SELECT * FROM %s WHERE %s = %s AND %s = %s", CUSTOMER, PF, AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION), MIG_STATUS, MigrationStatus.NEW.name());
     public final static String UPDATE_CUSTOMER_TO_WAITING_CREATE = String.format("update %s set %s = %s, updated_at = SYSDATE where %s = ? and %s = ?", CUSTOMER, MIG_STATUS, MigrationStatus.WAITING_CREATE.name(), CORRELATION_ID,CUSTOMER_ID);
     public final static String UPDATE_CUSTOMER_TO_WAITING_CLOSE = String.format("update %s set %s = %s, updated_at = SYSDATE where %s = ? and %s = ?", CUSTOMER, MIG_STATUS, MigrationStatus.WAITING_CLOSE.name(), CORRELATION_ID,CUSTOMER_ID);
 }
