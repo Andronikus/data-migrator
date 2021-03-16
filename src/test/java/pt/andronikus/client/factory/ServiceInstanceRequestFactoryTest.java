@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceInstanceRequestFactoryTest {
-    private static final boolean alreadySetUp = false;
+    private static boolean alreadySetUp = false;
     private ServiceInstance serviceInstance;
 
     @BeforeEach
@@ -42,6 +42,8 @@ class ServiceInstanceRequestFactoryTest {
             cfg.setMigrationProcessInfo(mig);
 
             AppConfiguration.INSTANCE.setAppCfg(cfg);
+
+            alreadySetUp = true;
         }
     }
 

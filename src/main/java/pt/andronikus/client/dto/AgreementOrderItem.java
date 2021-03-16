@@ -1,8 +1,10 @@
 package pt.andronikus.client.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import pt.andronikus.client.enums.OperationType;
 
 public class AgreementOrderItem extends OrderItem{
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String accountId;
     private String agreementId;
     private String parentAgreementId;

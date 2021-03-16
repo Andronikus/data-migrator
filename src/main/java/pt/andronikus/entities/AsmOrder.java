@@ -13,6 +13,14 @@ public class AsmOrder {
     public AsmOrder() {
     }
 
+    public AsmOrder(String orderExternalId, String orderCorrelationId, EntityType entityType, OperationType operation, String orderStatus) {
+        this.orderExternalId = orderExternalId;
+        this.orderCorrelationId = orderCorrelationId;
+        this.entityType = entityType;
+        this.operation = operation;
+        this.orderStatus = orderStatus;
+    }
+
     public String getOrderExternalId() {
         return orderExternalId;
     }

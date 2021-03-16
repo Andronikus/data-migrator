@@ -62,10 +62,10 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setReactivateCommStatus(resultSet.getString(ResourceTable.REACTIVATE_COMM_STATUS));
 
         Resource.CommServices commServices = new Resource.CommServices();
-        commServices.setDataPsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_PS_SERVICE)));
-        commServices.setDataCsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_CS_SERVICE)));
-        commServices.setSmsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.SMS_SERVICE)));
-        commServices.setVoiceService(Boolean.parseBoolean(resultSet.getString(ResourceTable.VOICE_SERVICE)));
+        commServices.setDataPsService(resultSet.getString(ResourceTable.DATA_PS_SERVICE));
+        commServices.setDataCsService(resultSet.getString(ResourceTable.DATA_CS_SERVICE));
+        commServices.setSmsService(resultSet.getString(ResourceTable.SMS_SERVICE));
+        commServices.setVoiceService(resultSet.getString(ResourceTable.VOICE_SERVICE));
         resource.setCommServices(commServices);
 
         Resource.TariffPlans tariffPlans = new Resource.TariffPlans();

@@ -228,43 +228,43 @@ public class Resource extends BaseEntity {
     }
 
     public static class CommServices {
-        private boolean smsService;
-        private boolean voiceService;
-        private boolean dataCsService;
-        private boolean dataPsService;
+        private String smsService;
+        private String voiceService;
+        private String dataCsService;
+        private String dataPsService;
 
         public CommServices() {
         }
 
-        public boolean isSmsService() {
+        public String getSmsService() {
             return smsService;
         }
 
-        public void setSmsService(boolean smsService) {
+        public void setSmsService(String smsService) {
             this.smsService = smsService;
         }
 
-        public boolean isVoiceService() {
+        public String getVoiceService() {
             return voiceService;
         }
 
-        public void setVoiceService(boolean voiceService) {
+        public void setVoiceService(String voiceService) {
             this.voiceService = voiceService;
         }
 
-        public boolean isDataCsService() {
+        public String getDataCsService() {
             return dataCsService;
         }
 
-        public void setDataCsService(boolean dataCsService) {
+        public void setDataCsService(String dataCsService) {
             this.dataCsService = dataCsService;
         }
 
-        public boolean isDataPsService() {
+        public String getDataPsService() {
             return dataPsService;
         }
 
-        public void setDataPsService(boolean dataPsService) {
+        public void setDataPsService(String dataPsService) {
             this.dataPsService = dataPsService;
         }
 
