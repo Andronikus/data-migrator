@@ -2,7 +2,7 @@ package pt.andronikus.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CustomerOrderItem {
+public class OrderItemResponse {
     @JsonProperty
     private String externalItemId;
     @JsonProperty
@@ -15,7 +15,7 @@ public class CustomerOrderItem {
     private String errorDescription;
 
 
-    public CustomerOrderItem() {
+    public OrderItemResponse() {
     }
 
     public String getExternalItemId() {

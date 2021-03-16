@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.client.factory.CustomerRequestFactory;
 import pt.andronikus.client.request.CustomerRequest;
-import pt.andronikus.client.response.CustomerResponse;
+import pt.andronikus.client.response.OrderExecutionResponse;
 import pt.andronikus.client.service.ASMClient;
-import pt.andronikus.client.utils.JSONUtils;
 import pt.andronikus.dao.CustomerDao;
 import pt.andronikus.dao.DaoFactory;
-import pt.andronikus.dao.impl.CustomerDaoImpl;
 import pt.andronikus.entities.Customer;
 import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.Migration;
@@ -52,7 +50,7 @@ public class CreateCustomerThread implements Runnable{
                         // create the request
                         CustomerRequest customerRequest = CustomerRequestFactory.getCustomerCreationRequest(customer.get());
                         // send request
-                        CustomerResponse response = this.asmClient.customerCreatePost(customerRequest);
+                        // OrderExecutionResponse response = this.asmClient.customerCreatePost(customerRequest);
 
                         customerDao.updateCustomerMigrationState(customer.get().getId(), customer.get().getOrderCorrelationId(), MigrationStatus.WAITING_CREATE.name());
                     }else {

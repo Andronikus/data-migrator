@@ -2,14 +2,21 @@ package pt.andronikus.client.service;
 
 import pt.andronikus.client.ClientPool;
 import pt.andronikus.client.exceptions.ServiceClientException;
+import pt.andronikus.client.request.BillingAccountRequest;
 import pt.andronikus.client.request.CustomerRequest;
+import pt.andronikus.client.request.ResourceRequest;
+import pt.andronikus.client.request.ServiceInstanceRequest;
+import pt.andronikus.client.response.BillingAccountResponse;
 import pt.andronikus.client.response.CustomerResponse;
+import pt.andronikus.client.response.OrderExecutionResponse;
+import pt.andronikus.client.response.ServiceSubscriptionResponse;
 import pt.andronikus.client.utils.JSONUtils;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 
 public class ASMClient{
 
@@ -17,23 +24,54 @@ public class ASMClient{
 
     public ASMClient() {
         this.target = ClientPool.INSTANCE.getWebTarget();
-
     }
 
-    public CustomerResponse customerCreatePost(CustomerRequest customerRequest){
+    public Optional<CustomerResponse> customerPost(CustomerRequest customerRequest){
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
                                   .accept(MediaType.APPLICATION_JSON_TYPE)
                                   .post(Entity.entity(JSONUtils.toJSON(customerRequest), MediaType.APPLICATION_JSON_TYPE));
 
-        return processResponse(response);
+        OrderExecutionResponse orderExecutionResponse = processResponse(response);
+
+        return Optional.of(new CustomerResponse(orderExecutionResponse));
 
     }
 
-    private CustomerResponse processResponse(Response response) throws ServiceClientException {
+    public Optional<BillingAccountResponse> billingAccountPost( BillingAccountRequest billingAccountRequest){
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity(JSONUtils.toJSON(billingAccountRequest), MediaType.APPLICATION_JSON_TYPE));
+
+        OrderExecutionResponse orderExecutionResponse = processResponse(response);
+
+        return Optional.of(new BillingAccountResponse(orderExecutionResponse));
+    }
+
+    public Optional<ServiceSubscriptionResponse> serviceSubscriptionPost(ServiceInstanceRequest serviceInstanceRequest){
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity(JSONUtils.toJSON(serviceInstanceRequest), MediaType.APPLICATION_JSON_TYPE));
+
+        OrderExecutionResponse orderExecutionResponse = processResponse(response);
+
+        return Optional.of(new ServiceSubscriptionResponse(orderExecutionResponse));
+    }
+
+    public Optional<CustomerResponse> serviceSubscriptionPost(ResourceRequest resourceRequest){
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity(JSONUtils.toJSON(resourceRequest), MediaType.APPLICATION_JSON_TYPE));
+
+        OrderExecutionResponse orderExecutionResponse = processResponse(response);
+
+        return Optional.of(new CustomerResponse(orderExecutionResponse));
+    }
+
+    private OrderExecutionResponse processResponse(Response response) throws ServiceClientException {
         try {
             // 200 Ok
-            if (response.getStatusInfo().equals(Response.Status.OK)) {
-                return response.readEntity(CustomerResponse.class);
+            if (response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
+                return response.readEntity(OrderExecutionResponse.class);
             }
             // Other results
             String message = response.getStatusInfo().toString();

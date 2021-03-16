@@ -1,24 +1,26 @@
 package pt.andronikus.client.response;
 
 import pt.andronikus.client.enums.OrderItemType;
+import pt.andronikus.client.utils.JSONUtils;
 
-public class CustomerResponse {
+public class ResourceResponse {
+
     private final OrderExecutionResponse response;
 
-    public CustomerResponse(OrderExecutionResponse response) {
+    public ResourceResponse(OrderExecutionResponse response) {
         this.response = response;
     }
 
     public String getErrorCode(){
-        return this.response.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM.getOrderItemType()).getErrorCode();
+        return this.response.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM.getOrderItemType()).getErrorCode();
     }
 
     public String getCustomerId(){
-        return this.response.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM.getOrderItemType()).getCustomerId();
+        return this.response.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM.getOrderItemType()).getCustomerId();
     }
 
     public String getOrderItemStatus(){
-        return this.response.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM.getOrderItemType()).getOrderItemStatus();
+        return this.response.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM.getOrderItemType()).getOrderItemStatus();
     }
 
     public String getOrderCorrelationId(){
