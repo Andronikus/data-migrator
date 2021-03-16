@@ -1,54 +1,53 @@
 package pt.andronikus.entities.base;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import pt.andronikus.utils.WhenNullValueThen;
 
 public class InitialBalanceInTests {
-    private Double dataPsInitialBalance;
-    private Double dataCsInitialBalance;
-    private Double voiceInitialBalance;
-    private Integer smsInitialBalance;
+    private String dataPsInitialBalance;
+    private String dataCsInitialBalance;
+    private String voiceInitialBalance;
+    private String smsInitialBalance;
 
     public InitialBalanceInTests() {
     }
 
-    public InitialBalanceInTests(Double dataPsInitialBalance, Double dataCsInitialBalance, Double voiceInitialBalance, Integer smsInitialBalance) {
+    public InitialBalanceInTests(String dataPsInitialBalance, String dataCsInitialBalance, String voiceInitialBalance, String smsInitialBalance) {
         this.dataPsInitialBalance = dataPsInitialBalance;
         this.dataCsInitialBalance = dataCsInitialBalance;
         this.voiceInitialBalance = voiceInitialBalance;
         this.smsInitialBalance = smsInitialBalance;
     }
 
-    public Double getDataPsInitialBalance() {
+    public String getDataPsInitialBalance() {
         return dataPsInitialBalance;
     }
 
-    public void setDataPsInitialBalance(Double dataPsInitialBalance) {
-        this.dataPsInitialBalance = dataPsInitialBalance;
+    public void setDataPsInitialBalance(String dataPsInitialBalance) {
+        this.dataPsInitialBalance = WhenNullValueThen.setStringOrInAbsence(dataPsInitialBalance, "");
     }
 
-    public Double getDataCsInitialBalance() {
+    public String getDataCsInitialBalance() {
         return dataCsInitialBalance;
     }
 
-    public void setDataCsInitialBalance(Double dataCsInitialBalance) {
-        this.dataCsInitialBalance = dataCsInitialBalance;
+    public void setDataCsInitialBalance(String dataCsInitialBalance) {
+        this.dataCsInitialBalance = WhenNullValueThen.setStringOrInAbsence(dataCsInitialBalance, "");
     }
 
-    public Double getVoiceInitialBalance() {
+    public String getVoiceInitialBalance() {
         return voiceInitialBalance;
     }
 
-    public void setVoiceInitialBalance(Double voiceInitialBalance) {
-        this.voiceInitialBalance = voiceInitialBalance;
+    public void setVoiceInitialBalance(String voiceInitialBalance) {
+        this.voiceInitialBalance = WhenNullValueThen.setStringOrInAbsence(voiceInitialBalance, "");
     }
 
-    public Integer getSmsInitialBalance() {
+    public String getSmsInitialBalance() {
         return smsInitialBalance;
     }
 
-    public void setSmsInitialBalance(Integer smsInitialBalance) {
-        this.smsInitialBalance = smsInitialBalance;
+    public void setSmsInitialBalance(String smsInitialBalance) {
+        this.smsInitialBalance = WhenNullValueThen.setStringOrInAbsence(smsInitialBalance, "");
     }
 
     @Override

@@ -2,6 +2,7 @@ package pt.andronikus.entities;
 
 import pt.andronikus.entities.base.*;
 import pt.andronikus.enums.AdministrativeStatus;
+import pt.andronikus.utils.WhenNullValueThen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class ServiceInstance extends BaseEntity {
     private Integer resourceOrderMaxQty;
 
     private String initialResourceStatus;
-    private Integer loyaltyPeriod;
-    private Double costByDay;
+    private String loyaltyPeriod;
+    private String costByDay;
 
     private SupportLevel supportLevel;
     private ServicesCost servicesCost;
@@ -196,19 +197,19 @@ public class ServiceInstance extends BaseEntity {
         this.initialResourceStatus = initialResourceStatus;
     }
 
-    public Integer getLoyaltyPeriod() {
+    public String getLoyaltyPeriod() {
         return loyaltyPeriod;
     }
 
-    public void setLoyaltyPeriod(Integer loyaltyPeriod) {
-        this.loyaltyPeriod = loyaltyPeriod;
+    public void setLoyaltyPeriod(String loyaltyPeriod) {
+        this.loyaltyPeriod = WhenNullValueThen.setStringOrInAbsence(loyaltyPeriod, "");
     }
 
-    public Double getCostByDay() {
+    public String getCostByDay() {
         return costByDay;
     }
 
-    public void setCostByDay(Double costByDay) {
+    public void setCostByDay(String costByDay) {
         this.costByDay = costByDay;
     }
 

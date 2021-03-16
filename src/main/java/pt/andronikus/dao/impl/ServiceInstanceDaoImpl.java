@@ -77,8 +77,8 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
         service.setResourceOrderMinQty(resultSet.getInt(ServiceInstanceTable.RESOURCE_ORDER_MIN_QTY));
         service.setResourceOrderMinQty(resultSet.getInt(ServiceInstanceTable.RESOURCE_ORDER_MAX_QTY));
         service.setInitialResourceStatus(resultSet.getString(ServiceInstanceTable.INITIAL_RESOURCE_STATUS));
-        service.setLoyaltyPeriod(resultSet.getInt(ServiceInstanceTable.LOYALTY_PERIOD));
-        service.setCostByDay(resultSet.getDouble(ServiceInstanceTable.COST_BY_DAY));
+        service.setLoyaltyPeriod(String.valueOf(resultSet.getInt(ServiceInstanceTable.LOYALTY_PERIOD)));
+        service.setCostByDay(String.valueOf(resultSet.getDouble(ServiceInstanceTable.COST_BY_DAY)));
 
         // Support Level
         service.setSupportLevel(getSupportLevelFromResultSet(resultSet));
@@ -125,7 +125,7 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
     private SupportLevel getSupportLevelFromResultSet(ResultSet resultSet) throws SQLException {
         SupportLevel supportLevel = new SupportLevel();
         supportLevel.setSupportLevel(resultSet.getString(ServiceInstanceTable.SUPPORT_LEVEL));
-        supportLevel.setSupportLevelCost(resultSet.getFloat(ServiceInstanceTable.SUPPORT_LEVEL_COST));
+        supportLevel.setSupportLevelCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.SUPPORT_LEVEL_COST)));
 
         return supportLevel;
     }
@@ -150,11 +150,11 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
 
     private ServicesCost getServicesCostFromResultSet(ResultSet resultSet) throws SQLException {
         ServicesCost servicesCost = new ServicesCost();
-        servicesCost.setCustomerTrainingCost(resultSet.getDouble(ServiceInstanceTable.CUSTOMER_TRAINING_COST));
-        servicesCost.setDedicatedApnCost(resultSet.getDouble(ServiceInstanceTable.DEDICATED_APN_COST));
-        servicesCost.setApiAccessCost(resultSet.getDouble(ServiceInstanceTable.API_ACCESS_COST));
-        servicesCost.setLocationServiceCost(resultSet.getDouble(ServiceInstanceTable.LOCATION_SERVICE_COST));
-        servicesCost.setSmsConsoleCost(resultSet.getDouble(ServiceInstanceTable.SMS_CONSOLE_COST));
+        servicesCost.setCustomerTrainingCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.CUSTOMER_TRAINING_COST)));
+        servicesCost.setDedicatedApnCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.DEDICATED_APN_COST)));
+        servicesCost.setApiAccessCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.API_ACCESS_COST)));
+        servicesCost.setLocationServiceCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.LOCATION_SERVICE_COST)));
+        servicesCost.setSmsConsoleCost(String.valueOf(resultSet.getDouble(ServiceInstanceTable.SMS_CONSOLE_COST)));
 
         return servicesCost;
     }
@@ -185,27 +185,27 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
 
     private LifeCycleTransitionsCost getLifeCycleTransitionsCostFromResultSet(ResultSet resultSet) throws SQLException {
         LifeCycleTransitionsCost lifeCycleTransitionsCost = new LifeCycleTransitionsCost();
-        lifeCycleTransitionsCost.setLiveToSuspend(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_SUSPEND));
-        lifeCycleTransitionsCost.setLiveToStopped(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STOPPED));
-        lifeCycleTransitionsCost.setStoppedToLive(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_LIVE));
-        lifeCycleTransitionsCost.setStoppedToSuspend(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_SUSPEND));
-        lifeCycleTransitionsCost.setStoppedToStandby(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_STANDBY));
-        lifeCycleTransitionsCost.setPreActiveToStopped(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_STOPPED));
-        lifeCycleTransitionsCost.setStandbyToSuspend(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_SUSPEND));
-        lifeCycleTransitionsCost.setSuspendToStandby(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STANDBY));
-        lifeCycleTransitionsCost.setStandbyToStopped(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_STOPPED));
-        lifeCycleTransitionsCost.setSuspendToStopped(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STOPPED));
-        lifeCycleTransitionsCost.setSuspendToLive(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_LIVE));
-        lifeCycleTransitionsCost.setStandbyToLive(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_LIVE));
-        lifeCycleTransitionsCost.setLiveToStandby(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STANDBY));
-        lifeCycleTransitionsCost.setTestToStopped(resultSet.getDouble(ServiceInstanceTable.TEST_TO_STOPPED));
-        lifeCycleTransitionsCost.setPreActiveToTest(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_TEST));
-        lifeCycleTransitionsCost.setTestToLive(resultSet.getDouble(ServiceInstanceTable.TEST_TO_LIVE));
-        lifeCycleTransitionsCost.setPreActiveToLive(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_LIVE));
-        lifeCycleTransitionsCost.setAdmActiveToCanceled(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_CANCELED));
-        lifeCycleTransitionsCost.setAdmActiveToSuspended(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_SUSPENDED));
-        lifeCycleTransitionsCost.setAdmSuspendedToActive(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_ACTIVE));
-        lifeCycleTransitionsCost.setAdmSuspendedToCanceled(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_CANCELED));
+        lifeCycleTransitionsCost.setLiveToSuspend(String.valueOf(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_SUSPEND)));
+        lifeCycleTransitionsCost.setLiveToStopped(String.valueOf(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STOPPED)));
+        lifeCycleTransitionsCost.setStoppedToLive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_LIVE)));
+        lifeCycleTransitionsCost.setStoppedToSuspend(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_SUSPEND)));
+        lifeCycleTransitionsCost.setStoppedToStandby(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STOPPED_TO_STANDBY)));
+        lifeCycleTransitionsCost.setPreActiveToStopped(String.valueOf(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_STOPPED)));
+        lifeCycleTransitionsCost.setStandbyToSuspend(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_SUSPEND)));
+        lifeCycleTransitionsCost.setSuspendToStandby(String.valueOf(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STANDBY)));
+        lifeCycleTransitionsCost.setStandbyToStopped(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_STOPPED)));
+        lifeCycleTransitionsCost.setSuspendToStopped(String.valueOf(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_STOPPED)));
+        lifeCycleTransitionsCost.setSuspendToLive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.SUSPEND_TO_LIVE)));
+        lifeCycleTransitionsCost.setStandbyToLive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.STANDBY_TO_LIVE)));
+        lifeCycleTransitionsCost.setLiveToStandby(String.valueOf(resultSet.getDouble(ServiceInstanceTable.LIVE_TO_STANDBY)));
+        lifeCycleTransitionsCost.setTestToStopped(String.valueOf(resultSet.getDouble(ServiceInstanceTable.TEST_TO_STOPPED)));
+        lifeCycleTransitionsCost.setPreActiveToTest(String.valueOf(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_TEST)));
+        lifeCycleTransitionsCost.setTestToLive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.TEST_TO_LIVE)));
+        lifeCycleTransitionsCost.setPreActiveToLive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.PREACTIVE_TO_LIVE)));
+        lifeCycleTransitionsCost.setAdmActiveToCanceled(String.valueOf(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_CANCELED)));
+        lifeCycleTransitionsCost.setAdmActiveToSuspended(String.valueOf(resultSet.getDouble(ServiceInstanceTable.ADM_ACTIVE_TO_SUSPENDED)));
+        lifeCycleTransitionsCost.setAdmSuspendedToActive(String.valueOf(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_ACTIVE)));
+        lifeCycleTransitionsCost.setAdmSuspendedToCanceled(String.valueOf(resultSet.getDouble(ServiceInstanceTable.ADM_SUSPENDED_TO_CANCELED)));
 
         return lifeCycleTransitionsCost;
     }
@@ -220,10 +220,10 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
     private InitialBalanceInTests getInitialBalanceInTestsFromResultSet(ResultSet resultSet) throws SQLException {
         InitialBalanceInTests initialBalanceInTests = new InitialBalanceInTests();
 
-        initialBalanceInTests.setDataPsInitialBalance(resultSet.getDouble(ServiceInstanceTable.DATA_PS_INITIAL_BALANCE_IN_TESTS));
-        initialBalanceInTests.setDataCsInitialBalance(resultSet.getDouble(ServiceInstanceTable.DATA_CS_INITIAL_BALANCE_IN_TESTS));
-        initialBalanceInTests.setVoiceInitialBalance(resultSet.getDouble(ServiceInstanceTable.VOICE_INITIAL_BALANCE_IN_TESTS));
-        initialBalanceInTests.setSmsInitialBalance(resultSet.getInt(ServiceInstanceTable.SMS_INITIAL_BALANCE_IN_TESTS));
+        initialBalanceInTests.setDataPsInitialBalance(String.valueOf(resultSet.getDouble(ServiceInstanceTable.DATA_PS_INITIAL_BALANCE_IN_TESTS)));
+        initialBalanceInTests.setDataCsInitialBalance(String.valueOf(resultSet.getDouble(ServiceInstanceTable.DATA_CS_INITIAL_BALANCE_IN_TESTS)));
+        initialBalanceInTests.setVoiceInitialBalance(String.valueOf(resultSet.getDouble(ServiceInstanceTable.VOICE_INITIAL_BALANCE_IN_TESTS)));
+        initialBalanceInTests.setSmsInitialBalance(String.valueOf(resultSet.getInt(ServiceInstanceTable.SMS_INITIAL_BALANCE_IN_TESTS)));
 
         return initialBalanceInTests;
     }

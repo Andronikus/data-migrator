@@ -1,196 +1,196 @@
 package pt.andronikus.entities.base;
 
 public class LifeCycleTransitionsCost {
-    private Double liveToSuspend;
-    private Double liveToStopped;
-    private Double stoppedToLive;
-    private Double stoppedToSuspend;
-    private Double stoppedToStandby;
-    private Double preActiveToStopped;
-    private Double standbyToSuspend;
-    private Double suspendToStandby;
-    private Double standbyToStopped;
-    private Double suspendToStopped;
-    private Double suspendToLive;
-    private Double standbyToLive;
-    private Double liveToStandby;
-    private Double testToStopped;
-    private Double preActiveToTest;
-    private Double testToLive;
-    private Double preActiveToLive;
-    private Double admActiveToCanceled;
-    private Double admActiveToSuspended;
-    private Double admSuspendedToActive;
-    private Double admSuspendedToCanceled;
+    private String liveToSuspend;
+    private String liveToStopped;
+    private String stoppedToLive;
+    private String stoppedToSuspend;
+    private String stoppedToStandby;
+    private String preActiveToStopped;
+    private String standbyToSuspend;
+    private String suspendToStandby;
+    private String standbyToStopped;
+    private String suspendToStopped;
+    private String suspendToLive;
+    private String standbyToLive;
+    private String liveToStandby;
+    private String testToStopped;
+    private String preActiveToTest;
+    private String testToLive;
+    private String preActiveToLive;
+    private String admActiveToCanceled;
+    private String admActiveToSuspended;
+    private String admSuspendedToActive;
+    private String admSuspendedToCanceled;
 
     public LifeCycleTransitionsCost() {
     }
 
-    public Double getLiveToSuspend() {
+    public String getLiveToSuspend() {
         return liveToSuspend;
     }
 
-    public void setLiveToSuspend(Double liveToSuspend) {
+    public void setLiveToSuspend(String liveToSuspend) {
         this.liveToSuspend = liveToSuspend;
     }
 
-    public Double getLiveToStopped() {
+    public String getLiveToStopped() {
         return liveToStopped;
     }
 
-    public void setLiveToStopped(Double liveToStopped) {
+    public void setLiveToStopped(String liveToStopped) {
         this.liveToStopped = liveToStopped;
     }
 
-    public Double getStoppedToLive() {
+    public String getStoppedToLive() {
         return stoppedToLive;
     }
 
-    public void setStoppedToLive(Double stoppedToLive) {
+    public void setStoppedToLive(String stoppedToLive) {
         this.stoppedToLive = stoppedToLive;
     }
 
-    public Double getStoppedToSuspend() {
+    public String getStoppedToSuspend() {
         return stoppedToSuspend;
     }
 
-    public void setStoppedToSuspend(Double stoppedToSuspend) {
+    public void setStoppedToSuspend(String stoppedToSuspend) {
         this.stoppedToSuspend = stoppedToSuspend;
     }
 
-    public Double getStoppedToStandby() {
+    public String getStoppedToStandby() {
         return stoppedToStandby;
     }
 
-    public void setStoppedToStandby(Double stoppedToStandby) {
+    public void setStoppedToStandby(String stoppedToStandby) {
         this.stoppedToStandby = stoppedToStandby;
     }
 
-    public Double getPreActiveToStopped() {
+    public String getPreActiveToStopped() {
         return preActiveToStopped;
     }
 
-    public void setPreActiveToStopped(Double preActiveToStopped) {
+    public void setPreActiveToStopped(String preActiveToStopped) {
         this.preActiveToStopped = preActiveToStopped;
     }
 
-    public Double getStandbyToSuspend() {
+    public String getStandbyToSuspend() {
         return standbyToSuspend;
     }
 
-    public void setStandbyToSuspend(Double standbyToSuspend) {
+    public void setStandbyToSuspend(String standbyToSuspend) {
         this.standbyToSuspend = standbyToSuspend;
     }
 
-    public Double getSuspendToStandby() {
+    public String getSuspendToStandby() {
         return suspendToStandby;
     }
 
-    public void setSuspendToStandby(Double suspendToStandby) {
+    public void setSuspendToStandby(String suspendToStandby) {
         this.suspendToStandby = suspendToStandby;
     }
 
-    public Double getStandbyToStopped() {
+    public String getStandbyToStopped() {
         return standbyToStopped;
     }
 
-    public void setStandbyToStopped(Double standbyToStopped) {
+    public void setStandbyToStopped(String standbyToStopped) {
         this.standbyToStopped = standbyToStopped;
     }
 
-    public Double getSuspendToStopped() {
+    public String getSuspendToStopped() {
         return suspendToStopped;
     }
 
-    public void setSuspendToStopped(Double suspendToStopped) {
+    public void setSuspendToStopped(String suspendToStopped) {
         this.suspendToStopped = suspendToStopped;
     }
 
-    public Double getSuspendToLive() {
+    public String getSuspendToLive() {
         return suspendToLive;
     }
 
-    public void setSuspendToLive(Double suspendToLive) {
+    public void setSuspendToLive(String suspendToLive) {
         this.suspendToLive = suspendToLive;
     }
 
-    public Double getStandbyToLive() {
+    public String getStandbyToLive() {
         return standbyToLive;
     }
 
-    public void setStandbyToLive(Double standbyToLive) {
+    public void setStandbyToLive(String standbyToLive) {
         this.standbyToLive = standbyToLive;
     }
 
-    public Double getLiveToStandby() {
+    public String getLiveToStandby() {
         return liveToStandby;
     }
 
-    public void setLiveToStandby(Double liveToStandby) {
+    public void setLiveToStandby(String liveToStandby) {
         this.liveToStandby = liveToStandby;
     }
 
-    public Double getTestToStopped() {
+    public String getTestToStopped() {
         return testToStopped;
     }
 
-    public void setTestToStopped(Double testToStopped) {
+    public void setTestToStopped(String testToStopped) {
         this.testToStopped = testToStopped;
     }
 
-    public Double getPreActiveToTest() {
+    public String getPreActiveToTest() {
         return preActiveToTest;
     }
 
-    public void setPreActiveToTest(Double preActiveToTest) {
+    public void setPreActiveToTest(String preActiveToTest) {
         this.preActiveToTest = preActiveToTest;
     }
 
-    public Double getTestToLive() {
+    public String getTestToLive() {
         return testToLive;
     }
 
-    public void setTestToLive(Double testToLive) {
+    public void setTestToLive(String testToLive) {
         this.testToLive = testToLive;
     }
 
-    public Double getPreActiveToLive() {
+    public String getPreActiveToLive() {
         return preActiveToLive;
     }
 
-    public void setPreActiveToLive(Double preActiveToLive) {
+    public void setPreActiveToLive(String preActiveToLive) {
         this.preActiveToLive = preActiveToLive;
     }
 
-    public Double getAdmActiveToCanceled() {
+    public String getAdmActiveToCanceled() {
         return admActiveToCanceled;
     }
 
-    public void setAdmActiveToCanceled(Double admActiveToCanceled) {
+    public void setAdmActiveToCanceled(String admActiveToCanceled) {
         this.admActiveToCanceled = admActiveToCanceled;
     }
 
-    public Double getAdmActiveToSuspended() {
+    public String getAdmActiveToSuspended() {
         return admActiveToSuspended;
     }
 
-    public void setAdmActiveToSuspended(Double admActiveToSuspended) {
+    public void setAdmActiveToSuspended(String admActiveToSuspended) {
         this.admActiveToSuspended = admActiveToSuspended;
     }
 
-    public Double getAdmSuspendedToActive() {
+    public String getAdmSuspendedToActive() {
         return admSuspendedToActive;
     }
 
-    public void setAdmSuspendedToActive(Double admSuspendedToActive) {
+    public void setAdmSuspendedToActive(String admSuspendedToActive) {
         this.admSuspendedToActive = admSuspendedToActive;
     }
 
-    public Double getAdmSuspendedToCanceled() {
+    public String getAdmSuspendedToCanceled() {
         return admSuspendedToCanceled;
     }
 
-    public void setAdmSuspendedToCanceled(Double admSuspendedToCanceled) {
+    public void setAdmSuspendedToCanceled(String admSuspendedToCanceled) {
         this.admSuspendedToCanceled = admSuspendedToCanceled;
     }
 

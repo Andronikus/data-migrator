@@ -6,22 +6,22 @@ public class TariffCostPerState {
     @JsonProperty("tariff_id")
     private String tariffId;
     @JsonProperty("state_preactive")
-    private Double costStatePreActive;
+    private String costStatePreActive;
     @JsonProperty("state_live")
-    private Double costStateLive;
+    private String costStateLive;
     @JsonProperty("state_stopped")
-    private Double costStateStopped;
+    private String costStateStopped;
     @JsonProperty("state_suspended")
-    private Double costStateSuspended;
+    private String costStateSuspended;
     @JsonProperty("state_standby")
-    private Double costStateStandBy;
+    private String costStateStandBy;
     @JsonProperty("state_test")
-    private Double costStateTest;
+    private String costStateTest;
 
     public TariffCostPerState() {
     }
 
-    public TariffCostPerState(String tariffId, Double costStatePreActive, Double costStateLive, Double costStateStopped, Double costStateSuspended, Double costStateStandBy, Double costStateTest) {
+    public TariffCostPerState(String tariffId, String costStatePreActive, String costStateLive, String costStateStopped, String costStateSuspended, String costStateStandBy, String costStateTest) {
         this.tariffId = tariffId;
         this.costStatePreActive = costStatePreActive;
         this.costStateLive = costStateLive;
@@ -39,75 +39,75 @@ public class TariffCostPerState {
         this.tariffId = tariffId;
     }
 
-    public Double getCostStatePreActive() {
+    public String getCostStatePreActive() {
         return costStatePreActive;
     }
 
-    public void setCostStatePreActive(Double costStatePreActive) {
+    public void setCostStatePreActive(String costStatePreActive) {
         this.costStatePreActive = costStatePreActive;
     }
 
-    public Double getCostStateLive() {
+    public String getCostStateLive() {
         return costStateLive;
     }
 
-    public void setCostStateLive(Double costStateLive) {
+    public void setCostStateLive(String costStateLive) {
         this.costStateLive = costStateLive;
     }
 
-    public Double getCostStateStopped() {
+    public String getCostStateStopped() {
         return costStateStopped;
     }
 
-    public void setCostStateStopped(Double costStateStopped) {
+    public void setCostStateStopped(String costStateStopped) {
         this.costStateStopped = costStateStopped;
     }
 
-    public Double getCostStateSuspended() {
+    public String getCostStateSuspended() {
         return costStateSuspended;
     }
 
-    public void setCostStateSuspended(Double costStateSuspended) {
+    public void setCostStateSuspended(String costStateSuspended) {
         this.costStateSuspended = costStateSuspended;
     }
 
-    public Double getCostStateStandBy() {
+    public String getCostStateStandBy() {
         return costStateStandBy;
     }
 
-    public void setCostStateStandBy(Double costStateStandBy) {
+    public void setCostStateStandBy(String costStateStandBy) {
         this.costStateStandBy = costStateStandBy;
     }
 
-    public Double getCostStateTest() {
+    public String getCostStateTest() {
         return costStateTest;
     }
 
-    public void setCostStateTest(Double costStateTest) {
+    public void setCostStateTest(String costStateTest) {
         this.costStateTest = costStateTest;
     }
 
     public void setStateCost(String state, String cost){
-        double costOfState = Double.parseDouble(cost);
+        // double costOfState = Double.parseDouble(cost);
 
         if (state != null && state.length() > 0){
             switch (state.toUpperCase()){
                 case "PREACTIVE":
-                    setCostStatePreActive(costOfState);
+                    setCostStatePreActive(cost);
                     break;
                 case "LIVE":
-                    setCostStateLive(costOfState);
+                    setCostStateLive(cost);
                     break;
                 case "STOPPED":
-                    setCostStateStopped(costOfState);
+                    setCostStateStopped(cost);
                     break;
                 case "SUSPENDED":
-                    setCostStateSuspended(costOfState);
+                    setCostStateSuspended(cost);
                     break;
                 case "STANDBY":
-                    setCostStateStandBy(costOfState);
+                    setCostStateStandBy(cost);
                 case "TEST":
-                    setCostStateTest(costOfState);
+                    setCostStateTest(cost);
                 default:
             }
         }

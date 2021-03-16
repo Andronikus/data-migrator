@@ -13,6 +13,8 @@ import pt.andronikus.constants.MigrationFlag;
 import pt.andronikus.entities.ServiceInstance;
 import pt.andronikus.singletons.AppConfiguration;
 
+import java.util.Objects;
+
 public class ServiceInstanceRequestFactory {
     final static Logger LOGGER = LoggerFactory.getLogger(ServiceInstanceRequestFactory.class);
     final static String LOG_PREFIX = ServiceInstanceRequestFactory.class.getSimpleName() + " :: ";
@@ -149,7 +151,9 @@ public class ServiceInstanceRequestFactory {
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MAX_DAYS_UNTIL_ACTIVE, serviceInstance.getMaxDaysUntilActive());
 
         // APNs List
-        fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, serviceInstance.getApnList());
+        if (Objects.nonNull(serviceInstance.getApnList())){
+            fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, serviceInstance.getApnList());
+        }
 
         // mig flag
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, MigrationFlag.IN_MIGRATION);
