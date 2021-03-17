@@ -51,7 +51,6 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setMsisdn(resultSet.getString(ResourceTable.MSISDN));
         resource.setAgreementId(resultSet.getString(ResourceTable.AGREEMENT_ID));
         resource.setServiceInstanceId(resultSet.getString(ResourceTable.SERVICE_INSTANCE_ID));
-        resource.setResourceHomeNetwork(resultSet.getString(ResourceTable.RESOURCE_HOME_NETWORK));
         resource.setCatalogSpec(resultSet.getString(ResourceTable.CATALOG_SPEC));
         resource.setOfferSpec(resultSet.getString(ResourceTable.OFFER_SPEC));
         resource.setSecondaryMsisdn(resultSet.getString(ResourceTable.SECONDARY_MSISDN));
@@ -62,10 +61,10 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setReactivateCommStatus(resultSet.getString(ResourceTable.REACTIVATE_COMM_STATUS));
 
         Resource.CommServices commServices = new Resource.CommServices();
-        commServices.setDataPsService(resultSet.getString(ResourceTable.DATA_PS_SERVICE));
-        commServices.setDataCsService(resultSet.getString(ResourceTable.DATA_CS_SERVICE));
-        commServices.setSmsService(resultSet.getString(ResourceTable.SMS_SERVICE));
-        commServices.setVoiceService(resultSet.getString(ResourceTable.VOICE_SERVICE));
+        commServices.setDataPsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_PS_SERVICE)));
+        commServices.setDataCsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_CS_SERVICE)));
+        commServices.setSmsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.SMS_SERVICE)));
+        commServices.setVoiceService(Boolean.parseBoolean(resultSet.getString(ResourceTable.VOICE_SERVICE)));
         resource.setCommServices(commServices);
 
         Resource.TariffPlans tariffPlans = new Resource.TariffPlans();
@@ -76,12 +75,8 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setTariffPlans(tariffPlans);
 
         resource.setAdminResourceStatus(resultSet.getString(ResourceTable.ADMIN_RESOURCE_STATUS));
-        resource.setCreationDate(resultSet.getString(ResourceTable.CREATION_DATE));
         resource.setFirstActivationDate(resultSet.getString(ResourceTable.FIRST_ACTIVATION_DATE));
-        resource.setDesignation(resultSet.getString(ResourceTable.DESIGNATION));
         resource.setRoamingStatus(resultSet.getString(ResourceTable.ROAMING_STATUS));
-        resource.setEndpoint(resultSet.getString(ResourceTable.ENDPOINT));
-        resource.setEndpointGroups(resultSet.getString(ResourceTable.ENDPOINT_GROUPS));
 
         Resource.ApnInfo apnInfo = new Resource.ApnInfo();
         apnInfo.setApnId(resultSet.getString(ResourceTable.APN_ID));

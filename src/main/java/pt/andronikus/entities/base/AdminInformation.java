@@ -1,5 +1,7 @@
 package pt.andronikus.entities.base;
 
+import pt.andronikus.utils.WhenNullValueThen;
+
 public class AdminInformation {
     private String adminName;
     private String adminLogin;
@@ -14,7 +16,7 @@ public class AdminInformation {
     }
 
     public void setAdminName(String adminName) {
-        this.adminName = adminName;
+        this.adminName = WhenNullValueThen.setStringOrInAbsence(adminName, "");
     }
 
     public String getAdminLogin() {
@@ -22,7 +24,7 @@ public class AdminInformation {
     }
 
     public void setAdminLogin(String adminLogin) {
-        this.adminLogin = adminLogin;
+        this.adminLogin = WhenNullValueThen.setStringOrInAbsence(adminLogin, "");
     }
 
     public String getAdminMobile() {
@@ -30,7 +32,7 @@ public class AdminInformation {
     }
 
     public void setAdminMobile(String adminMobile) {
-        this.adminMobile = adminMobile;
+        this.adminMobile = WhenNullValueThen.setStringOrInAbsence(adminMobile, "");
     }
 
     public String getAdminEmail() {
@@ -38,7 +40,7 @@ public class AdminInformation {
     }
 
     public void setAdminEmail(String adminEmail) {
-        this.adminEmail = adminEmail;
+        this.adminEmail = WhenNullValueThen.setStringOrInAbsence(adminEmail, "") ;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ResourceRequestFactory {
 
         orderItem.setAgreementId(resource.getAgreementId());
         // TODO how to construct this
-        orderItem.setParentAgreementId("Parent agreement id");
+        orderItem.setParentAgreementId(resource.getParentAgreementId());
         orderItem.setCatalogSpec(resource.getCatalogSpec());
         orderItem.setOfferSpec(resource.getOfferSpec());
 
@@ -90,7 +90,11 @@ public class ResourceRequestFactory {
 
         // TODO is a list? what is the format of string to parse?
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, resource.getApnInfo());
-        fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FULFILLED_LOYALTY, resource.getLoyaltyPeriodRemaining());
+
+        // TODO Need to make the calculation of this value
+        if(Objects.nonNull(resource.getLoyaltyPeriodRemaining())){
+            fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FULFILLED_LOYALTY, resource.getLoyaltyPeriodRemaining());
+        }
 
         if(Objects.nonNull(resource.getLoyaltyLastUpdate())){
             fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_LOY_LAST_UPDATE_DATE, resource.getLoyaltyLastUpdate());

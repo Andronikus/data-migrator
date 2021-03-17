@@ -1,12 +1,14 @@
 package pt.andronikus.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.andronikus.entities.base.BaseEntity;
+import pt.andronikus.utils.WhenNullValueThen;
 
 public class Resource extends BaseEntity {
     private String msisdn;
     private String agreementId;
+    private String parentAgreementId;
     private String serviceInstanceId;
-    private String resourceHomeNetwork;
     private String catalogSpec;
     private String offerSpec;
     private String secondaryMsisdn;
@@ -15,20 +17,12 @@ public class Resource extends BaseEntity {
     private Boolean testingLifeCycleEnabled;
     private String commStatus;
     private String reactivateCommStatus;
-
     private CommServices commServices;
     private TariffPlans tariffPlans;
-
     private String adminResourceStatus;
-    private String creationDate;
     private String firstActivationDate;
-    private String designation;
     private String roamingStatus;
-    private String endpoint;
-    private String endpointGroups;
-
     private ApnInfo apnInfo;
-
     private String loyaltyPeriodRemaining;
     private String loyaltyLastUpdate;
 
@@ -57,14 +51,6 @@ public class Resource extends BaseEntity {
 
     public void setServiceInstanceId(String serviceInstanceId) {
         this.serviceInstanceId = serviceInstanceId;
-    }
-
-    public String getResourceHomeNetwork() {
-        return resourceHomeNetwork;
-    }
-
-    public void setResourceHomeNetwork(String resourceHomeNetwork) {
-        this.resourceHomeNetwork = resourceHomeNetwork;
     }
 
     public String getCatalogSpec() {
@@ -120,7 +106,8 @@ public class Resource extends BaseEntity {
     }
 
     public void setCommStatus(String commStatus) {
-        this.commStatus = commStatus;
+
+        this.commStatus = commStatus != null ? commStatus.toUpperCase() : "";
     }
 
     public String getReactivateCommStatus() {
@@ -155,14 +142,6 @@ public class Resource extends BaseEntity {
         this.adminResourceStatus = adminResourceStatus;
     }
 
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public String getFirstActivationDate() {
         return firstActivationDate;
     }
@@ -171,36 +150,12 @@ public class Resource extends BaseEntity {
         this.firstActivationDate = firstActivationDate;
     }
 
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
     public String getRoamingStatus() {
         return roamingStatus;
     }
 
     public void setRoamingStatus(String roamingStatus) {
         this.roamingStatus = roamingStatus;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    public String getEndpointGroups() {
-        return endpointGroups;
-    }
-
-    public void setEndpointGroups(String endpointGroups) {
-        this.endpointGroups = endpointGroups;
     }
 
     public ApnInfo getApnInfo() {
@@ -227,44 +182,52 @@ public class Resource extends BaseEntity {
         this.loyaltyLastUpdate = loyaltyLastUpdate;
     }
 
+    public String getParentAgreementId() {
+        return parentAgreementId;
+    }
+
+    public void setParentAgreementId(String parentAgreementId) {
+        this.parentAgreementId = parentAgreementId;
+    }
+
     public static class CommServices {
-        private String smsService;
-        private String voiceService;
-        private String dataCsService;
-        private String dataPsService;
+        private Boolean smsService;
+        private Boolean voiceService;
+        private Boolean dataCsService;
+        private Boolean dataPsService;
 
         public CommServices() {
         }
 
-        public String getSmsService() {
+        public Boolean getSmsService() {
             return smsService;
         }
 
-        public void setSmsService(String smsService) {
+        public void setSmsService(Boolean smsService) {
             this.smsService = smsService;
         }
 
-        public String getVoiceService() {
+        public Boolean getVoiceService() {
             return voiceService;
         }
 
-        public void setVoiceService(String voiceService) {
+        public void setVoiceService(Boolean voiceService) {
             this.voiceService = voiceService;
         }
 
-        public String getDataCsService() {
+        public Boolean getDataCsService() {
             return dataCsService;
         }
 
-        public void setDataCsService(String dataCsService) {
+        public void setDataCsService(Boolean dataCsService) {
             this.dataCsService = dataCsService;
         }
 
-        public String getDataPsService() {
+        public Boolean getDataPsService() {
             return dataPsService;
         }
 
-        public void setDataPsService(String dataPsService) {
+        public void setDataPsService(Boolean dataPsService) {
             this.dataPsService = dataPsService;
         }
 
@@ -332,9 +295,13 @@ public class Resource extends BaseEntity {
     }
 
     public static class ApnInfo {
+        @JsonProperty("identifier")
         private String apnId;
+        @JsonProperty("index")
         private String apnIndex;
+        @JsonProperty("type")
         private String apnType;
+        @JsonProperty("qos")
         private String apnQos;
 
         public ApnInfo() {
@@ -345,7 +312,7 @@ public class Resource extends BaseEntity {
         }
 
         public void setApnId(String apnId) {
-            this.apnId = apnId;
+            this.apnId = WhenNullValueThen.setStringOrInAbsence(apnId,"");;
         }
 
         public String getApnIndex() {
@@ -353,7 +320,7 @@ public class Resource extends BaseEntity {
         }
 
         public void setApnIndex(String apnIndex) {
-            this.apnIndex = apnIndex;
+            this.apnIndex = WhenNullValueThen.setStringOrInAbsence(apnIndex,"");
         }
 
         public String getApnType() {
@@ -361,7 +328,7 @@ public class Resource extends BaseEntity {
         }
 
         public void setApnType(String apnType) {
-            this.apnType = apnType;
+            this.apnType = WhenNullValueThen.setStringOrInAbsence(apnType,"");
         }
 
         public String getApnQos() {
@@ -369,7 +336,7 @@ public class Resource extends BaseEntity {
         }
 
         public void setApnQos(String apnQos) {
-            this.apnQos = apnQos;
+            this.apnQos = WhenNullValueThen.setStringOrInAbsence(apnQos,"");
         }
 
         @Override

@@ -54,47 +54,53 @@ class ResourceRequestFactoryTest {
     private Resource createResource(){
         Resource resource = new Resource();
 
-        resource.setOrderCorrelationId("MIG_" + UUID.randomUUID().toString());
-        resource.setCorrelationId("MIG_RESOURCE_" + UUID.randomUUID().toString());
+        resource.setOrderCorrelationId("MIG_RSC_" + UUID.randomUUID().toString());
+        resource.setCorrelationId("MIG_" + UUID.randomUUID().toString());
 
-        resource.setOperatorId(1);
-        resource.setMsisdn("345789446");
-        resource.setAgreementId("agreement");
-        resource.setServiceInstanceId("serviceInstance");
-        resource.setResourceHomeNetwork("MEO");
-        resource.setCatalogSpec("catalogSpec");
-        resource.setOfferSpec("OfferSpec");
-        resource.setSecondaryMsisdn(null);
-        resource.setIccid("56743523523");
-        resource.setServiceResourceStatus("ACTIVE");
+        resource.setAgreementId("MIG9_" + UUID.randomUUID().toString());
+        // comes from service instance (agreement)
+        resource.setParentAgreementId("MIG_e77feb26-1909-4cd5-a071-f5c1a4d22f44");
+        resource.setCatalogSpec("5dc1c6bd705297252bfd1562");
+        resource.setOfferSpec("5e2f27d2705297c8ecf78d3a");
+
+
+        resource.setIccid("89331042180222471503");
+        resource.setMsisdn("07000222471503");
+        resource.setSecondaryMsisdn("07000222471503");
+        resource.setServiceResourceStatus("active");
         resource.setTestingLifeCycleEnabled(true);
-        resource.setCommStatus("commStatus");
-        resource.setReactivateCommStatus("reactive comm status");
+        resource.setCommStatus("active");
+        resource.setReactivateCommStatus("manual");
+        resource.setRoamingStatus("ALLOW");
 
         Resource.CommServices commServices = new Resource.CommServices();
-        commServices.setDataPsService("45");
-        commServices.setDataCsService("67");
-        commServices.setSmsService("78");
+        commServices.setDataPsService(true);
+        commServices.setDataCsService(true);
+        commServices.setSmsService(true);
         commServices.setVoiceService(null);
         resource.setCommServices(commServices);
 
         Resource.TariffPlans tariffPlans = new Resource.TariffPlans();
-        tariffPlans.setDataPsTariffPlan("80002");
-        tariffPlans.setDataCsTariffPlan("80001");
-        tariffPlans.setSmsTariffPlan("80003");
+        tariffPlans.setDataPsTariffPlan("81002");
+        tariffPlans.setDataCsTariffPlan("83001");
+        tariffPlans.setSmsTariffPlan("84001");
         tariffPlans.setVoiceTariffPlan(null);
         resource.setTariffPlans(tariffPlans);
 
-        resource.setAdminResourceStatus("ACTIVE");
-        resource.setCreationDate("2020-05-26T14:14:06.019Z");
         resource.setFirstActivationDate("2020-05-26T14:14:06.019Z");
-        resource.setDesignation("");
-        resource.setRoamingStatus("");
-        resource.setEndpoint("");
-        resource.setEndpointGroups("");
 
         Resource.ApnInfo apnInfo = new Resource.ApnInfo();
-        apnInfo.setApnQos("");
+        apnInfo.setApnId("m2minternet");
+        apnInfo.setApnIndex("01877");
+        apnInfo.setApnType("PUBLIC");
+        apnInfo.setApnQos(null);
+        resource.setApnInfo(apnInfo);
+
+
+        resource.setLoyaltyPeriodRemaining("60");
+        resource.setLoyaltyLastUpdate("2020-05-26T14:14:06.019Z");
+
+        resource.setAdminResourceStatus("ACTIVE");
 
         return resource;
     }

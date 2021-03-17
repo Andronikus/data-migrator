@@ -1,12 +1,17 @@
 package pt.andronikus.client.factory;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pt.andronikus.client.dto.AgreementOrderItem;
+import pt.andronikus.client.enums.OperationType;
+import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.request.ServiceInstanceRequest;
 import pt.andronikus.client.utils.JSONUtils;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
+import pt.andronikus.constants.Global;
 import pt.andronikus.entities.ServiceInstance;
 import pt.andronikus.entities.base.*;
 import pt.andronikus.enums.AdministrativeStatus;
@@ -20,38 +25,94 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceInstanceRequestFactoryTest {
-    private static boolean alreadySetUp = false;
-    private ServiceInstance serviceInstance;
 
-    @BeforeEach
-    void setUp() {
-        if(!alreadySetUp){
-            this.serviceInstance = createServiceInstance();
+    @BeforeAll
+    static void initialize(){
+        CallbackServerConfiguration callbackCfg = new CallbackServerConfiguration();
+        callbackCfg.setIpAddress("10.112.45.21");
+        callbackCfg.setPort(7777);
+        callbackCfg.setEndpoint("fulfillment");
 
-            CallbackServerConfiguration callbackCfg = new CallbackServerConfiguration();
-            callbackCfg.setIpAddress("10.112.45.21");
-            callbackCfg.setPort(7777);
-            callbackCfg.setEndpoint("fulfillment");
+        MigrationProcessInfo mig = new MigrationProcessInfo();
+        mig.setOrderSource("MIG-R8-R9");
+        mig.setChannel("M2M-MIG");
 
-            MigrationProcessInfo mig = new MigrationProcessInfo();
-            mig.setOrderSource("MIG-R8-R9");
-            mig.setChannel("M2M-MIG");
+        InvokatorConfiguration cfg = new InvokatorConfiguration();
+        cfg.setCallbackServerConfiguration(callbackCfg);
+        cfg.setMigrationProcessInfo(mig);
 
-            InvokatorConfiguration cfg = new InvokatorConfiguration();
-            cfg.setCallbackServerConfiguration(callbackCfg);
-            cfg.setMigrationProcessInfo(mig);
-
-            AppConfiguration.INSTANCE.setAppCfg(cfg);
-
-            alreadySetUp = true;
-        }
+        AppConfiguration.INSTANCE.setAppCfg(cfg);
     }
 
     @Test
     void shouldCreateRequestHaveAValidServiceInstanceOrderItem() {
-        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceCreateRequest(this.serviceInstance);
+        ServiceInstance serviceInstance = createServiceInstance();
 
-        System.out.println(JSONUtils.toJSON(request));
+        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceCreateRequest(serviceInstance);
+
+        assertTrue(request.getOrderExternalId().length() > 0);
+        assertEquals(request.getOrderSource(), AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE));
+        assertEquals(request.getOrderCorrelationId(), serviceInstance.getOrderCorrelationId());
+        assertEquals(request.getExtChannel(), AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL));
+
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getOperation(), OperationType.CREATE);
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getCorrelationId(), serviceInstance.getCorrelationId());
+        assertEquals(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getAgreementId(), serviceInstance.getAgreementId());
+        assertTrue(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getOfferParams().contains("\"migFlag\":\"1\""));
+
+        // System.out.println(JSONUtils.toJSON(request));
+    }
+
+    @Test
+    void shouldBeAValidSuspendRequest(){
+
+        ServiceInstance serviceInstance = createServiceInstance();
+
+        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceSuspendRequest(serviceInstance);
+
+        assertTrue(request.getOrderExternalId().length() > 0);
+        assertEquals(request.getOrderSource(), AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE));
+        assertEquals(request.getOrderCorrelationId(), serviceInstance.getOrderCorrelationId());
+        assertEquals(request.getExtChannel(), AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL));
+
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getOperation(), OperationType.SUSPEND);
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getCorrelationId(), serviceInstance.getCorrelationId());
+        assertEquals(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getAgreementId(), serviceInstance.getAgreementId());
+        // System.out.println(JSONUtils.toJSON(request));
+    }
+
+    @Test
+    void shouldBeAValidUpdateRequest(){
+        ServiceInstance serviceInstance = createServiceInstance();
+        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceUpdateRequest(serviceInstance);
+
+        assertTrue(request.getOrderExternalId().length() > 0);
+        assertEquals(request.getOrderSource(), AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE));
+        assertEquals(request.getOrderCorrelationId(), serviceInstance.getOrderCorrelationId());
+        assertEquals(request.getExtChannel(), AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL));
+
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getOperation(), OperationType.UPDATE);
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getCorrelationId(), serviceInstance.getCorrelationId());
+        assertEquals(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getAgreementId(), serviceInstance.getAgreementId());
+        assertTrue(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getOfferParams().contains("{\"fulfillment_parameters\":{\"migFlag\":\"-1\"}}"));
+        // System.out.println(JSONUtils.toJSON(request));
+    }
+
+    @Test
+    void shouldBeAValidUpdateSuspendRequest(){
+        ServiceInstance serviceInstance = createServiceInstance();
+        ServiceInstanceRequest request = ServiceInstanceRequestFactory.getServiceInstanceUpdateSuspendRequest(serviceInstance);
+
+        assertTrue(request.getOrderExternalId().length() > 0);
+        assertEquals(request.getOrderSource(), AppConfiguration.INSTANCE.getConfiguration(Global.ORDER_SOURCE));
+        assertEquals(request.getOrderCorrelationId(), serviceInstance.getOrderCorrelationId());
+        assertEquals(request.getExtChannel(), AppConfiguration.INSTANCE.getConfiguration(Global.CHANNEL));
+
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getOperation(), OperationType.UPDATE_SUSPEND);
+        assertEquals(request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM).getCorrelationId(), serviceInstance.getCorrelationId());
+        assertEquals(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getAgreementId(), serviceInstance.getAgreementId());
+        assertTrue(((AgreementOrderItem)request.getOrderItems().get(OrderItemType.AGREEMENT_ORDER_ITEM)).getOfferParams().contains("{\"fulfillment_parameters\":{\"migFlag\":\"-1\"}}"));
+        // System.out.println(JSONUtils.toJSON(request));
     }
 
     private ServiceInstance createServiceInstance() {

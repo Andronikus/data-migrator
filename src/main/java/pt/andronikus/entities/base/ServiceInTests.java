@@ -1,50 +1,50 @@
 package pt.andronikus.entities.base;
 
 public class ServiceInTests {
-    private boolean dataPsServiceInTests;
-    private boolean dataCsServiceInTests;
-    private boolean voiceServiceInTests;
-    private boolean smsServiceInTests;
+    private Boolean dataPsServiceInTests;
+    private Boolean dataCsServiceInTests;
+    private Boolean voiceServiceInTests;
+    private Boolean smsServiceInTests;
 
     public ServiceInTests() {
     }
 
-    public ServiceInTests(boolean dataPsServiceInTests, boolean dataCsServiceInTests, boolean voiceServiceInTests, boolean smsServiceInTests) {
+    public ServiceInTests(Boolean dataPsServiceInTests, Boolean dataCsServiceInTests, Boolean voiceServiceInTests, Boolean smsServiceInTests) {
         this.dataPsServiceInTests = dataPsServiceInTests;
         this.dataCsServiceInTests = dataCsServiceInTests;
         this.voiceServiceInTests = voiceServiceInTests;
         this.smsServiceInTests = smsServiceInTests;
     }
 
-    public boolean isDataPsServiceInTests() {
+    public Boolean getDataPsServiceInTests() {
         return dataPsServiceInTests;
     }
 
-    public void setDataPsServiceInTests(boolean dataPsServiceInTests) {
+    public void setDataPsServiceInTests(Boolean dataPsServiceInTests) {
         this.dataPsServiceInTests = dataPsServiceInTests;
     }
 
-    public boolean isDataCsServiceInTests() {
+    public Boolean getDataCsServiceInTests() {
         return dataCsServiceInTests;
     }
 
-    public void setDataCsServiceInTests(boolean dataCsServiceInTests) {
+    public void setDataCsServiceInTests(Boolean dataCsServiceInTests) {
         this.dataCsServiceInTests = dataCsServiceInTests;
     }
 
-    public boolean isVoiceServiceInTests() {
+    public Boolean getVoiceServiceInTests() {
         return voiceServiceInTests;
     }
 
-    public void setVoiceServiceInTests(boolean voiceServiceInTests) {
+    public void setVoiceServiceInTests(Boolean voiceServiceInTests) {
         this.voiceServiceInTests = voiceServiceInTests;
     }
 
-    public boolean isSmsServiceInTests() {
+    public Boolean getSmsServiceInTests() {
         return smsServiceInTests;
     }
 
-    public void setSmsServiceInTests(boolean smsServiceInTests) {
+    public void setSmsServiceInTests(Boolean smsServiceInTests) {
         this.smsServiceInTests = smsServiceInTests;
     }
 

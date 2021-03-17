@@ -1,5 +1,7 @@
 package pt.andronikus.entities.base;
 
+import pt.andronikus.utils.WhenNullValueThen;
+
 public class RoamingInfo {
     private boolean roamingEnabled;
     private String initialRoamingStatus;
@@ -9,7 +11,7 @@ public class RoamingInfo {
 
     public RoamingInfo(boolean roamingEnabled, String initialRoamingStatus) {
         this.roamingEnabled = roamingEnabled;
-        this.initialRoamingStatus = initialRoamingStatus;
+        this.initialRoamingStatus = WhenNullValueThen.setStringOrInAbsence(initialRoamingStatus,"").toUpperCase();
     }
 
     public boolean isRoamingEnabled() {
@@ -25,7 +27,7 @@ public class RoamingInfo {
     }
 
     public void setInitialRoamingStatus(String initialRoamingStatus) {
-        this.initialRoamingStatus = initialRoamingStatus;
+        this.initialRoamingStatus = WhenNullValueThen.setStringOrInAbsence(initialRoamingStatus,"").toUpperCase();
     }
 
     @Override
