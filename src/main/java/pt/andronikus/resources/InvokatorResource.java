@@ -5,8 +5,7 @@ import pt.andronikus.api.StatusResponse;
 import pt.andronikus.dao.impl.CustomerDaoImpl;
 import pt.andronikus.database.ConnectionPool;
 import pt.andronikus.singletons.Migration;
-import pt.andronikus.thread.CreateCustomerThread;
-import pt.andronikus.thread.MigrationThread;
+import pt.andronikus.thread.CustomerThread;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,7 +31,7 @@ public class InvokatorResource {
                 if(Migration.INSTANCE.getStatus().equals(Migration.Status.STOPPED)){
                     Migration.INSTANCE.start();
                     // Thread newThread = new Thread(new MigrationThread());
-                    Thread customerCreation = new Thread(new CreateCustomerThread());
+                    Thread customerCreation = new Thread(new CustomerThread());
                     customerCreation.start();
                 }
                 break;

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ServiceInstanceDao {
     List<ServiceInstance> getServiceInstanceToCreate(int nbrRecordsToLoad);
+    List<ServiceInstance> getServiceInstanceToClose(int nbrRecordsToLoad);
     boolean updateServiceInstanceMigrationState(ServiceInstance serviceInstance, String migrationStatus);
 
     ServiceInstance getServiceInstance();

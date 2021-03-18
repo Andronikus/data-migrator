@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.constants.Global;
 import pt.andronikus.dao.ResourceDao;
+import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.database.tables.ResourceTable;
+import pt.andronikus.database.tables.ServiceInstanceTable;
 import pt.andronikus.entities.Resource;
 import pt.andronikus.singletons.AppConfiguration;
 
@@ -33,6 +35,16 @@ public class ResourceDaoImpl implements ResourceDao {
             AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
             ResourceTable.OPERATOR_ID,
             ResourceTable.ORDER_CORRELATION_ID);
+
+    public final static String GET_RESOURCE_TO_CLOSE = String.format("SELECT * FROM %s WHERE %s = %s AND ROWNUM < ?",
+            ResourceTable.VW_RESOURCE_TO_CLOSE,
+            ResourceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION));
+
+    public final static String GET_RESOURCE_TO_SUSPEND = String.format("SELECT * FROM %s WHERE %s = %s AND ROWNUM < ?",
+            ResourceTable.VW_RESOURCE_TO_SUSPEND,
+            ResourceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION));
 
     public ResourceDaoImpl(Connection connection) {
         this.connection = connection;
@@ -73,6 +85,73 @@ public class ResourceDaoImpl implements ResourceDao {
     }
 
     @Override
+    public List<Resource> getResourceToClose(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getResourceToSuspendOrClose ";
+
+        List<Resource> resources = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return resources;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_RESOURCE_TO_CLOSE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    resources.add(createLiteResource(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return resources;
+    }
+
+    @Override
+    public List<Resource> getResourceToSuspend(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getResourceToSuspend ";
+
+        List<Resource> resources = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return resources;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_RESOURCE_TO_SUSPEND)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    resources.add(createLiteResource(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+        return resources;
+    }
+
+    @Override
     public boolean updateResourceMigrationState(Resource resource, String migrationStatus) {
         final String METHOD_NAME = LOG_PREFIX + " updateResourceMigrationState ";
 
@@ -94,6 +173,19 @@ public class ResourceDaoImpl implements ResourceDao {
         }
 
         return false;
+    }
+
+    private Resource createLiteResource(ResultSet resultSet) throws SQLException {
+        Resource resource = new Resource();
+
+        resource.setOperatorId(resultSet.getInt(ResourceTable.OPERATOR_ID));
+        resource.setAgreementId(resultSet.getString(ResourceTable.AGREEMENT_ID));
+        resource.setCorrelationId(resultSet.getString(ResourceTable.CORRELATION_ID));
+        resource.setOrderCorrelationId(resultSet.getString(ResourceTable.ORDER_CORRELATION_ID));
+        resource.setMigStatus(resultSet.getString(ResourceTable.MIG_STATUS));
+        resource.setAdminResourceStatus(resultSet.getString(ResourceTable.ADMIN_RESOURCE_STATUS));
+
+        return resource;
     }
 
     private Resource createResource(ResultSet resultSet) throws SQLException {

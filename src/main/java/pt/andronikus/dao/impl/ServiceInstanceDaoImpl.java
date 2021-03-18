@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.constants.Global;
 import pt.andronikus.dao.ServiceInstanceDao;
+import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.database.tables.ServiceInstanceTable;
 import pt.andronikus.entities.ServiceInstance;
 import pt.andronikus.entities.base.*;
@@ -42,6 +43,11 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
             ServiceInstanceTable.SERVICE_INSTANCE_ID,
             ServiceInstanceTable.ORDER_CORRELATION_ID);
 
+    public final static String GET_SERVICE_INSTANCE_TO_CLOSE = String.format("SELECT * FROM %s WHERE %s = %s AND ROWNUM < ?",
+            ServiceInstanceTable.VW_SERVICE_INST_TO_CLOSE,
+            CustomerTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION));
+
     @Override
     public List<ServiceInstance> getServiceInstanceToCreate(int nbrRecordsToLoad) {
         final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceToCreate ";
@@ -62,6 +68,40 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
             try(ResultSet resultSet = stm.executeQuery()){
                 while (resultSet.next()){
                     serviceInstances.add(createServiceInstance(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return serviceInstances;
+    }
+
+    @Override
+    public List<ServiceInstance> getServiceInstanceToClose(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceToClose ";
+
+        List<ServiceInstance> serviceInstances = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return serviceInstances;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_SERVICE_INSTANCE_TO_CLOSE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    serviceInstances.add(createLiteServiceInstance(resultSet));
                 }
             }
         } catch (SQLException sqlException) {
@@ -121,6 +161,19 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
 
         return null;
     }
+
+    private ServiceInstance createLiteServiceInstance(ResultSet resultSet) throws SQLException {
+        ServiceInstance service = new ServiceInstance();
+
+        service.setOperatorId(resultSet.getInt(ServiceInstanceTable.OPERATOR_ID));
+        service.setServiceInstanceId(resultSet.getString(ServiceInstanceTable.SERVICE_INSTANCE_ID));
+        service.setAgreementId(resultSet.getString(ServiceInstanceTable.AGREEMENT_ID));
+        service.setCorrelationId(resultSet.getString(ServiceInstanceTable.CORRELATION_ID));
+        service.setOrderCorrelationId(resultSet.getString(ServiceInstanceTable.ORDER_CORRELATION_ID));
+
+        return service;
+    }
+
 
     private ServiceInstance createServiceInstance(ResultSet resultSet) throws SQLException {
         ServiceInstance service = new ServiceInstance();

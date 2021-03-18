@@ -7,6 +7,7 @@ import pt.andronikus.singletons.AppConfiguration;
 public class CustomerTable {
     public final static String CUSTOMER = "CDM_CUSTOMER";
     public final static String VW_CUSTOMER_TO_CREATE = "VW_CUSTOMER_TO_CREATE";
+    public final static String VW_CUSTOMER_TO_CLOSE = "VW_CUSTOMER_TO_CLOSE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";

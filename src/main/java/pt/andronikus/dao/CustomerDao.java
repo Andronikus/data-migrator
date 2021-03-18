@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface CustomerDao {
     List<Customer> getCustomerToCreate(int nbrRecordsToLoad);
+    List<Customer> getCustomerToClose(int nbrRecordsToLoad);
     boolean updateCustomerMigrationState(Customer customer, String migrationStatus);
 
 }

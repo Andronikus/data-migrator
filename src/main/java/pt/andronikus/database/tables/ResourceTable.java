@@ -3,6 +3,8 @@ package pt.andronikus.database.tables;
 public class ResourceTable {
     public final static String CDM_RESOURCE = "CDM_RESOURCE";
     public final static String VW_RESOURCE_TO_CREATE = "VW_RESOURCE_TO_CREATE";
+    public final static String VW_RESOURCE_TO_CLOSE = "VW_RESOURCE_TO_CLOSE";
+    public final static String VW_RESOURCE_TO_SUSPEND = "VW_RESOURCE_TO_SUSPEND";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";

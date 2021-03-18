@@ -3,6 +3,7 @@ package pt.andronikus.database.tables;
 public class BillingAccountTable {
     public final static String CDM_BILLING_ACCOUNT = "CDM_BILLING_ACCOUNT";
     public final static String VW_BILLING_ACC_TO_CREATE = "VW_BILLING_ACC_TO_CREATE";
+    public final static String VW_BILLING_ACC_TO_CLOSE = "VW_BILLING_ACC_TO_CLOSE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";

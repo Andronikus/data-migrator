@@ -6,5 +6,7 @@ public enum MigrationStatus {
     CREATED,
     WAITING_CLOSE,
     CLOSED,
-    ERROR
+    ERROR,
+    WAITING_SUSPENDED,
+    SUSPENDED
 }

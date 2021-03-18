@@ -32,6 +32,11 @@ public class CustomerDaoImpl implements CustomerDao {
             CustomerTable.CUSTOMER_ID,
             CustomerTable.ORDER_CORRELATION_ID);
 
+    public final static String GET_CUSTOMER_TO_CLOSE = String.format("SELECT * FROM %s WHERE %s = %s AND ROWNUM < ?",
+            CustomerTable.VW_CUSTOMER_TO_CLOSE,
+            CustomerTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION));
+
     public CustomerDaoImpl(Connection connection) {
         this.connection = connection;
     }
@@ -70,6 +75,39 @@ public class CustomerDaoImpl implements CustomerDao {
         return customers;
     }
 
+    @Override
+    public List<Customer> getCustomerToClose(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getCustomerToClose ";
+
+        List<Customer> customers = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return customers;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_CUSTOMER_TO_CLOSE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    customers.add(createCustomer(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
 
     @Override
     public boolean updateCustomerMigrationState(Customer customer, String migrationStatus) {

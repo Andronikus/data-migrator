@@ -3,6 +3,7 @@ package pt.andronikus.database.tables;
 public class ServiceInstanceTable {
     public final static String CDM_SERVICE_INSTANCE = "CDM_SERVICE_INSTANCE";
     public final static String VW_SERVICE_INST_TO_CREATE = "VW_SERVICE_INST_TO_CREATE";
+    public final static String VW_SERVICE_INST_TO_CLOSE = "VW_SERVICE_INST_TO_CLOSE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";

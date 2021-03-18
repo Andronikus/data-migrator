@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pt.andronikus.constants.Global;
 import pt.andronikus.dao.BillingAccountDao;
 import pt.andronikus.database.tables.BillingAccountTable;
+import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.singletons.AppConfiguration;
 
@@ -35,6 +36,11 @@ public class BillingAccountDaoImpl implements BillingAccountDao {
             BillingAccountTable.ACCOUNT_ID,
             BillingAccountTable.ORDER_CORRELATION_ID);
 
+    public final static String GET_BILLING_ACCOUNT_TO_CLOSE = String.format("SELECT * FROM %s WHERE %s = %s AND ROWNUM < ?",
+            BillingAccountTable.VW_BILLING_ACC_TO_CLOSE,
+            CustomerTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION));
+
 
     public BillingAccountDaoImpl(Connection connection) {
         this.connection = connection;
@@ -54,6 +60,40 @@ public class BillingAccountDaoImpl implements BillingAccountDao {
         }
 
         try(PreparedStatement stm = connection.prepareStatement(GET_BILLING_ACCOUNT_TO_CREATE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    billingAccounts.add(createBillingAccount(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return billingAccounts;
+    }
+
+    @Override
+    public List<BillingAccount> getBillingAccountToClose(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getBillingAccountToClose ";
+
+        List<BillingAccount> billingAccounts = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return billingAccounts;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_BILLING_ACCOUNT_TO_CLOSE)){
 
             stm.setInt(1, nbrRecordsToLoad + 1);
 
