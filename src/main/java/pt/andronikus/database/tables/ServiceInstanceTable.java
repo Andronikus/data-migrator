@@ -2,6 +2,7 @@ package pt.andronikus.database.tables;
 
 public class ServiceInstanceTable {
     public final static String CDM_SERVICE_INSTANCE = "CDM_SERVICE_INSTANCE";
+    public final static String VW_SERVICE_INST_TO_CREATE = "VW_SERVICE_INST_TO_CREATE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";
@@ -100,7 +101,5 @@ public class ServiceInstanceTable {
     public final static String ORDER_CORRELATION_ID = "ORDER_CORRELATION_ID";
     public final static String MIG_FLAG = "MIG_FLAG";
     public final static String MIG_STATUS = "MIG_STATUS";
-
-    // queries
-    public final static String GET_SERVICE_INSTANCE = String.format("SELECT * FROM %s where %s=?", CDM_SERVICE_INSTANCE, PF);
+    public static final Object CREATED_AT = "CREATED_AT";
 }

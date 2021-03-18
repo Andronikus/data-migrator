@@ -4,37 +4,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.constants.Global;
 import pt.andronikus.dao.CustomerDao;
-import pt.andronikus.database.tables.AsmOrdersTable;
 import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.entities.Customer;
-import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.AppConfiguration;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public class CustomerDaoImpl implements CustomerDao {
     private final Logger LOGGER = LoggerFactory.getLogger(CustomerDaoImpl.class);
     private final String LOG_PREFIX = CustomerDaoImpl.class.getSimpleName() + " :: ";
     private final Connection connection;
 
-
-    public final static String GET_CUSTOMER_TO_CREATE = String.format("SELECT * FROM (SELECT * FROM %s WHERE %s = %s AND %s = '%s' ORDER BY %s ASC) WHERE ROWNUM < 2",
-            CustomerTable.CUSTOMER,
+    public final static String GET_CUSTOMER_TO_CREATE = String.format("SELECT * FROM (SELECT * FROM %s WHERE %s = %s ORDER BY %s ASC) WHERE ROWNUM < ?",
+            CustomerTable.VW_CUSTOMER_TO_CREATE,
             CustomerTable.PF,
             AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
-            CustomerTable.MIG_STATUS,
-            MigrationStatus.NEW.name(),
             CustomerTable.CREATED_AT);
 
-    public final static String UPDATE_CUSTOMER_STATE = String.format("UPDATE %s set %s = ?, UPDATED_AT = SYSDATE where %s = %s and %s = ? and %s = ?",
+    public final static String UPDATE_CUSTOMER_STATE = String.format("UPDATE %s set %s = ?, UPDATED_AT = SYSDATE where %s = %s and %s = ? and %s = ? and %s = ?",
             CustomerTable.CUSTOMER,
             CustomerTable.MIG_STATUS,
             CustomerTable.PF,
             AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            CustomerTable.OPERATOR_ID,
             CustomerTable.CUSTOMER_ID,
             CustomerTable.ORDER_CORRELATION_ID);
 
@@ -43,37 +37,50 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public Optional<Customer> getCustomerToCreate(){
+    public List<Customer> getCustomerToCreate(int nbrRecordsToLoad) {
         final String METHOD_NAME = LOG_PREFIX + " getCustomerToCreate ";
 
-        Customer customer = null;
+        List<Customer> customers = new ArrayList<>();
 
-        try (PreparedStatement stm = connection.prepareStatement(GET_CUSTOMER_TO_CREATE);
-             ResultSet resultSet = stm.executeQuery()) {
-
-                if(resultSet.next()){
-                    customer = createCustomer(resultSet);
-                }
-        }catch (SQLException e){
-            if (LOGGER.isWarnEnabled()) {
-                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
             }
-        }catch (Exception e){
-            LOGGER.error(METHOD_NAME + e.getMessage());
+            return customers;
         }
 
-        return Objects.isNull(customer) ? Optional.empty() : Optional.of(customer);
+        try(PreparedStatement stm = connection.prepareStatement(GET_CUSTOMER_TO_CREATE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    customers.add(createCustomer(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
+
     @Override
-    public boolean updateCustomerMigrationState(String customerId, String orderCorrelationId, String migrationStatus) {
+    public boolean updateCustomerMigrationState(Customer customer, String migrationStatus) {
         final String METHOD_NAME = LOG_PREFIX + " updateCustomerMigrationState ";
 
         try (PreparedStatement stm = connection.prepareStatement(UPDATE_CUSTOMER_STATE)) {
 
             stm.setString(1, migrationStatus);
-            stm.setString(2, customerId);
-            stm.setString(3, orderCorrelationId);
+            stm.setInt(2, customer.getOperatorId());
+            stm.setString(3, customer.getId());
+            stm.setString(4, customer.getOrderCorrelationId());
 
             if (stm.executeUpdate() > 0){
                 return true;
@@ -88,7 +95,6 @@ public class CustomerDaoImpl implements CustomerDao {
 
         return false;
     }
-
 
     private Customer createCustomer(ResultSet resultSet) throws SQLException {
         Customer customer = new Customer();

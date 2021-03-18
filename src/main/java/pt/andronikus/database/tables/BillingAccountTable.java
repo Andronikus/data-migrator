@@ -2,6 +2,7 @@ package pt.andronikus.database.tables;
 
 public class BillingAccountTable {
     public final static String CDM_BILLING_ACCOUNT = "CDM_BILLING_ACCOUNT";
+    public final static String VW_BILLING_ACC_TO_CREATE = "VW_BILLING_ACC_TO_CREATE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";
@@ -15,7 +16,4 @@ public class BillingAccountTable {
     public final static String MIG_STATUS = "MIG_STATUS";
     public final static String CREATED_AT = "CREATED_AT";
     public final static String UPDATED_AT = "UPDATED_AT";
-
-    // queries
-    public final static String GET_BILLING_ACCOUNT = String.format("SELECT * FROM %s where %s=?", CDM_BILLING_ACCOUNT, PF);
 }

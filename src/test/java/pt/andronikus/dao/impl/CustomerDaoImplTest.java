@@ -29,6 +29,7 @@ class CustomerDaoImplTest {
         }
     }
 
+    /*
     @Test
     void shouldGetCustomerFromDBToCreate() {
         try {
@@ -43,6 +44,9 @@ class CustomerDaoImplTest {
         }
     }
 
+     */
+
+    /*
     @Test
     void shouldUpdateCustomerMigStatusWithSuccess() {
         try {
@@ -55,6 +59,8 @@ class CustomerDaoImplTest {
             e.printStackTrace();
         }
     }
+
+     */
 
     @AfterAll
     static void destroyConnection(){

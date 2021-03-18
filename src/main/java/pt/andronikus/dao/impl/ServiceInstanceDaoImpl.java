@@ -2,17 +2,21 @@ package pt.andronikus.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.constants.Global;
 import pt.andronikus.dao.ServiceInstanceDao;
 import pt.andronikus.database.tables.ServiceInstanceTable;
 import pt.andronikus.entities.ServiceInstance;
 import pt.andronikus.entities.base.*;
 import pt.andronikus.enums.AdministrativeStatus;
+import pt.andronikus.singletons.AppConfiguration;
 import pt.andronikus.utils.ParserUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
     private final Logger LOGGER = LoggerFactory.getLogger(ServiceInstanceDaoImpl.class);
@@ -23,11 +27,85 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
         this.connection = connection;
     }
 
+    public final static String GET_SERVICE_INSTANCE_TO_CREATE = String.format("SELECT * FROM (SELECT * FROM %s WHERE %s = %s ORDER BY %s ASC) WHERE ROWNUM < ?",
+            ServiceInstanceTable.VW_SERVICE_INST_TO_CREATE,
+            ServiceInstanceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            ServiceInstanceTable.CREATED_AT);
+
+    public final static String UPDATE_SERVICE_INSTANCE_STATE = String.format("UPDATE %s set %s = ?, UPDATED_AT = SYSDATE where %s = %s and %s = ? and %s = ? and %s = ?",
+            ServiceInstanceTable.CDM_SERVICE_INSTANCE,
+            ServiceInstanceTable.MIG_STATUS,
+            ServiceInstanceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            ServiceInstanceTable.OPERATOR_ID,
+            ServiceInstanceTable.SERVICE_INSTANCE_ID,
+            ServiceInstanceTable.ORDER_CORRELATION_ID);
+
+    @Override
+    public List<ServiceInstance> getServiceInstanceToCreate(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getServiceInstanceToCreate ";
+
+        List<ServiceInstance> serviceInstances = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return serviceInstances;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_SERVICE_INSTANCE_TO_CREATE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
+            try(ResultSet resultSet = stm.executeQuery()){
+                while (resultSet.next()){
+                    serviceInstances.add(createServiceInstance(resultSet));
+                }
+            }
+        } catch (SQLException sqlException) {
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
+            }
+        } catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return serviceInstances;
+    }
+
+    @Override
+    public boolean updateServiceInstanceMigrationState(ServiceInstance serviceInstance, String migrationStatus) {
+        final String METHOD_NAME = LOG_PREFIX + " updateServiceInstanceMigrationState ";
+
+        try (PreparedStatement stm = connection.prepareStatement(UPDATE_SERVICE_INSTANCE_STATE)) {
+
+            stm.setString(1, migrationStatus);
+            stm.setInt(2, serviceInstance.getOperatorId());
+            stm.setString(3, serviceInstance.getServiceInstanceId());
+            stm.setString(4, serviceInstance.getOrderCorrelationId());
+
+            if (stm.executeUpdate() > 0){
+                return true;
+            }
+        }catch (SQLException e){
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+            }
+        }catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+        }
+
+        return false;
+    }
+
     @Override
     public ServiceInstance getServiceInstance() {
         final String METHOD_NAME = LOG_PREFIX + " getServiceInstance ";
 
-        try(PreparedStatement stm = connection.prepareStatement(ServiceInstanceTable.GET_SERVICE_INSTANCE)){
+        try(PreparedStatement stm = connection.prepareStatement(GET_SERVICE_INSTANCE_TO_CREATE)){
             try(ResultSet resultSet = stm.executeQuery()){
                 if(resultSet.next()){
                     return createServiceInstance(resultSet);

@@ -2,6 +2,7 @@ package pt.andronikus.database.tables;
 
 public class ResourceTable {
     public final static String CDM_RESOURCE = "CDM_RESOURCE";
+    public final static String VW_RESOURCE_TO_CREATE = "VW_RESOURCE_TO_CREATE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";
@@ -42,7 +43,5 @@ public class ResourceTable {
     public final static String CORRELATION_ID = "CORRELATION_ID";
     public final static String ORDER_CORRELATION_ID = "ORDER_CORRELATION_ID";
     public final static String MIG_STATUS = "MIG_STATUS";
-
-    // queries
-    public final static String GET_RESOURCE = String.format("SELECT * FROM %s where %s=?", CDM_RESOURCE, PF);
+    public final static String CREATED_AT = "CREATED_AT";
 }

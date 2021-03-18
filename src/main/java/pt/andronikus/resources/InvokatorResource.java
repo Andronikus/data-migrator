@@ -61,7 +61,7 @@ public class InvokatorResource {
 
         CustomerDaoImpl customerDAO = new CustomerDaoImpl(ConnectionPool.INSTANCE.getConnection(false));
 
-        customerDAO.getCustomerToCreate();
+        customerDAO.getCustomerToCreate(1);
 
         return Response.status(Response.Status.OK).build();
     }

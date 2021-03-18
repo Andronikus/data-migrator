@@ -2,33 +2,62 @@ package pt.andronikus.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.andronikus.constants.Global;
 import pt.andronikus.dao.ResourceDao;
 import pt.andronikus.database.tables.ResourceTable;
-import pt.andronikus.database.tables.ServiceInstanceTable;
 import pt.andronikus.entities.Resource;
+import pt.andronikus.singletons.AppConfiguration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResourceDaoImpl implements ResourceDao {
     private final Logger LOGGER = LoggerFactory.getLogger(ResourceDaoImpl.class);
     private final String LOG_PREFIX = ResourceDaoImpl.class.getSimpleName() + " :: ";
     private final Connection connection;
 
+    public final static String GET_RESOURCE_TO_CREATE = String.format("SELECT * FROM (SELECT * FROM %s WHERE %s = %s ORDER BY %s ASC) WHERE ROWNUM < ?",
+            ResourceTable.VW_RESOURCE_TO_CREATE,
+            ResourceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            ResourceTable.CREATED_AT);
+
+    public final static String UPDATE_RESOURCE_STATE = String.format("UPDATE %s set %s = ?, UPDATED_AT = SYSDATE where %s = %s and %s = ? and %s = ?",
+            ResourceTable.CDM_RESOURCE,
+            ResourceTable.MIG_STATUS,
+            ResourceTable.PF,
+            AppConfiguration.INSTANCE.getConfiguration(Global.TABLE_PARTITION),
+            ResourceTable.OPERATOR_ID,
+            ResourceTable.ORDER_CORRELATION_ID);
+
     public ResourceDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Resource getResource() {
-        final String METHOD_NAME = LOG_PREFIX + " getResource ";
+    public List<Resource> getResourceToCreate(int nbrRecordsToLoad) {
+        final String METHOD_NAME = LOG_PREFIX + " getResourceToCreate ";
 
-        try(PreparedStatement stm = connection.prepareStatement(ResourceTable.GET_RESOURCE)){
+        List<Resource> resources = new ArrayList<>();
+
+        if( nbrRecordsToLoad < 1){
+            if (LOGGER.isWarnEnabled()){
+                LOGGER.warn(METHOD_NAME + " nbrRecordsToLoad must be >= 1");
+            }
+            return resources;
+        }
+
+        try(PreparedStatement stm = connection.prepareStatement(GET_RESOURCE_TO_CREATE)){
+
+            stm.setInt(1, nbrRecordsToLoad + 1);
+
             try(ResultSet resultSet = stm.executeQuery()){
-                if(resultSet.next()){
-                    return createResource(resultSet);
+                while (resultSet.next()){
+                    resources.add(createResource(resultSet));
                 }
             }
         } catch (SQLException sqlException) {
@@ -37,8 +66,34 @@ public class ResourceDaoImpl implements ResourceDao {
             }
         } catch (Exception e){
             LOGGER.error(METHOD_NAME + e.getMessage());
+            e.printStackTrace();
         }
-        return null;
+
+        return resources;
+    }
+
+    @Override
+    public boolean updateResourceMigrationState(Resource resource, String migrationStatus) {
+        final String METHOD_NAME = LOG_PREFIX + " updateResourceMigrationState ";
+
+        try (PreparedStatement stm = connection.prepareStatement(UPDATE_RESOURCE_STATE)) {
+
+            stm.setString(1, migrationStatus);
+            stm.setInt(2, resource.getOperatorId());
+            stm.setString(3, resource.getOrderCorrelationId());
+
+            if (stm.executeUpdate() > 0){
+                return true;
+            }
+        }catch (SQLException e){
+            if (LOGGER.isWarnEnabled()) {
+                LOGGER.warn(METHOD_NAME + "SQLException - " + e.getMessage() + " " + e.getSQLState());
+            }
+        }catch (Exception e){
+            LOGGER.error(METHOD_NAME + e.getMessage());
+        }
+
+        return false;
     }
 
     private Resource createResource(ResultSet resultSet) throws SQLException {

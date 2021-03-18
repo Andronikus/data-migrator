@@ -6,6 +6,7 @@ import pt.andronikus.singletons.AppConfiguration;
 
 public class CustomerTable {
     public final static String CUSTOMER = "CDM_CUSTOMER";
+    public final static String VW_CUSTOMER_TO_CREATE = "VW_CUSTOMER_TO_CREATE";
 
     // columns
     public final static String OPERATOR_ID = "OPERATOR_ID";
@@ -24,8 +25,4 @@ public class CustomerTable {
     public final static String MIG_STATUS = "MIG_STATUS";
     public final static String CREATED_AT = "CREATED_AT";
     public final static String UPDATED_AT = "UPDATED_AT";
-
-    // queries
-    public final static String UPDATE_CUSTOMER_TO_WAITING_CREATE = String.format("update %s set %s = %s, updated_at = SYSDATE where %s = ? and %s = ?", CUSTOMER, MIG_STATUS, MigrationStatus.WAITING_CREATE.name(), CORRELATION_ID,CUSTOMER_ID);
-    public final static String UPDATE_CUSTOMER_TO_WAITING_CLOSE = String.format("update %s set %s = %s, updated_at = SYSDATE where %s = ? and %s = ?", CUSTOMER, MIG_STATUS, MigrationStatus.WAITING_CLOSE.name(), CORRELATION_ID,CUSTOMER_ID);
 }

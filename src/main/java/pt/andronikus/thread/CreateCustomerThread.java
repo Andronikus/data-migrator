@@ -20,6 +20,7 @@ import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.Migration;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class CreateCustomerThread implements Runnable{
@@ -45,43 +46,45 @@ public class CreateCustomerThread implements Runnable{
             while(Migration.INSTANCE.getStatus().equals(Migration.Status.RUNNING)){
 
                     // get from DB the last customer in new state
-                    Optional<Customer> customer = customerDao.getCustomerToCreate();
+                    List<Customer> customers = customerDao.getCustomerToCreate(1);
 
                     if(LOGGER.isInfoEnabled()){
-                        LOGGER.info(LOG_PREFIX + "customer " + customer.isPresent());
+                        LOGGER.info(LOG_PREFIX + "customer list size: " + customers.size());
                     }
 
-                    if(customer.isPresent()){
-                        // create the request
-                        CustomerRequest customerRequest = CustomerRequestFactory.getCustomerCreationRequest(customer.get());
-                        // send request
+                    if(customers.size() > 0){
+                        for (Customer customer: customers){
+                            // create the request
+                            CustomerRequest customerRequest = CustomerRequestFactory.getCustomerCreationRequest(customer);
 
-                        if(LOGGER.isInfoEnabled()){
-                            LOGGER.info(LOG_PREFIX + JSONUtils.toJSON(customerRequest));
-                        }
-
-                        Optional<CustomerResponse> customerResponse = this.asmClient.customerPost(customerRequest);
-
-                        if (customerResponse.isPresent()){
-
+                            // send request
                             if(LOGGER.isInfoEnabled()){
-                                LOGGER.info(LOG_PREFIX + "error code " + customerResponse.get().getErrorCode());
+                                LOGGER.info(LOG_PREFIX + JSONUtils.toJSON(customerRequest));
+                            }
+                            Optional<CustomerResponse> customerResponse = this.asmClient.customerPost(customerRequest);
+
+                            if (customerResponse.isPresent()){
+
+                                if(LOGGER.isInfoEnabled()){
+                                    LOGGER.info(LOG_PREFIX + "error code " + customerResponse.get().getErrorCode());
+                                }
+
+                                if(customerResponse.get().getErrorCode().equals("ASM_0008")){
+                                    // ASM validate and accept the request for async process
+                                    // change the customer record to the "WAITING_CREATE" state
+                                    customerDao.updateCustomerMigrationState(customer, MigrationStatus.WAITING_CREATE.name());
+                                }
+
+                                AsmOrder asmOrder = new AsmOrder();
+                                asmOrder.setOrderExternalId(customerResponse.get().getOrderExternalId());
+                                asmOrder.setOrderCorrelationId(customerResponse.get().getOrderCorrelationId());
+                                asmOrder.setEntityType(EntityType.CUSTOMER);
+                                asmOrder.setOperation(OperationType.CREATE);
+                                asmOrder.setOrderStatus(customerResponse.get().getOrderStatus());
+
+                                boolean asmOrderInserted = asmOrderDao.addAsmOrder(asmOrder);
                             }
 
-                            if(customerResponse.get().getErrorCode().equals("ASM_0008")){
-                                // ASM validate and accept the request for async process
-                                // change the customer record to the "WAITING_CREATE" state
-                                customerDao.updateCustomerMigrationState(customer.get().getId(), customer.get().getOrderCorrelationId(), MigrationStatus.WAITING_CREATE.name());
-                            }
-
-                            AsmOrder asmOrder = new AsmOrder();
-                            asmOrder.setOrderExternalId(customerResponse.get().getOrderExternalId());
-                            asmOrder.setOrderCorrelationId(customerResponse.get().getOrderCorrelationId());
-                            asmOrder.setEntityType(EntityType.CUSTOMER);
-                            asmOrder.setOperation(OperationType.CREATE);
-                            asmOrder.setOrderStatus(customerResponse.get().getOrderStatus());
-
-                            boolean asmOrderInserted = asmOrderDao.addAsmOrder(asmOrder);
                         }
                     }else {
                         // nothing to do... wait a little more
