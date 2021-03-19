@@ -1,15 +1,19 @@
 package pt.andronikus.dao.impl;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
 import pt.andronikus.configuration.OracleDB;
 import pt.andronikus.dao.CustomerDao;
 import pt.andronikus.dao.DaoFactory;
+import pt.andronikus.dao.ServiceInstanceDao;
 import pt.andronikus.database.ConnectionPool;
 import pt.andronikus.entities.Customer;
+import pt.andronikus.entities.ServiceInstance;
 import pt.andronikus.singletons.AppConfiguration;
 
 import java.sql.SQLException;
@@ -17,8 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class CustomerDaoImplTest {
+class ServiceInstanceDaoImplTest {
 
     @BeforeAll
     static void connectionPool(){
@@ -32,12 +35,12 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToCreate_shouldReturnAnEmptyList(){
+    void whenNoServiceInstanceToCreate_shouldReturnAnEmptyList(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToCreate(1);
+            ServiceInstanceDao serviceInstanceDao = DaoFactory.createServiceInstanceDao(true);
+            List<ServiceInstance> serviceInstances = serviceInstanceDao.getServiceInstanceToCreate(1);
 
-            assertEquals(0, customers.size());
+            assertEquals(0, serviceInstances.size());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -45,12 +48,12 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToClose_shouldReturnAnEmptyList(){
+    void whenNoServiceInstanceToCloseOrSuspend_shouldReturnAnEmptyList(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToClose(10);
+            ServiceInstanceDao serviceInstanceDao = DaoFactory.createServiceInstanceDao(true);
+            List<ServiceInstance> serviceInstances = serviceInstanceDao.getServiceInstanceToClose(1);
 
-            assertEquals(0, customers.size());
+            assertEquals(0, serviceInstances.size());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

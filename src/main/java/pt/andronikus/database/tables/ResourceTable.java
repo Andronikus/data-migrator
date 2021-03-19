@@ -28,8 +28,8 @@ public class ResourceTable {
     public final static String DATA_PS_SERVICE = "DATAPS_SERVICE";
     public final static String SMS_TARIFF_PLAN = "SMS_TARIFF_PLAN";
     public final static String VOICE_TARIFF_PLAN = "VOICE_TARIFF_PLAN";
-    public final static String DATA_CS_TARIFF_PLAN = "DATA_CS_TARIFF_PLAN";
-    public final static String DATA_PS_TARIFF_PLAN = "DATA_PS_TARIFF_PLAN";
+    public final static String DATA_CS_TARIFF_PLAN = "DATACS_TARIFF_PLAN";
+    public final static String DATA_PS_TARIFF_PLAN = "DATAPS_TARIFF_PLAN";
     public final static String ADMIN_RESOURCE_STATUS = "ADMIN_RESOURCE_STATUS";
     public final static String CREATION_DATE = "CREATION_DATE";
     public final static String FIRST_ACTIVATION_DATE = "FIRST_ACTIVATION_DATE";

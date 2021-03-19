@@ -1,15 +1,17 @@
 package pt.andronikus.dao.impl;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
 import pt.andronikus.configuration.OracleDB;
-import pt.andronikus.dao.CustomerDao;
 import pt.andronikus.dao.DaoFactory;
+import pt.andronikus.dao.ResourceDao;
 import pt.andronikus.database.ConnectionPool;
-import pt.andronikus.entities.Customer;
+import pt.andronikus.entities.Resource;
 import pt.andronikus.singletons.AppConfiguration;
 
 import java.sql.SQLException;
@@ -17,9 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class CustomerDaoImplTest {
-
+class ResourceDaoImplTest {
     @BeforeAll
     static void connectionPool(){
         createConnectionPool();
@@ -32,12 +32,13 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToCreate_shouldReturnAnEmptyList(){
+    void shouldReturnAResourceToCreate(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToCreate(1);
+            ResourceDao resourceDao = DaoFactory.createResourceDao(true);
+            List<Resource> resources = resourceDao.getResourceToCreate(2);
 
-            assertEquals(0, customers.size());
+            assertEquals(2, resources.size());
+            assertNull(resources.get(0).getTariffPlans().getVoiceTariffPlan());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -45,12 +46,25 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToClose_shouldReturnAnEmptyList(){
+    void whenNoResourcesToSuspend_shouldReturnAListWithSizeZero(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToClose(10);
+            ResourceDao resourceDao = DaoFactory.createResourceDao(true);
+            List<Resource> resources = resourceDao.getResourceToSuspend(1);
 
-            assertEquals(0, customers.size());
+            assertEquals(0, resources.size());
+        }catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+
+    @Test
+    @Ignore
+    void whenThereAreResourcesToSuspend_shouldReturnAListWithResourcesToSuspend(){
+        try {
+            ResourceDao resourceDao = DaoFactory.createResourceDao(true);
+            List<Resource> resources = resourceDao.getResourceToSuspend(1);
+
+            assertEquals(0, resources.size());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

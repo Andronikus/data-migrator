@@ -1,14 +1,18 @@
 package pt.andronikus.dao.impl;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import pt.andronikus.configuration.CallbackServerConfiguration;
 import pt.andronikus.configuration.InvokatorConfiguration;
 import pt.andronikus.configuration.MigrationProcessInfo;
 import pt.andronikus.configuration.OracleDB;
+import pt.andronikus.dao.BillingAccountDao;
 import pt.andronikus.dao.CustomerDao;
 import pt.andronikus.dao.DaoFactory;
 import pt.andronikus.database.ConnectionPool;
+import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.entities.Customer;
 import pt.andronikus.singletons.AppConfiguration;
 
@@ -17,9 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class CustomerDaoImplTest {
-
+class BillingAccountDaoImplTest {
     @BeforeAll
     static void connectionPool(){
         createConnectionPool();
@@ -32,12 +34,12 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToCreate_shouldReturnAnEmptyList(){
+    void whenNoBillingAccountToCreate_shouldReturnAnEmptyList(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToCreate(1);
+            BillingAccountDao billingAccountDao = DaoFactory.createBillingAccountDao(true);
+            List<BillingAccount> billingAccounts = billingAccountDao.getBillingAccountToCreate(1);
 
-            assertEquals(0, customers.size());
+            assertEquals(0, billingAccounts.size());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -45,12 +47,12 @@ class CustomerDaoImplTest {
 
     @Test
     @Ignore
-    void whenNoResourcesToClose_shouldReturnAnEmptyList(){
+    void whenNoBillingAccountToClose_shouldReturnAnEmptyList(){
         try {
-            CustomerDao customerDao = DaoFactory.createCustomerDao(true);
-            List<Customer> customers = customerDao.getCustomerToClose(10);
+            BillingAccountDao billingAccountDao = DaoFactory.createBillingAccountDao(true);
+            List<BillingAccount> billingAccounts = billingAccountDao.getBillingAccountToClose(10);
 
-            assertEquals(0, customers.size());
+            assertEquals(0, billingAccounts.size());
         }catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

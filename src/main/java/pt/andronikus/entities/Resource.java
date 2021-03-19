@@ -208,6 +208,34 @@ public class Resource extends BaseEntity {
         this.lineId = lineId;
     }
 
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "msisdn='" + msisdn + '\'' +
+                ", agreementId='" + agreementId + '\'' +
+                ", parentAgreementId='" + parentAgreementId + '\'' +
+                ", serviceInstanceId='" + serviceInstanceId + '\'' +
+                ", catalogSpec='" + catalogSpec + '\'' +
+                ", offerSpec='" + offerSpec + '\'' +
+                ", secondaryMsisdn='" + secondaryMsisdn + '\'' +
+                ", iccid='" + iccid + '\'' +
+                ", serviceResourceStatus='" + serviceResourceStatus + '\'' +
+                ", testingLifeCycleEnabled=" + testingLifeCycleEnabled +
+                ", commStatus='" + commStatus + '\'' +
+                ", reactivateCommStatus='" + reactivateCommStatus + '\'' +
+                ", commServices=" + commServices +
+                ", tariffPlans=" + tariffPlans +
+                ", adminResourceStatus='" + adminResourceStatus + '\'' +
+                ", firstActivationDate='" + firstActivationDate + '\'' +
+                ", roamingStatus='" + roamingStatus + '\'' +
+                ", apnInfo=" + apnInfo +
+                ", loyaltyPeriod=" + loyaltyPeriod +
+                ", loyaltyPeriodRemaining=" + loyaltyPeriodRemaining +
+                ", loyaltyLastUpdate='" + loyaltyLastUpdate + '\'' +
+                ", lineId='" + lineId + '\'' +
+                '}';
+    }
+
     public static class CommServices {
         private Boolean smsService;
         private Boolean voiceService;

@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.constants.Global;
 import pt.andronikus.dao.ResourceDao;
-import pt.andronikus.database.tables.CustomerTable;
 import pt.andronikus.database.tables.ResourceTable;
-import pt.andronikus.database.tables.ServiceInstanceTable;
 import pt.andronikus.entities.Resource;
 import pt.andronikus.singletons.AppConfiguration;
 
@@ -64,8 +62,7 @@ public class ResourceDaoImpl implements ResourceDao {
         }
 
         try(PreparedStatement stm = connection.prepareStatement(GET_RESOURCE_TO_CREATE)){
-
-            stm.setInt(1, nbrRecordsToLoad + 1);
+            stm.setInt(1, (nbrRecordsToLoad + 1));
 
             try(ResultSet resultSet = stm.executeQuery()){
                 while (resultSet.next()){
@@ -76,6 +73,7 @@ public class ResourceDaoImpl implements ResourceDao {
             if (LOGGER.isWarnEnabled()){
                 LOGGER.warn(METHOD_NAME + "SQLException - " + sqlException.getMessage() + " " + sqlException.getSQLState());
             }
+            sqlException.printStackTrace();
         } catch (Exception e){
             LOGGER.error(METHOD_NAME + e.getMessage());
             e.printStackTrace();
@@ -210,9 +208,9 @@ public class ResourceDaoImpl implements ResourceDao {
 
         Resource.CommServices commServices = new Resource.CommServices();
         commServices.setDataPsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_PS_SERVICE)));
-        commServices.setDataCsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.DATA_CS_SERVICE)));
-        commServices.setSmsService(Boolean.parseBoolean(resultSet.getString(ResourceTable.SMS_SERVICE)));
-        commServices.setVoiceService(Boolean.parseBoolean(resultSet.getString(ResourceTable.VOICE_SERVICE)));
+        commServices.setDataCsService(getBooleanValueOrNull(resultSet.getString(ResourceTable.DATA_CS_SERVICE)));
+        commServices.setSmsService(getBooleanValueOrNull(resultSet.getString(ResourceTable.SMS_SERVICE)));
+        commServices.setVoiceService(getBooleanValueOrNull(resultSet.getString(ResourceTable.VOICE_SERVICE)));
         resource.setCommServices(commServices);
 
         Resource.TariffPlans tariffPlans = new Resource.TariffPlans();
@@ -239,5 +237,9 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setLineId(resultSet.getString(ResourceTable.LINE_ID));
 
         return resource;
+    }
+
+    private Boolean getBooleanValueOrNull(String value){
+        return value != null ? Boolean.parseBoolean(value) : null;
     }
 }
