@@ -28,7 +28,6 @@ public class ResourceRequestFactory {
         orderItem.setCorrelationId(resource.getCorrelationId());
 
         orderItem.setAgreementId(resource.getAgreementId());
-        // TODO how to construct this
         orderItem.setParentAgreementId(resource.getParentAgreementId());
         orderItem.setCatalogSpec(resource.getCatalogSpec());
         orderItem.setOfferSpec(resource.getOfferSpec());

@@ -197,6 +197,7 @@ public class ResourceDaoImpl implements ResourceDao {
         resource.setMigStatus(resultSet.getString(ResourceTable.MIG_STATUS));
         resource.setMsisdn(resultSet.getString(ResourceTable.MSISDN));
         resource.setAgreementId(resultSet.getString(ResourceTable.AGREEMENT_ID));
+        resource.setParentAgreementId(resultSet.getString(ResourceTable.PARENT_AGREEMENT_ID));
         resource.setServiceInstanceId(resultSet.getString(ResourceTable.SERVICE_INSTANCE_ID));
         resource.setCatalogSpec(resultSet.getString(ResourceTable.CATALOG_SPEC));
         resource.setOfferSpec(resultSet.getString(ResourceTable.OFFER_SPEC));
