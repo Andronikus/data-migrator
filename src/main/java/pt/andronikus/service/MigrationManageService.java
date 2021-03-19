@@ -32,13 +32,13 @@ public class MigrationManageService {
         Migration.INSTANCE.start();
         Thread customerThread = new Thread(new CustomerThread());
         Thread billingAccountThread = new Thread(new BillingAccountThread());
-        Thread serviceInstanceThread = new Thread(new ServiceInstanceThread());
-        Thread resourceThread = new Thread(new ResourceThread());
+        // Thread serviceInstanceThread = new Thread(new ServiceInstanceThread());
+        // Thread resourceThread = new Thread(new ResourceThread());
 
         customerThread.start();
         billingAccountThread.start();
-        serviceInstanceThread.start();
-        resourceThread.start();
+        // serviceInstanceThread.start();
+        // resourceThread.start();
 
         return "Migration threads started";
     }

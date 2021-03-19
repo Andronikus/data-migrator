@@ -55,6 +55,9 @@ public class BillingAccountThread implements Runnable{
                 wasClosedBillingAccount = closeBillingAccount(billingAccountDao, asmOrderDao);
 
                 if (!(wasCreatedBillingAccount || wasClosedBillingAccount)){
+                    if(LOGGER.isInfoEnabled()){
+                        LOGGER.info(LOG_PREFIX + String.format("Thread will sleep %s (ms)", 5000));
+                    }
                     Thread.sleep(5000);
                 }
             }
@@ -94,6 +97,7 @@ public class BillingAccountThread implements Runnable{
                     LOGGER.info(METHOD_NAME + JSONUtils.toJSON(billingAccountRequest));
                 }
 
+                /*
                 Optional<BillingAccountResponse> billingAccountResponse = this.asmClient.billingAccountPost(billingAccountRequest);
 
                 if (billingAccountResponse.isPresent()){
@@ -119,6 +123,7 @@ public class BillingAccountThread implements Runnable{
 
                     didSomething = true;
                 }
+                */
             }
         }
         return  didSomething;
@@ -140,6 +145,7 @@ public class BillingAccountThread implements Runnable{
                 // create the request
                 BillingAccountRequest billingAccountRequest = BillingAccountRequestFactory.getBillingAccountUpdateRequest(billingAccount);
 
+                /*
                 Optional<BillingAccountResponse> billingAccountResponse = this.asmClient.billingAccountPost(billingAccountRequest);
 
                 if (billingAccountResponse.isPresent()){
@@ -163,6 +169,7 @@ public class BillingAccountThread implements Runnable{
 
                     didSomething = true;
                 }
+                 */
             }
         }
         return  didSomething;
