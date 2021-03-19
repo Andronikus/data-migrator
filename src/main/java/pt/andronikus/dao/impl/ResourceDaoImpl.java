@@ -233,8 +233,10 @@ public class ResourceDaoImpl implements ResourceDao {
         apnInfo.setApnQos(resultSet.getString(ResourceTable.APN_QOS));
         resource.setApnInfo(apnInfo);
 
-        resource.setLoyaltyPeriodRemaining(resultSet.getString(ResourceTable.LOYALTY_PERIOD_REMAINING));
+        resource.setLoyaltyPeriod(resultSet.getInt(ResourceTable.LOYALTY_PERIOD));
+        resource.setLoyaltyPeriodRemaining(resultSet.getInt(ResourceTable.LOYALTY_PERIOD_REMAINING));
         resource.setLoyaltyLastUpdate(resultSet.getString(ResourceTable.LOYALTY_LAST_UPDATE));
+        resource.setLineId(resultSet.getString(ResourceTable.LINE_ID));
 
         return resource;
     }

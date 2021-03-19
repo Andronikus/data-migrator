@@ -23,8 +23,10 @@ public class Resource extends BaseEntity {
     private String firstActivationDate;
     private String roamingStatus;
     private ApnInfo apnInfo;
-    private String loyaltyPeriodRemaining;
+    private Integer loyaltyPeriod;
+    private Integer loyaltyPeriodRemaining;
     private String loyaltyLastUpdate;
+    private String lineId;
 
     public Resource() {
     }
@@ -166,11 +168,19 @@ public class Resource extends BaseEntity {
         this.apnInfo = apnInfo;
     }
 
-    public String getLoyaltyPeriodRemaining() {
+    public Integer getLoyaltyPeriod() {
+        return loyaltyPeriod;
+    }
+
+    public void setLoyaltyPeriod(Integer loyaltyPeriod) {
+        this.loyaltyPeriod = loyaltyPeriod;
+    }
+
+    public Integer getLoyaltyPeriodRemaining() {
         return loyaltyPeriodRemaining;
     }
 
-    public void setLoyaltyPeriodRemaining(String loyaltyPeriodRemaining) {
+    public void setLoyaltyPeriodRemaining(Integer loyaltyPeriodRemaining) {
         this.loyaltyPeriodRemaining = loyaltyPeriodRemaining;
     }
 
@@ -188,6 +198,14 @@ public class Resource extends BaseEntity {
 
     public void setParentAgreementId(String parentAgreementId) {
         this.parentAgreementId = parentAgreementId;
+    }
+
+    public String getLineId() {
+        return lineId;
+    }
+
+    public void setLineId(String lineId) {
+        this.lineId = lineId;
     }
 
     public static class CommServices {

@@ -90,13 +90,18 @@ public class ResourceRequestFactory {
         // TODO is a list? what is the format of string to parse?
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.APN_LIST, resource.getApnInfo());
 
-        // TODO Need to make the calculation of this value
+        // TODO waiting for the value to send in case of negative value
         if(Objects.nonNull(resource.getLoyaltyPeriodRemaining())){
-            fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FULFILLED_LOYALTY, resource.getLoyaltyPeriodRemaining());
+            Integer fulfilledLoyalty = resource.getLoyaltyPeriod() - resource.getLoyaltyPeriodRemaining();
+            fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FULFILLED_LOYALTY, fulfilledLoyalty);
         }
 
         if(Objects.nonNull(resource.getLoyaltyLastUpdate())){
             fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_LOY_LAST_UPDATE_DATE, resource.getLoyaltyLastUpdate());
+        }
+
+        if(Objects.nonNull(resource.getLineId())){
+            fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_LINE_ID, resource.getLineId());
         }
 
         fulfillmentParams.addFulfillmentParam(FulfillmentParamsAtt.MIG_FLAG, MigrationFlag.IN_MIGRATION);
@@ -153,7 +158,7 @@ public class ResourceRequestFactory {
         ResourceRequest orderExecution = new ResourceRequest();
 
         // define execution mode
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/resource/updsuspend");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/resource/update-suspend");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(resource.getOrderCorrelationId());
 

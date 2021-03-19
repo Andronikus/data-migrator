@@ -47,4 +47,6 @@ public class ResourceTable {
     public final static String ORDER_CORRELATION_ID = "ORDER_CORRELATION_ID";
     public final static String MIG_STATUS = "MIG_STATUS";
     public final static String CREATED_AT = "CREATED_AT";
+    public final static String LOYALTY_PERIOD = "LOYALTY_PERIOD";
+    public final static String LINE_ID = "LINE_ID";
 }

@@ -103,4 +103,6 @@ public class FulfillmentParamsAtt {
     public static final String ROAMING_STATUS = "roamingStatus";
     public static final String MIG_FULFILLED_LOYALTY = "migFulfilledLoyalty";
     public static final String MIG_LOY_LAST_UPDATE_DATE = "migLoyLastUpdateDate";
+    public static final String MIG_LINE_ID = "migLineid";
+
 }

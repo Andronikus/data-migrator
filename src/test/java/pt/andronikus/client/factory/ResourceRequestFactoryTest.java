@@ -97,7 +97,7 @@ class ResourceRequestFactoryTest {
         resource.setApnInfo(apnInfo);
 
 
-        resource.setLoyaltyPeriodRemaining("60");
+        resource.setLoyaltyPeriodRemaining(60);
         resource.setLoyaltyLastUpdate("2020-05-26T14:14:06.019Z");
 
         resource.setAdminResourceStatus("ACTIVE");
