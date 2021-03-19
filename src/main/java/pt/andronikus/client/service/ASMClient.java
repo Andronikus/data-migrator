@@ -44,14 +44,14 @@ public class ASMClient{
         return Optional.of(new BillingAccountResponse(orderExecutionResponse));
     }
 
-    public Optional<ServiceSubscriptionResponse> serviceInstancePost(ServiceInstanceRequest serviceInstanceRequest){
+    public Optional<ServiceInstanceResponse> serviceInstancePost(ServiceInstanceRequest serviceInstanceRequest){
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity(JSONUtils.toJSON(serviceInstanceRequest), MediaType.APPLICATION_JSON_TYPE));
 
         OrderExecutionResponse orderExecutionResponse = processResponse(response);
 
-        return Optional.of(new ServiceSubscriptionResponse(orderExecutionResponse));
+        return Optional.of(new ServiceInstanceResponse(orderExecutionResponse));
     }
 
     public Optional<ResourceResponse> resourcePost(ResourceRequest resourceRequest){

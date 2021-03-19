@@ -13,7 +13,7 @@ import pt.andronikus.singletons.AppConfiguration;
 public class InvokatorApplication extends Application<InvokatorConfiguration> {
 
     public static void main(String[] args) throws Exception{
-        new InvokatorApplication().run(args[0], args[1]);
+        new InvokatorApplication().run(args);
     }
 
     @Override

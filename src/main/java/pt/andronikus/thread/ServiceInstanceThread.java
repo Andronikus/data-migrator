@@ -3,21 +3,17 @@ package pt.andronikus.thread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.andronikus.client.enums.OperationType;
-import pt.andronikus.client.factory.ResourceRequestFactory;
 import pt.andronikus.client.factory.ServiceInstanceRequestFactory;
-import pt.andronikus.client.request.ResourceRequest;
 import pt.andronikus.client.request.ServiceInstanceRequest;
-import pt.andronikus.client.response.ResourceResponse;
-import pt.andronikus.client.response.ServiceSubscriptionResponse;
+import pt.andronikus.client.response.ServiceInstanceResponse;
 import pt.andronikus.client.service.ASMClient;
 import pt.andronikus.client.utils.JSONUtils;
 import pt.andronikus.dao.AsmOrderDao;
 import pt.andronikus.dao.DaoFactory;
-import pt.andronikus.dao.ResourceDao;
 import pt.andronikus.dao.ServiceInstanceDao;
 import pt.andronikus.entities.AsmOrder;
-import pt.andronikus.entities.Resource;
 import pt.andronikus.entities.ServiceInstance;
+import pt.andronikus.enums.AdministrativeStatus;
 import pt.andronikus.enums.EntityType;
 import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.Migration;
@@ -94,7 +90,7 @@ public class ServiceInstanceThread implements Runnable{
                     LOGGER.info(METHOD_NAME + JSONUtils.toJSON(request));
                 }
 
-                Optional<ServiceSubscriptionResponse> response = this.asmClient.serviceInstancePost(request);
+                Optional<ServiceInstanceResponse> response = this.asmClient.serviceInstancePost(request);
 
                 if (response.isPresent()){
 
@@ -133,86 +129,54 @@ public class ServiceInstanceThread implements Runnable{
             LOGGER.info(METHOD_NAME + "customer list size: " + serviceInstances.size());
         }
 
-        if(resources.size() > 0){
-            for (Resource resource: resources){
+        if(serviceInstances.size() > 0){
+            for (ServiceInstance serviceInstance: serviceInstances){
                 // create the request
-                ResourceRequest resourceRequest = ResourceRequestFactory.getResourceSuspendRequest(resource);
-
-                Optional<ResourceResponse> resourceResponse = this.asmClient.resourcePost(resourceRequest);
-
-                if (resourceResponse.isPresent()){
-
-                    if(LOGGER.isInfoEnabled()){
-                        LOGGER.info(METHOD_NAME + "error code " + resourceResponse.get().getErrorCode());
-                    }
-
-                    if(resourceResponse.get().getErrorCode().equals("ASM_0008")){
-                        // ASM validate and accept the request for async process
-                        // change the customer record to the "WAITING_CREATE" state
-                        resourceDao.updateResourceMigrationState(resource, MigrationStatus.WAITING_SUSPENDED.name());
-                    }
-
-                    AsmOrder asmOrder = new AsmOrder();
-                    asmOrder.setOrderExternalId(resourceResponse.get().getOrderExternalId());
-                    asmOrder.setOrderCorrelationId(resourceResponse.get().getOrderCorrelationId());
-                    asmOrder.setEntityType(EntityType.CUSTOMER);
-                    asmOrder.setOperation(OperationType.SUSPEND);
-                    asmOrder.setOrderStatus(resourceResponse.get().getOrderStatus());
-
-                    asmOrderDao.addAsmOrder(asmOrder);
-
-                    didSomething = true;
-                }
-            }
-        }
-        return  didSomething;
-    }
-
-    private boolean closeResources(ResourceDao resourceDao, AsmOrderDao asmOrderDao){
-        final String METHOD_NAME = LOG_PREFIX + " closeResources ";
-
-        boolean didSomething = false;
-
-        List<Resource> resources = resourceDao.getResourceToClose(1);
-
-        if(LOGGER.isInfoEnabled()){
-            LOGGER.info(METHOD_NAME + "customer list size: " + resources.size());
-        }
-
-        if(resources.size() > 0){
-            for (Resource resource: resources){
-                // create the request
-                ResourceRequest resourceRequest = null;
+                ServiceInstanceRequest request = null;
                 OperationType operationType = OperationType.UPDATE;
+                MigrationStatus migrationStatus = MigrationStatus.WAITING_CLOSE;
 
-                if(resource.getMigStatus().equals(MigrationStatus.CREATED.name())){
-                    resourceRequest = ResourceRequestFactory.getResourceUpdateRequest(resource);
-                }else if(resource.getMigStatus().equals(MigrationStatus.SUSPENDED.name())){
-                    // resource already in suspend state (AdministrativeStatus should be SUSPENDED)
-                    resourceRequest = ResourceRequestFactory.getResourceUpdateSuspendRequest(resource);
-                    operationType = OperationType.UPDATE_SUSPEND;
+                // All the resources are already closed...
+                // Time to generate the suspend/ update (close) or update_suspend (close after suspend) request
+                if(serviceInstance.getMigStatus().toUpperCase().equals(MigrationStatus.CREATED.name())){
+                    // service instance  in created status
+                    if(serviceInstance.getAdministrativeStatus().equals(AdministrativeStatus.SUSPENDED)){
+                        request = ServiceInstanceRequestFactory.getServiceInstanceSuspendRequest(serviceInstance);
+                        operationType = OperationType.SUSPEND;
+                        migrationStatus = MigrationStatus.WAITING_SUSPENDED;
+                    }else{
+                        // Active state...
+                        request = ServiceInstanceRequestFactory.getServiceInstanceUpdateRequest(serviceInstance);
+                    }
+                }else if (serviceInstance.getMigStatus().toUpperCase().equals(MigrationStatus.SUSPENDED.name())){
+                    // service instance already in SUSPEND state... send update/suspend
+                    request = ServiceInstanceRequestFactory.getServiceInstanceUpdateSuspendRequest(serviceInstance);
                 }
 
-                Optional<ResourceResponse> resourceResponse = this.asmClient.resourcePost(resourceRequest);
+                Optional<ServiceInstanceResponse> response = Optional.empty();
 
-                if (resourceResponse.isPresent()){
+                if (request != null){
+                    response = this.asmClient.serviceInstancePost(request);
+                }
+
+                if (response.isPresent()){
 
                     if(LOGGER.isInfoEnabled()){
-                        LOGGER.info(METHOD_NAME + "error code " + resourceResponse.get().getErrorCode());
+                        LOGGER.info(METHOD_NAME + "error code " + response.get().getErrorCode());
                     }
 
-                    if(resourceResponse.get().getErrorCode().equals("ASM_0008")){
+                    if(response.get().getErrorCode().equals("ASM_0008")){
                         // ASM validate and accept the request for async process
                         // change the customer record to the "WAITING_CREATE" state
-                        resourceDao.updateResourceMigrationState(resource, MigrationStatus.WAITING_CLOSE.name());
+                        serviceInstanceDao.updateServiceInstanceMigrationState(serviceInstance, migrationStatus.name());
                     }
 
                     AsmOrder asmOrder = new AsmOrder();
-                    asmOrder.setOrderExternalId(resourceResponse.get().getOrderExternalId());
-                    asmOrder.setOrderCorrelationId(resourceResponse.get().getOrderCorrelationId());
-                    asmOrder.setEntityType(EntityType.CUSTOMER);
+                    asmOrder.setOrderExternalId(response.get().getOrderExternalId());
+                    asmOrder.setOrderCorrelationId(response.get().getOrderCorrelationId());
+                    asmOrder.setEntityType(EntityType.SERVICE_INSTANCE);
                     asmOrder.setOperation(operationType);
-                    asmOrder.setOrderStatus(resourceResponse.get().getOrderStatus());
+                    asmOrder.setOrderStatus(response.get().getOrderStatus());
 
                     asmOrderDao.addAsmOrder(asmOrder);
 

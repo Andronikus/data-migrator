@@ -3,11 +3,11 @@ package pt.andronikus.client.response;
 import pt.andronikus.client.enums.OrderItemType;
 import pt.andronikus.client.utils.JSONUtils;
 
-public class ServiceSubscriptionResponse {
+public class ServiceInstanceResponse {
 
     private final OrderExecutionResponse response;
 
-    public ServiceSubscriptionResponse(OrderExecutionResponse response) {
+    public ServiceInstanceResponse(OrderExecutionResponse response) {
         this.response = response;
     }
 

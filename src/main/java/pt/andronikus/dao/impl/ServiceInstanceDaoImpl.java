@@ -170,6 +170,8 @@ public class ServiceInstanceDaoImpl implements ServiceInstanceDao {
         service.setAgreementId(resultSet.getString(ServiceInstanceTable.AGREEMENT_ID));
         service.setCorrelationId(resultSet.getString(ServiceInstanceTable.CORRELATION_ID));
         service.setOrderCorrelationId(resultSet.getString(ServiceInstanceTable.ORDER_CORRELATION_ID));
+        service.setMigStatus(resultSet.getString(ServiceInstanceTable.MIG_STATUS));
+        service.setAdministrativeStatus(AdministrativeStatus.valueOf(resultSet.getString(ServiceInstanceTable.ADMINISTRATIVE_STATUS)));
 
         return service;
     }
