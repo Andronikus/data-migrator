@@ -17,6 +17,7 @@ import pt.andronikus.enums.AdministrativeStatus;
 import pt.andronikus.enums.EntityType;
 import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.Migration;
+import pt.andronikus.singletons.ServiceInstanceMigration;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ServiceInstanceThread implements Runnable{
             ServiceInstanceDao serviceInstanceDao = DaoFactory.createServiceInstanceDao(true);
             AsmOrderDao asmOrderDao = DaoFactory.createAsmOrderDao(true);
 
-            while(Migration.INSTANCE.getStatus().equals(Migration.Status.RUNNING)){
+            while(ServiceInstanceMigration.INSTANCE.getStatus().equals(ServiceInstanceMigration.Status.RUNNING)){
                 wasServiceInstanceCreated = createServiceInstances(serviceInstanceDao, asmOrderDao);
                 wasServiceInstanceSuspendedOrClosed = suspendOrCloseServiceInstances(serviceInstanceDao, asmOrderDao);
 
@@ -64,7 +65,7 @@ public class ServiceInstanceThread implements Runnable{
             e.printStackTrace();
         }finally {
             if(LOGGER.isInfoEnabled()){
-                LOGGER.info(LOG_PREFIX + " Leaving ServiceInstanceThread Thread" );
+                LOGGER.info(LOG_PREFIX + " Leaving ServiceInstance Thread" );
             }
         }
     }

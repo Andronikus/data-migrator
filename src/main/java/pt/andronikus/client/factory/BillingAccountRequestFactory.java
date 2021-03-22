@@ -25,7 +25,7 @@ public class BillingAccountRequestFactory {
 
         BillingAccountRequest orderExecution = new BillingAccountRequest();
 
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/billingAccount");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/billingAccount/create");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(billingAccount.getOrderCorrelationId());
 
@@ -59,7 +59,7 @@ public class BillingAccountRequestFactory {
 
         BillingAccountRequest orderExecution = new BillingAccountRequest();
 
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/billingAccount");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/billingAccount/update");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(billingAccount.getOrderCorrelationId());
 

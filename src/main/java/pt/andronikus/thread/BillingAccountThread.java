@@ -20,6 +20,7 @@ import pt.andronikus.entities.BillingAccount;
 import pt.andronikus.entities.Customer;
 import pt.andronikus.enums.EntityType;
 import pt.andronikus.enums.MigrationStatus;
+import pt.andronikus.singletons.BillingAccountMigration;
 import pt.andronikus.singletons.Migration;
 
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class BillingAccountThread implements Runnable{
             BillingAccountDao billingAccountDao = DaoFactory.createBillingAccountDao(true);
             AsmOrderDao asmOrderDao = DaoFactory.createAsmOrderDao(true);
 
-            while(Migration.INSTANCE.getStatus().equals(Migration.Status.RUNNING)){
+            while(BillingAccountMigration.INSTANCE.getStatus().equals(BillingAccountMigration.Status.RUNNING)){
                 wasCreatedBillingAccount = createBillingAccount(billingAccountDao, asmOrderDao);
                 wasClosedBillingAccount = closeBillingAccount(billingAccountDao, asmOrderDao);
 
@@ -71,7 +72,7 @@ public class BillingAccountThread implements Runnable{
             e.printStackTrace();
         }finally {
             if(LOGGER.isInfoEnabled()){
-                LOGGER.info(LOG_PREFIX + " Leaving CreateCustomer Thread" );
+                LOGGER.info(LOG_PREFIX + " Leaving BillingAccount Thread" );
             }
         }
     }
@@ -97,7 +98,6 @@ public class BillingAccountThread implements Runnable{
                     LOGGER.info(METHOD_NAME + JSONUtils.toJSON(billingAccountRequest));
                 }
 
-                /*
                 Optional<BillingAccountResponse> billingAccountResponse = this.asmClient.billingAccountPost(billingAccountRequest);
 
                 if (billingAccountResponse.isPresent()){
@@ -123,7 +123,6 @@ public class BillingAccountThread implements Runnable{
 
                     didSomething = true;
                 }
-                */
             }
         }
         return  didSomething;
@@ -145,7 +144,6 @@ public class BillingAccountThread implements Runnable{
                 // create the request
                 BillingAccountRequest billingAccountRequest = BillingAccountRequestFactory.getBillingAccountUpdateRequest(billingAccount);
 
-                /*
                 Optional<BillingAccountResponse> billingAccountResponse = this.asmClient.billingAccountPost(billingAccountRequest);
 
                 if (billingAccountResponse.isPresent()){
@@ -169,7 +167,6 @@ public class BillingAccountThread implements Runnable{
 
                     didSomething = true;
                 }
-                 */
             }
         }
         return  didSomething;

@@ -24,7 +24,7 @@ public class CustomerRequestFactory {
         final String METHOD_NAME = LOG_PREFIX + " getCustomerCreationRequest - ";
 
         CustomerRequest orderExecution = new CustomerRequest();
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer/create");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(customer.getOrderCorrelationId());
 
@@ -64,7 +64,7 @@ public class CustomerRequestFactory {
         final String METHOD_NAME = LOG_PREFIX + " getCustomerUpdateRequest - ";
 
         CustomerRequest orderExecution = new CustomerRequest();
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/customer/update");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(customer.getOrderCorrelationId());
 

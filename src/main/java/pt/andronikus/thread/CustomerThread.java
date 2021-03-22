@@ -15,6 +15,7 @@ import pt.andronikus.entities.AsmOrder;
 import pt.andronikus.entities.Customer;
 import pt.andronikus.enums.EntityType;
 import pt.andronikus.enums.MigrationStatus;
+import pt.andronikus.singletons.CustomerMigration;
 import pt.andronikus.singletons.Migration;
 
 import java.sql.SQLException;
@@ -45,7 +46,7 @@ public class CustomerThread implements Runnable{
             CustomerDao customerDao = DaoFactory.createCustomerDao(true);
             AsmOrderDao asmOrderDao = DaoFactory.createAsmOrderDao(true);
 
-            while(Migration.INSTANCE.getStatus().equals(Migration.Status.RUNNING)){
+            while(CustomerMigration.INSTANCE.getStatus().equals(CustomerMigration.Status.RUNNING)){
                 wasCreatedCustomer = createCustomers(customerDao, asmOrderDao);
                 wasClosedCustomer = closeCustomers(customerDao, asmOrderDao);
 

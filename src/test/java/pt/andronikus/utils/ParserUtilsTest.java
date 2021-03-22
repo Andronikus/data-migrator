@@ -13,6 +13,7 @@ class ParserUtilsTest {
     public void shouldParseOneApnFromListWithIpAddress1AndIpAddress2(){
         String apnList = "m2minternet,PUBLIC,IPV4,IPV4:true:10.10.1.1/16#192.168.1.1/32,IPV4:false:|";
 
+
         List<ApnInfo> apnInfoList = ParserUtils.parseApnList(apnList);
 
         assertEquals(apnInfoList.size(), 1);

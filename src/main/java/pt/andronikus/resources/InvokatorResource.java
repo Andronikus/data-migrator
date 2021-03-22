@@ -23,12 +23,13 @@ public class InvokatorResource {
     @GET
     @Timed
     @Path("/admin")
-    public Response sendCommand(@NotNull
+    public Response sendCommand(@NotNull @QueryParam("entity") @Pattern(regexp = "(customer|billingAccount|serviceInstance|resource)", message = ":: entity must be one of customer|billingAcc|serviceInstance|resource|all") String entity,
+                                @NotNull
                                 @QueryParam("command")
                                 @Pattern(regexp = "(start|stop)", message = ":: command must be start or stop")
                                 String command){
 
-        MigrationStatusResponse response = migrationManageService.operateMigration(command);
+        MigrationStatusResponse response = migrationManageService.operateMigration(entity,command);
 
         return Response.status(Response.Status.OK).entity(response).build();
     }

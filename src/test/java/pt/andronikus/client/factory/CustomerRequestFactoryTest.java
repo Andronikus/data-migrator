@@ -148,6 +148,52 @@ class CustomerRequestFactoryTest {
         assertEquals(MigrationFlag.END_MIGRATION, customerInfo.get(Attributes.MIG_FLAG));
     }
 
+    @Test
+    void whenAttributesAreNull_shouldCustomerRequestBeWithEmptyStringAttributes(){
+        Customer customer = new Customer();
+
+        customer.setOperatorId(1);
+        customer.setId("f97369847cTR01");
+        customer.setName("TheRock SFR");
+        customer.setPhone(null);
+        customer.setEmail(null);
+        customer.setAddress(null);
+        customer.setLocale("en_US");
+        customer.setTaxNumber(null);
+        customer.setStatus("ACTIVE");
+        customer.setMigFlag(1);
+        customer.setCorrelationId("MIG_f97369847c3727");
+        customer.setOrderCorrelationId("MIG_CUST_BD992E4CFD434CA6E053CE53700A52B0");
+
+        CustomerRequest customerCreateRequest = CustomerRequestFactory.getCustomerUpdateRequest(customer);
+
+        OrderItem orderItem = customerCreateRequest.getOrderItems().get(OrderItemType.CUSTOMER_ORDER_ITEM);
+
+        // validate other info values
+        Map<String, String> customerInfo = new HashMap<>();
+        for(EntryObject entryObject: orderItem.getOtherInfo().get(Attributes.ENTRY)){
+            customerInfo.put(entryObject.getKey(), entryObject.getValue());
+        }
+
+        assertTrue(customerInfo.containsKey(Attributes.PHONE));
+        assertTrue(customerInfo.containsKey(Attributes.EMAIL));
+        assertTrue(customerInfo.containsKey(Attributes.ADDRESS));
+        assertTrue(customerInfo.containsKey(Attributes.LOCALE));
+        assertTrue(customerInfo.containsKey(Attributes.OPERATOR_ID));
+        assertTrue(customerInfo.containsKey(Attributes.TAX_NUMBER));
+        assertTrue(customerInfo.containsKey(Attributes.STATUS));
+        assertTrue(customerInfo.containsKey(Attributes.MIG_FLAG));
+
+        assertEquals("", customerInfo.get(Attributes.PHONE));
+        assertEquals("", customerInfo.get(Attributes.EMAIL));
+        assertEquals("", customerInfo.get(Attributes.ADDRESS));
+        assertEquals(customer.getLocale(), customerInfo.get(Attributes.LOCALE));
+        assertEquals(customer.getOperatorId().toString(), customerInfo.get(Attributes.OPERATOR_ID));
+        assertEquals("", customerInfo.get(Attributes.TAX_NUMBER));
+        assertEquals(customer.getStatus(), customerInfo.get(Attributes.STATUS));
+        assertEquals(MigrationFlag.END_MIGRATION, customerInfo.get(Attributes.MIG_FLAG));
+    }
+
     private Customer createCustomer(){
         Customer customer = new Customer();
 
@@ -156,7 +202,7 @@ class CustomerRequestFactoryTest {
         customer.setName("TheRock SFR");
         customer.setPhone("92111111111");
         customer.setEmail("roquexpto@mail.pt");
-        customer.setAddress("Travessa dos Granitos");
+        customer.setAddress(null);
         customer.setLocale("en_US");
         customer.setTaxNumber("3456789");
         customer.setStatus("ACTIVE");

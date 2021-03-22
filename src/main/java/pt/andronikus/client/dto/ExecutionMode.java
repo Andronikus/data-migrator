@@ -1,8 +1,10 @@
 package pt.andronikus.client.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.andronikus.client.enums.ExecutionsModes;
 
 public abstract class ExecutionMode {
+    @JsonProperty("url")
     private String callbackUrl;
     private String massive;
     private String massiveClass;

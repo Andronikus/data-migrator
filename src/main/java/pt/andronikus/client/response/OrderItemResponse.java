@@ -1,12 +1,16 @@
 package pt.andronikus.client.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderItemResponse {
     @JsonProperty
     private String externalItemId;
     @JsonProperty
     private String customerId;
+    @JsonProperty
+    private String accountId;
     @JsonProperty
     private String orderItemStatus;
     @JsonProperty

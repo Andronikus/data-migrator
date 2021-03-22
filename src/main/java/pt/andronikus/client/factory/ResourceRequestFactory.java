@@ -158,7 +158,7 @@ public class ResourceRequestFactory {
         ResourceRequest orderExecution = new ResourceRequest();
 
         // define execution mode
-        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/resource/update-suspend");
+        ExecutionMode executionMode = new AsyncExecutionMode(AppConfiguration.INSTANCE.getConfiguration(Global.CALLBACK_URL).toString() + "/resource/update");
         orderExecution.setExecutionMode(executionMode);
         orderExecution.setOrderCorrelationId(resource.getOrderCorrelationId());
 

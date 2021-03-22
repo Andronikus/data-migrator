@@ -16,6 +16,7 @@ import pt.andronikus.entities.Resource;
 import pt.andronikus.enums.EntityType;
 import pt.andronikus.enums.MigrationStatus;
 import pt.andronikus.singletons.Migration;
+import pt.andronikus.singletons.ResourceMigration;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ResourceThread implements Runnable{
             ResourceDao resourceDao = DaoFactory.createResourceDao(true);
             AsmOrderDao asmOrderDao = DaoFactory.createAsmOrderDao(true);
 
-            while(Migration.INSTANCE.getStatus().equals(Migration.Status.RUNNING)){
+            while(ResourceMigration.INSTANCE.getStatus().equals(ResourceMigration.Status.RUNNING)){
                 wasResourceCreated = createResources(resourceDao, asmOrderDao);
                 wasResourceSuspend = suspendResources(resourceDao, asmOrderDao);
                 wasResourceClosed = closeResources(resourceDao, asmOrderDao);
@@ -65,7 +66,7 @@ public class ResourceThread implements Runnable{
             e.printStackTrace();
         }finally {
             if(LOGGER.isInfoEnabled()){
-                LOGGER.info(LOG_PREFIX + " Leaving CreateCustomer Thread" );
+                LOGGER.info(LOG_PREFIX + " Leaving Resource Thread" );
             }
         }
     }

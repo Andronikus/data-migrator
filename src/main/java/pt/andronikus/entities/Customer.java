@@ -1,6 +1,7 @@
 package pt.andronikus.entities;
 
 import pt.andronikus.entities.base.BaseEntity;
+import pt.andronikus.utils.WhenNullValueThen;
 
 public class Customer extends BaseEntity {
     private String id;
@@ -30,7 +31,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = setStringOrDefaultValue(name,"");
+        this.name = WhenNullValueThen.setStringOrInAbsence(name,"");
     }
 
     public String getAddress() {
@@ -38,7 +39,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setAddress(String address) {
-        this.address = setStringOrDefaultValue(address,"");;
+        this.address = WhenNullValueThen.setStringOrInAbsence(address,"");;
     }
 
     public String getEmail() {
@@ -46,7 +47,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = setStringOrDefaultValue(email,"");
+        this.email = WhenNullValueThen.setStringOrInAbsence(email,"");
     }
 
     public String getLocale() {
@@ -54,7 +55,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setLocale(String locale) {
-        this.locale = setStringOrDefaultValue(locale,"");
+        this.locale = WhenNullValueThen.setStringOrInAbsence(locale,"");
     }
 
     public String getPhone() {
@@ -62,7 +63,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setPhone(String phone) {
-        this.phone = setStringOrDefaultValue(phone,"");
+        this.phone = WhenNullValueThen.setStringOrInAbsence(phone,"");
     }
 
     public String getStatus() {
@@ -78,7 +79,7 @@ public class Customer extends BaseEntity {
     }
 
     public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
+        this.taxNumber = WhenNullValueThen.setStringOrInAbsence(taxNumber, "");
     }
 
     public Integer getMigFlag() {
@@ -87,10 +88,6 @@ public class Customer extends BaseEntity {
 
     public void setMigFlag(Integer migFlag) {
         this.migFlag = migFlag;
-    }
-
-    private String setStringOrDefaultValue(String str, String def){
-        return str == null ? def : str;
     }
 
 
